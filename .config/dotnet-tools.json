@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "isRoot": true,
+    "tools": {
+        "dotnet-ef": {
+            "version": "6.0.7",
+            "commands": [
+                "dotnet-ef"
+            ]
+        },
+        "csharpier": {
+            "editor.formatOnSave": false,
+            "version": "0.19.1",
+            "commands": [
+                "dotnet-csharpier"
+            ],
+            "[csharp]": {
+                "editor.formatOnSave": true
+            }
+        }
+    }
+}

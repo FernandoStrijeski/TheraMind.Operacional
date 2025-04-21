@@ -1,0 +1,11 @@
+{
+    "conventionalCommits.scopes": [
+        "Importar Colaborador",
+        "Test",
+        "Tests",
+        "Exportar colaborador",
+        "Dependente"
+    ],
+    "dotnet-test-explorer.treeMode": "flat",
+    "todohighlight.include": ["**/*.cs"]
+}

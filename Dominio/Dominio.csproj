@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Entidades\Scaffold\**" />
+	  <EmbeddedResource Remove="Entidades\Scaffold\**" />
+	  <None Remove="Entidades\Scaffold\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Entidades\Enum\" />
+	</ItemGroup>
+
+
+</Project>

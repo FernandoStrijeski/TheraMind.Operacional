@@ -9,10 +9,10 @@ namespace Infra.Context.Builders
     {
         public void Configure(EntityTypeBuilder<AgendaProfissional> builder)
         {
+            builder.ToTable("AgendaProfissional");
+
             builder.HasKey(e => e.AgendaId)
                 .HasName("PK__AgendaPr__B9D4363458871882");
-
-            builder.ToTable("AgendaProfissional");
 
             builder.Property(e => e.AgendaId).HasColumnName("AgendaID");
 

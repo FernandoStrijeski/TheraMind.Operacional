@@ -9,9 +9,8 @@ namespace Infra.Context.Builders
     {
         public void Configure(EntityTypeBuilder<AnamneseRespostaCliente> builder)
         {
-            builder.HasKey(e => new { e.EmpresaId, e.FilialId, e.ProfissionalId, e.AnamneseGrupoId, e.AnamneseSubGrupoId, e.AnamneseSubGrupoQuestaoId, e.ClienteId });
-
             builder.ToTable("AnamneseRespostaCliente");
+            builder.HasKey(e => new { e.EmpresaId, e.FilialId, e.ProfissionalId, e.AnamneseGrupoId, e.AnamneseSubGrupoId, e.AnamneseSubGrupoQuestaoId, e.ClienteId });
 
             builder.Property(e => e.EmpresaId).HasColumnName("EmpresaID");
 

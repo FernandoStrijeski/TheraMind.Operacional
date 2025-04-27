@@ -9,6 +9,7 @@ namespace Infra.Context.Builders
     {
         public void Configure(EntityTypeBuilder<Nacionalidade> builder)
         {
+            builder.ToTable("Nacionalidade");
             builder.Property(e => e.NacionalidadeId).HasColumnName("NacionalidadeID");
 
             builder.Property(e => e.DataCriacao)

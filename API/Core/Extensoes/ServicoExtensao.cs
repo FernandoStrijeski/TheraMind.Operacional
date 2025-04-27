@@ -48,7 +48,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IEmpresaServico, EmpresaServico>()                                       
                 .AddScoped<IFilialServico, FilialServico>()   
                 .AddScoped<ITipoLogradouroServico, TiposLogradouroServico>()                
-                .AddScoped<ITipoEtniaServico, TiposEtniaServico>()                
+                .AddScoped<ITipoEtniaServico, TipoEtniaServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

@@ -9,6 +9,7 @@ namespace Infra.Context.Builders
     {
         public void Configure(EntityTypeBuilder<Documento> builder)
         {
+            builder.ToTable("Documento");
             builder.Property(e => e.DocumentoId).HasColumnName("DocumentoID");
 
             builder.Property(e => e.CandidatoId).HasColumnName("CandidatoID");

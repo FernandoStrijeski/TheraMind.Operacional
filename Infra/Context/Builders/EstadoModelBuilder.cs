@@ -9,10 +9,10 @@ namespace Infra.Context.Builders
     {
         public void Configure(EntityTypeBuilder<Estado> builder)
         {
+            builder.ToTable("Estado");
             builder.HasKey(e => e.Uf)
                     .HasName("PK__Estado__32150FAED627618A");
 
-            builder.ToTable("Estado");
 
             builder.Property(e => e.Uf)
                 .HasMaxLength(2)

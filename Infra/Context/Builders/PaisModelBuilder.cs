@@ -9,6 +9,7 @@ namespace Infra.Context.Builders
     {
         public void Configure(EntityTypeBuilder<Pais> builder)
         {
+            builder.ToTable("Pais");
             builder.HasKey(e => e.PaisId)
                     .HasName("PK__Pais__B501E1A53A9B473B");
 

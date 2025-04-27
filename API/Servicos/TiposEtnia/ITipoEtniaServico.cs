@@ -1,5 +1,4 @@
 using API.modelos;
-using API.modelos.InputModels;
 using Dominio.Entidades;
 
 namespace API.Servicos.TiposEtnias

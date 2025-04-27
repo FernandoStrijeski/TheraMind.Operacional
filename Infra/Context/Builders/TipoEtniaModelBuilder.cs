@@ -9,6 +9,7 @@ namespace Infra.Context.Builders
     {
         public void Configure(EntityTypeBuilder<TipoEtnia> builder)
         {
+            builder.ToTable("TipoEtnia");
             builder.HasKey(e => e.TipoEtniaId)
                     .HasName("PK__TipoEtni__69ACF1F6E2E6EFAF");
 

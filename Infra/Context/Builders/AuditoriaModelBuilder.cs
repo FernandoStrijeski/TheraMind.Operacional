@@ -9,6 +9,7 @@ namespace Infra.Context.Builders
     {
         public void Configure(EntityTypeBuilder<Auditoria> builder)
         {
+            builder.ToTable("Auditoria");
             builder.HasKey(e => e.AuditoriaId)
     .HasName("PK__Auditori__095694E3B033D81E");
 

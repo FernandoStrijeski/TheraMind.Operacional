@@ -9,10 +9,10 @@ namespace Infra.Context.Builders
     {
         public void Configure(EntityTypeBuilder<DocumentoModeloEmpresa> builder)
         {
+            builder.ToTable("DocumentoModeloEmpresa");
             builder.HasKey(e => e.DocumentoModeloId)
                 .HasName("PK__Document__BA5C66194C50DE4A");
 
-            builder.ToTable("DocumentoModeloEmpresa");
 
             builder.Property(e => e.DocumentoModeloId).HasColumnName("DocumentoModeloID");
 

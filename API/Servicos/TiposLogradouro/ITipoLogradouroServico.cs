@@ -1,5 +1,4 @@
 using API.modelos;
-using API.modelos.InputModels;
 using Dominio.Entidades;
 
 namespace API.Servicos.TiposLogradouros
@@ -16,7 +15,7 @@ namespace API.Servicos.TiposLogradouros
         /// <summary>
         /// Busca os tipos de logradouros pelo nome ou parte dele
         /// </summary>
-        /// <param name="nome"></param>
+        /// <param name="parametro"></param>
         /// <returns></returns>
         Task<List<TipoLogradouro>> BuscarPorNome(BuscarComNomeParametro parametro);
 

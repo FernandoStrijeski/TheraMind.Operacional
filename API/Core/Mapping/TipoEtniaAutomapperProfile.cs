@@ -4,9 +4,9 @@ using Dominio.Entidades;
 
 namespace API.Core.Mapping
 {
-    public class TiposEtniaAutomapperProfile : Profile
+    public class TipoEtniaAutomapperProfile : Profile
     {
-        public TiposEtniaAutomapperProfile()
+        public TipoEtniaAutomapperProfile()
         {            
             CreateMap<TipoEtnia, TipoEtniaViewModel>()
                 .ForMember(dest => dest.TipoEtniaId, opt => opt.MapFrom(src => src.TipoEtniaId))

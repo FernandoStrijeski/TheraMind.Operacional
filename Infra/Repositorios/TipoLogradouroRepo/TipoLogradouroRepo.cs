@@ -46,14 +46,5 @@ namespace Infra.Repositorios
             var retorno = await query.FirstOrDefaultAsync(where => where.TipoLogradouroId == tipoLogradouroID);
             return retorno;
         }
-
-        public async Task<List<TipoLogradouro>> BuscarPorNome(string nome)
-        {
-            var query = _dbSet.Where(
-                tabela => tabela.Descricao.Contains(nome)
-            ).AsNoTracking();
-
-            return await query.ToListAsync();
-        }
     }
 }

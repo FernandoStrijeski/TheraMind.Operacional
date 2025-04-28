@@ -6,9 +6,9 @@ using Dominio.Entidades;
 
 namespace API.Core.Mapping
 {
-    public class TiposLogradouroAutomapperProfile : Profile
+    public class TipoLogradouroAutomapperProfile : Profile
     {
-        public TiposLogradouroAutomapperProfile()
+        public TipoLogradouroAutomapperProfile()
         {            
             CreateMap<TipoLogradouro, TipoLogradouroViewModel>()
                 .ForMember(dest => dest.TipoLogradouroId, opt => opt.MapFrom(src => src.TipoLogradouroId))

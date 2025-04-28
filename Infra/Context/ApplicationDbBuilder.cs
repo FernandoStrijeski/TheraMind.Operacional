@@ -109,6 +109,7 @@ namespace Infra.Context
                 .ApplyConfiguration(new EmpresaAssinaturaModelBuilder())
                 .ApplyConfiguration(new EmpresaFaturaModelBuilder())
                 .ApplyConfiguration(new EmpresaModelBuilder())
+                .ApplyConfiguration(new EscolaridadeModelBuilder())
                 .ApplyConfiguration(new EstadoCivilModelBuilder())
                 .ApplyConfiguration(new EstadoModelBuilder())
                 .ApplyConfiguration(new FilialModelBuilder())

@@ -9,7 +9,7 @@ namespace Infra.Context.Builders
     {
         public void Configure(EntityTypeBuilder<Escolaridade> builder)
         {          
-            builder.ToTable("Escolaridade");
+            builder.ToTable("Escolaridade"); 
 
             builder.Property(e => e.EscolaridadeId).HasColumnName("EscolaridadeID");
 

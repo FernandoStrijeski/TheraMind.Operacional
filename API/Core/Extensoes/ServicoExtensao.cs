@@ -1,6 +1,14 @@
 using API.Core.Util;
-using API.Servicos;
+using API.Operacional.Servicos.TiposLogradouros;
 using API.Servicos.Empresas;
+using API.Servicos.Escolaridades;
+using API.Servicos.EstadosCivis;
+using API.Servicos.Filiais;
+using API.Servicos.IdentidadesGeneros;
+using API.Servicos.OrientacoesSexuais;
+using API.Servicos.TiposDocumentos;
+using API.Servicos.TiposEtnias;
+using API.Servicos.TiposLogradouros;
 using Dominio.Core.Repositorios;
 using Dominio.Repositorios;
 using Dominio.Servico;
@@ -9,9 +17,6 @@ using Infra.Core.Repositorios;
 using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using Infra.Servicos.Tabela;
-using API.Servicos.TiposLogradouros;
-using API.Servicos.TiposEtnias;
-using API.Servicos.Filiais;
 
 namespace API.Core.Extensoes
 {
@@ -40,6 +45,11 @@ namespace API.Core.Extensoes
                 .AddScoped<IFilialRepo, FilialRepo>()
                 .AddScoped<ITipoLogradouroRepo, TipoLogradouroRepo>()
                 .AddScoped<ITipoEtniaRepo, TipoEtniaRepo>()
+                .AddScoped<ITipoDocumentoRepo, TipoDocumentoRepo>()
+                .AddScoped<IOrientacaoSexualRepo, OrientacaoSexualRepo>()
+                .AddScoped<IIdentidadeGeneroRepo, IdentidadeGeneroRepo>()
+                .AddScoped<IEstadoCivilRepo, EstadoCivilRepo>()
+                .AddScoped<IEscolaridadeRepo, EscolaridadeRepo>()
                 
 
                 // SERVICOS SCOPED
@@ -47,8 +57,13 @@ namespace API.Core.Extensoes
                 .AddScoped<ITabelaService, TabelaServico>()
                 .AddScoped<IEmpresaServico, EmpresaServico>()                                       
                 .AddScoped<IFilialServico, FilialServico>()   
-                .AddScoped<ITipoLogradouroServico, TiposLogradouroServico>()                
+                .AddScoped<ITipoLogradouroServico, TipoLogradouroServico>()                
                 .AddScoped<ITipoEtniaServico, TipoEtniaServico>()                
+                .AddScoped<ITipoDocumentoServico, TipoDocumentoServico>()                
+                .AddScoped<IOrientacaoSexualServico, OrientacaoSexualServico>()                
+                .AddScoped<IIdentidadeGeneroServico, IdentidadeGeneroServico>()                
+                .AddScoped<IEstadoCivilServico, EstadoCivilServico>()                
+                .AddScoped<IEscolaridadeServico, EscolaridadeServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

@@ -47,13 +47,13 @@ namespace Infra.Repositorios
             return tipoEtnia;
         }
 
-        public async Task<List<TipoEtnia>> BuscarPorNome(string nome)
-        {
-            var query = _dbSet.Where(
-                tabela => tabela.Descricao.Contains(nome)
-            ).AsNoTracking();
+        //public async Task<List<TipoEtnia>> BuscarPorNome(string nome)
+        //{
+        //    var query = _dbSet.Where(
+        //        tabela => tabela.Descricao.Contains(nome)
+        //    ).AsNoTracking();
 
-            return await query.ToListAsync();
-        }
+        //    return await query.ToListAsync();
+        //}
     }
 }

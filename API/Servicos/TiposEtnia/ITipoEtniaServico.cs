@@ -15,7 +15,7 @@ namespace API.Servicos.TiposEtnias
         /// <summary>
         /// Busca os tipos de etnias pelo nome ou parte dele
         /// </summary>
-        /// <param name="nome"></param>
+        /// <param name="parametro"></param>
         /// <returns></returns>
         Task<List<TipoEtnia>> BuscarPorNome(BuscarComNomeParametro parametro);
 

@@ -20,5 +20,26 @@ namespace Dominio.Entidades
 
         public virtual ICollection<DocumentoModeloEmpresa> DocumentoModeloEmpresas { get; set; }
         public virtual ICollection<DocumentoModelo> DocumentoModelos { get; set; }
+
+        public static TipoDocumento CriarParaImportacao(string descricao, bool ativo)
+        {
+            var tipoDocumento = new TipoDocumento
+            {
+                Descricao = descricao,                
+                Ativo = ativo
+            };
+            return tipoDocumento;
+        }
+
+        public TipoDocumento AtualizarPropriedades(
+            string descricao,
+            bool? ativo = true
+        )
+        {
+            Descricao = descricao;            
+            if (ativo != null)
+                Ativo = ativo;
+            return this;
+        }
     }
 }

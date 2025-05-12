@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Dominio.Entidades;
 using Dominio.Repositorios;
@@ -14,30 +15,34 @@ namespace Infra.Repositorios
     {
         public EstadoRepo(ApplicationDbContext contexto) : base(contexto) { }
 
-        public async Task<List<Estado>> BuscarPorPaisID(int paisID)
+        public async Task<List<Estado>> BuscarFiltros(
+          Expression<Func<Estado, bool>> filtro = null,
+          Func<IQueryable<Estado>, IOrderedQueryable<Estado>> orderBy = null,
+          int skip = 0,
+          int take = 0
+          )
         {
-            var query = _dbSet.Where(
-                tabela => tabela.PaisId == paisID
-            ).AsNoTracking();
+            IQueryable<Estado> query = _dbSet.AsNoTracking();
+
+            if (filtro != null)
+                query = query.Where(filtro);
+
+            if (skip > 0)
+                query = query.Skip(skip);
+
+            if (take > 0)
+                query = query.Take(take);
+
+            if (orderBy != null)
+                query = orderBy(query);
 
             return await query.ToListAsync();
-
         }
-        public async Task<List<Estado>> BuscarPorNome(int paisID, string nome)
-        {
-            var query = _dbSet.Where(
-                tabela => tabela.Descricao.ToUpper().Contains(nome.ToUpper())
-                        
-            ).AsNoTracking();
-
-            return await query.ToListAsync();
-        }
-
-        public async Task<Estado>? BuscarPorUF(int paisID, string UF)
+        public async Task<Estado>? BuscarPorID(string uf)
         {
             var query = _dbSet.AsQueryable();
-            var pais = await query.FirstOrDefaultAsync(where => where.PaisId == paisID && where.Uf == UF);
-            return pais;
+            var estado = await query.FirstOrDefaultAsync(where => where.Uf == uf);
+            return estado;
         }
     }
 }

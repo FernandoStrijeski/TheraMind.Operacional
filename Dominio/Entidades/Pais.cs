@@ -18,8 +18,8 @@ namespace Dominio.Entidades
         public string Nome { get; set; } = null!;
         public DateTime? DataCriacao { get; set; }
 
-        public ICollection<Cidade> Cidades { get; set; }
-        public ICollection<Estado> Estados { get; set; }
-        public virtual ICollection<Cliente> Clientes { get; set; }
+        public  ICollection<Cidade> Cidades { get; set; }
+        public  ICollection<Estado> Estados { get; set; }
+        public  ICollection<Cliente> Clientes { get; set; }
     }
 }

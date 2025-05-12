@@ -1,7 +1,9 @@
 using API.Core.Util;
 using API.Operacional.Servicos.TiposLogradouros;
+using API.Servicos.Cidades;
 using API.Servicos.Empresas;
 using API.Servicos.Escolaridades;
+using API.Servicos.Estados;
 using API.Servicos.EstadosCivis;
 using API.Servicos.Filiais;
 using API.Servicos.IdentidadesGeneros;
@@ -52,6 +54,8 @@ namespace API.Core.Extensoes
                 .AddScoped<IEstadoCivilRepo, EstadoCivilRepo>()
                 .AddScoped<IEscolaridadeRepo, EscolaridadeRepo>()
                 .AddScoped<IPaisRepo, PaisRepo>()
+                .AddScoped<IEstadoRepo, EstadoRepo>()
+                .AddScoped<ICidadeRepo, CidadeRepo>()
 
                 
 
@@ -68,6 +72,8 @@ namespace API.Core.Extensoes
                 .AddScoped<IEstadoCivilServico, EstadoCivilServico>()                
                 .AddScoped<IEscolaridadeServico, EscolaridadeServico>()                
                 .AddScoped<IPaisServico, PaisServico>()                
+                .AddScoped<IEstadoServico, EstadoServico>()                
+                .AddScoped<ICidadeServico, CidadeServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

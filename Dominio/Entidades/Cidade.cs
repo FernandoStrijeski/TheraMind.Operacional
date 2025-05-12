@@ -15,7 +15,7 @@ namespace Dominio.Entidades
         public DateTime? DataCriacao { get; set; }
 
         public virtual Pais Pais { get; set; } = null!;
-        public virtual Estado UF { get; set; } = null!;
+        public virtual Estado Estado { get; set; } = null!;
         public virtual ICollection<Cliente> Clientes { get; set; }
         public virtual ICollection<Filial> Filiais { get; set; }
     }

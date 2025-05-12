@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Dominio.Entidades;
 using Dominio.Repositorios;
@@ -14,45 +15,34 @@ namespace Infra.Repositorios
     {
         public CidadeRepo(ApplicationDbContext contexto) : base(contexto) { }
 
-        public async Task<List<Cidade>> BuscarPorPaisID(int paisID)
+        public async Task<List<Cidade>> BuscarFiltros(
+          Expression<Func<Cidade, bool>> filtro = null,
+          Func<IQueryable<Cidade>, IOrderedQueryable<Cidade>> orderBy = null,
+          int skip = 0,
+          int take = 0
+          )
         {
-            var query = _dbSet.Where(
-                tabela => tabela.PaisId == paisID
-            ).AsNoTracking();
+            IQueryable<Cidade> query = _dbSet.AsNoTracking();
 
-            return await query.ToListAsync();
+            if (filtro != null)
+                query = query.Where(filtro);
 
-        }
-        public async Task<List<Cidade>> BuscarPorNome(int paisID, string UF, string nome)
-        {
-            var query = _dbSet.Where(
-                tabela => tabela.PaisId == paisID && tabela.Uf == UF && tabela.Nome.ToUpper().Contains(nome.ToUpper())                        
-            ).AsNoTracking();
+            if (skip > 0)
+                query = query.Skip(skip);
 
-            return await query.ToListAsync();
-        }
+            if (take > 0)
+                query = query.Take(take);
 
-        public async Task<List<Cidade>> BuscarPorUF(int paisID, string UF)
-        {
-            var query = _dbSet.Where(
-                tabela => tabela.PaisId == paisID && tabela.Uf == UF
-
-            ).AsNoTracking();
+            if (orderBy != null)
+                query = orderBy(query);
 
             return await query.ToListAsync();
         }
-
-        public async Task<Cidade>? BuscarPorID(int paisID, string UF, int cidadeID)
+        public async Task<Cidade>? BuscarPorID(int cidadeId)
         {
             var query = _dbSet.AsQueryable();
-            var retorno = await query.FirstOrDefaultAsync(where => where.PaisId == paisID && where.Uf == UF && where.CidadeId == cidadeID);
-            return retorno;
-        }
-        public async Task<Cidade>? BuscarPorCodigoIBGE(int paisID, string UF, int codigoIBGE)
-        {
-            var query = _dbSet.AsQueryable();
-            var retorno = await query.FirstOrDefaultAsync(where => where.PaisId == paisID && where.Uf == UF && where.CodigoIbge == codigoIBGE);
-            return retorno;
+            var estado = await query.FirstOrDefaultAsync(where => where.CidadeId == cidadeId);
+            return estado;
         }
     }
 }

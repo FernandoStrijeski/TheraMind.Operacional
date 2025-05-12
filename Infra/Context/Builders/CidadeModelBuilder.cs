@@ -30,11 +30,12 @@ namespace Infra.Context.Builders
                 .HasMaxLength(2)
                 .HasColumnName("UF");
 
-            builder.HasOne(d => d.Pais)
-                .WithMany(p => p.Cidades)
-                .HasForeignKey(d => d.PaisId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Cidade__PaisID__45F365D3");
-        }        
+            builder.HasOne(c => c.Estado)
+             .WithMany(e => e.Cidades)
+             .HasForeignKey(c => c.Uf)
+             .HasPrincipalKey(e => e.Uf)
+             .OnDelete(DeleteBehavior.ClientSetNull)
+             .HasConstraintName("FK__Cidade__UF__46E78A0C");
+            }        
     }
 }

@@ -10,6 +10,7 @@ namespace Dominio.Repositorios
 {
     public interface IPaisRepo : IBaseRepositorio<Pais>
     {
+
         Task<List<Pais>> BuscarFiltros(
         Expression<Func<Pais, bool>> filtro = null,
         Func<IQueryable<Pais>, IOrderedQueryable<Pais>> orderBy = null,

@@ -1,6 +1,7 @@
 namespace AdmissaoDigital.Core.Utils
 {
     using global::AdmissaoDigital.Core.Utils.Class;
+    using global::API.Core.Utils;
     using System;
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
@@ -10,30 +11,61 @@ namespace AdmissaoDigital.Core.Utils
     {
         public static class TokenHelper
         {
-            //public static TokenClaims LerToken(string token)
-            //{
-            //    var handler = new JwtSecurityTokenHandler();
+            public static TokenClaims LerToken(string token)
+            {                
+                var handler = new JwtSecurityTokenHandler();
 
-            //    if (!handler.CanReadToken(token))
-            //    {
-            //        throw new ArgumentException("Token inválido.");
-            //    }
+                if (!handler.CanReadToken(token))
+                {
+                    throw new ArgumentException("Token inválido.");
+                }
 
-            //    var jwtToken = handler.ReadJwtToken(token);
+                var jwtToken = handler.ReadJwtToken(token);
 
-            //    var claims = jwtToken.Claims;
+                var claims = jwtToken.Claims;
 
-            //    return new TokenClaims
-            //    {
-            //        Cpf = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value,
-            //        Email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
-            //        NomeCompleto = claims.First(c => c.Type == ClaimTypes.GivenName).Value,
-            //        OrganizacaoId = claims.First(c => c.Type == "OrganizacaoID").Value,
-            //        TipoUsuario = claims.First(c => c.Type == "TipoUsuario").Value,
-            //        Celular = claims.FirstOrDefault(c => c.Type == "Celular")?.Value,
-            //        Alias = claims.First(c => c.Type == "Alias").Value,
-            //    };
-            //}
+                return new TokenClaims
+                {
+                    NameIdentifier = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value,
+                    Email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
+                    GivenName = claims.First(c => c.Type == ClaimTypes.GivenName).Value,
+                    Surname = claims.First(c => c.Type == ClaimTypes.Surname).Value,
+                    Role = claims.First(c => c.Type == ClaimTypes.Role).Value,                    
+                    Alias = claims.First(c => c.Type == "Alias").Value,
+                };
+            }
+
+            public static InformacoesAudit ObterInformacoesToken(string token, HttpContext? httpContext, string tokenCriptografia, string chaveCriptografia)
+            {
+                string ipCapturado = "" + JobUtils.GetClientIp(httpContext);
+
+                string IPEncriptado = "";
+                if (!String.IsNullOrEmpty(ipCapturado))
+                {
+                    IPEncriptado = Criptografia.Encriptar(
+                        tokenCriptografia,
+                        chaveCriptografia,
+                        ipCapturado
+                    );
+                }
+                var handler = new JwtSecurityTokenHandler();
+
+                if (!handler.CanReadToken(token))
+                {
+                    throw new ArgumentException("Token inválido.");
+                }
+
+                var jwtToken = handler.ReadJwtToken(token);
+
+                var claims = jwtToken.Claims;
+
+                return new InformacoesAudit
+                {
+                    UsuarioId = Guid.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value),
+                    PerfilAcesso = claims.First(c => c.Type == ClaimTypes.Role).Value,
+                    IPAcesso = IPEncriptado
+                };
+            }
         }
     }
 }

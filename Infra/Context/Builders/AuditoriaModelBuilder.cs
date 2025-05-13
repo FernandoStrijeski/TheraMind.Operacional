@@ -25,13 +25,13 @@ namespace Infra.Context.Builders
 
             builder.Property(e => e.FilialId).HasColumnName("FilialID");
 
-            builder.Property(e => e.Ipacesso)
+            builder.Property(e => e.IPAcesso)
                 .HasMaxLength(250)
                 .HasColumnName("IPAcesso");
 
             builder.Property(e => e.PerfilAcesso).HasMaxLength(20);
 
-            builder.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
+            builder.Property(e => e.UsuarioID).HasColumnName("UsuarioID");
 
             builder.HasOne(d => d.Empresa)
                 .WithMany(p => p.Auditoria)
@@ -45,7 +45,7 @@ namespace Infra.Context.Builders
 
             builder.HasOne(d => d.Usuario)
                 .WithMany(p => p.Auditoria)
-                .HasForeignKey(d => d.UsuarioId)
+                .HasForeignKey(d => d.UsuarioID)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Auditoria__Usuar__0B27A5C0");
         }        

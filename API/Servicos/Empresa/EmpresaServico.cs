@@ -1,8 +1,14 @@
+using AdmissaoDigital.Core.Utils.API.Core.Utils;
+using AdmissaoDigital.Core.Utils.Class;
 using API.Core.Exceptions;
+using API.Core.Utils;
 using API.modelos.InputModels;
 using Dominio.Core.Repositorios;
+using Dominio.Entidades;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace API.Servicos.Empresas
@@ -12,16 +18,22 @@ namespace API.Servicos.Empresas
         private IConfiguration _configuration;
         private IEmpresaRepo _empresaRepo;
         private IConnectionParamsServico _connectionParamsServico;
+        private IAuditoriaRepo _auditoriaRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public EmpresaServico(
             IConfiguration configuration,
             IEmpresaRepo empresaRepo,
             IConnectionParamsServico connectionParamsServico,
-            IUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork,
+            IAuditoriaRepo auditoriaRepo,
+            IHttpContextAccessor httpContextAccessor
         ) : base(configuration, unitOfWork)
         {
             _configuration = configuration;
             _empresaRepo = empresaRepo;
+            _auditoriaRepo = auditoriaRepo;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Dominio.Entidades.Empresa>? BuscarPorID(Guid empresaID) => await _empresaRepo.BuscarPorID(empresaID);
@@ -41,6 +53,18 @@ namespace API.Servicos.Empresas
 
         public async Task<bool> CriarOuAtualizar(CriarEmpresaInputModel empresa, bool atualizaSeExistir)
         {
+            var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
+            if (string.IsNullOrEmpty(token))
+            {
+                return false;
+            }
+
+            InformacoesAudit informacoesAudit = TokenHelper.ObterInformacoesToken(
+                token, _httpContextAccessor.HttpContext,
+                _configuration["SecuritySettings:Token"],
+                _configuration["SecuritySettings:Chave"]
+                );
+
             var cEmpresa = (await _empresaRepo.Buscar(
                 x => x.EmpresaId == empresa.EmpresaID
             )).FirstOrDefault();
@@ -48,6 +72,21 @@ namespace API.Servicos.Empresas
             {
                 cEmpresa = Dominio.Entidades.Empresa.CriarParaImportacao(razaoSocial: empresa.RazaoSocial, nomeFantasia: empresa.NomeFantasia, logotipo: empresa.Logotipo, ativo: empresa.Ativo);
                 await Salvar(cEmpresa);
+
+                Auditoria auditoria = new()
+                {
+                    TipoAcao = eTipoAcao.Inclusao,
+                    AcaoExecutada = $"Empresa adicionada! {cEmpresa.EmpresaId} - {cEmpresa.RazaoSocial}.",
+                    EmpresaId = cEmpresa.EmpresaId,
+                    FilialId = null,
+                    UsuarioID = informacoesAudit.UsuarioId,
+                    PerfilAcesso = informacoesAudit.PerfilAcesso,
+                    IPAcesso = informacoesAudit.IPAcesso
+                };
+
+                await _auditoriaRepo.Adicionar(auditoria);
+                await Comitar();
+
                 return true;
             }
             else if (atualizaSeExistir)
@@ -59,6 +98,21 @@ namespace API.Servicos.Empresas
                 await _empresaRepo.Atualizar(cEmpresa);
                 await Atualizar(cEmpresa);
 
+                Auditoria auditoria = new()
+                {
+                    TipoAcao = eTipoAcao.Edicao,
+                    AcaoExecutada = $"Empresa atualizada! {cEmpresa.EmpresaId} - {cEmpresa.RazaoSocial} - {cEmpresa.NomeFantasia} - Situação: {(cEmpresa.Ativo == true ? "Ativa" : "Inativa")}.",
+                    EmpresaId = cEmpresa.EmpresaId,
+                    FilialId = null,
+                    UsuarioID = informacoesAudit.UsuarioId,
+                    PerfilAcesso = informacoesAudit.PerfilAcesso,
+                    IPAcesso = informacoesAudit.IPAcesso
+                };
+
+                await _auditoriaRepo.Adicionar(auditoria);
+                await Comitar();
+
+                return true;
             }
             return false;
         }

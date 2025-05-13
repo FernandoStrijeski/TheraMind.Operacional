@@ -1,5 +1,6 @@
 using API.Core.Util;
 using API.Operacional.Servicos.TiposLogradouros;
+using API.Servicos.Auditorias;
 using API.Servicos.Cidades;
 using API.Servicos.Empresas;
 using API.Servicos.Escolaridades;
@@ -60,6 +61,7 @@ namespace API.Core.Extensoes
                 .AddScoped<ICidadeRepo, CidadeRepo>()
                 .AddScoped<INacionalidadeRepo, NacionalidadeRepo>()
                 .AddScoped<IGrauParentescoRepo, GrauParentescoRepo>()
+                .AddScoped<IAuditoriaRepo, AuditoriaRepo>()
 
                 
 
@@ -80,6 +82,7 @@ namespace API.Core.Extensoes
                 .AddScoped<ICidadeServico, CidadeServico>()                
                 .AddScoped<INacionalidadeServico, NacionalidadeServico>()                
                 .AddScoped<IGrauParentescoServico, GrauParentescoServico>()                
+                .AddScoped<IAuditoriaServico, AuditoriaServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

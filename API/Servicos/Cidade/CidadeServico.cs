@@ -34,5 +34,7 @@ namespace API.Servicos.Cidades
         {
             return await _cidadeRepo.BuscarFiltros(x => x.Nome.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
+
+        public async Task<Cidade>? BuscarPorIBGE(int codigoIBGE) => await _cidadeRepo.BuscarPorIBGE(codigoIBGE);
     }
 }

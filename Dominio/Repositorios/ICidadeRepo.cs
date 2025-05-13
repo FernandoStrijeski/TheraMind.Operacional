@@ -17,5 +17,6 @@ namespace Dominio.Repositorios
           int take = 0
           );
         Task<Cidade> BuscarPorID(int cidadeID);
+        Task<Cidade> BuscarPorIBGE(int codigoIBGE);
     }
 }

@@ -41,8 +41,14 @@ namespace Infra.Repositorios
         public async Task<Cidade>? BuscarPorID(int cidadeId)
         {
             var query = _dbSet.AsQueryable();
-            var estado = await query.FirstOrDefaultAsync(where => where.CidadeId == cidadeId);
-            return estado;
+            var cidade = await query.FirstOrDefaultAsync(where => where.CidadeId == cidadeId);
+            return cidade;
+        }
+        public async Task<Cidade>? BuscarPorIBGE(int codigoIBGE)
+        {
+            var query = _dbSet.AsQueryable();
+            var cidade = await query.FirstOrDefaultAsync(where => where.CodigoIbge == codigoIBGE);
+            return cidade;
         }
     }
 }

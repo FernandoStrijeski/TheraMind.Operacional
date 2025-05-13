@@ -20,9 +20,17 @@ namespace API.Servicos.Cidades
         Task<List<Cidade>> BuscarPorNome(BuscarComNomeParametro parametro);
 
         /// <summary>
+        /// Busca a cidade pelo código IBGE
+        /// </summary>
+        /// <param name="codigoIBGE"></param>
+        /// <returns></returns>
+        Task<Cidade>? BuscarPorIBGE(int codigoIBGE);
+
+        /// <summary>
         /// Buscar todas as cidades
         /// </summary>
         /// <returns></returns>
         Task<List<Cidade>> BuscarTodos();
+
     }
 }

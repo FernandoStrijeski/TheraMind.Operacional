@@ -8,6 +8,8 @@ namespace API.AdmissaoDigital.modelos.ViewModels
         [Key]
         public int CidadeId { get; set; }
         public string Nome { get; set; } = null!;
-        public int CodigoIbge { get; set; }        
+        public int CodigoIbge { get; set; }     
+        public string UF { get; set;}
+        public int PaisID { get; set;}
     }
 }

@@ -1,7 +1,7 @@
 using API.AdmissaoDigital.modelos.ViewModels;
 using API.Core.Filtros;
 using API.modelos;
-using API.Servicos.Nacionalidades;
+using API.Servicos.GrauParentescos;
 using Asp.Versioning;
 using AutoMapper;
 using Dominio.Entidades;
@@ -14,86 +14,86 @@ namespace API.Controllers
     [Route("[controller]")]
     [ApiVersion(1.0)]
     [RequerValidacaoDeToken]
-    public class NacionalidadeController : ControllerBase
+    public class GrauParentescoController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly INacionalidadeServico _nacionalidadeServico;
+        private readonly IGrauParentescoServico _grauParentescoServico;
         private readonly IHttpContextAccessor _httpContext;
 
-        public NacionalidadeController(
+        public GrauParentescoController(
             IMapper mapper,
-            INacionalidadeServico nacionalidadeServico,
+            IGrauParentescoServico grauParentescoServico,
             IHttpContextAccessor httpContext
         )
         {
             _mapper = mapper;
-            _nacionalidadeServico = nacionalidadeServico;
+            _grauParentescoServico = grauParentescoServico;
             _httpContext = httpContext;
         }
 
         /// <summary>
-        /// Busca a nacionalidade a partir do identificador informado
+        /// Busca o grau de parentesco a partir do identificador informado
         /// </summary>
-        /// <response code="200">Retorna a nacionalidade pelo ID informado</response>
+        /// <response code="200">Retorna o grau de parentesco pelo ID informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
         [HttpGet("BuscarPorID")]
         [ProducesResponseType(
-            typeof(NacionalidadeViewModel),
+            typeof(GrauParentescoViewModel),
             StatusCodes.Status200OK
         )]
         [Authorize(Roles = "ADMIN,GESTOR,CLIENTE")]
-        public async Task<ActionResult> BuscarPorID(int nacionalidadeID)
+        public async Task<ActionResult> BuscarPorID(int grauParentescoID)
         {
-            Nacionalidade? nacionalidade = await _nacionalidadeServico.BuscarPorID(nacionalidadeID);
-            if (nacionalidade == null)
-                return NotFound("Nenhuma nacionalidade encontrada");
+            GrauParentesco? grauParentesco = await _grauParentescoServico.BuscarPorID(grauParentescoID);
+            if (grauParentesco == null)
+                return NotFound("Nenhum grau de parentesco encontrado");
 
-            var resultado = _mapper.Map<NacionalidadeViewModel>(nacionalidade);
+            var resultado = _mapper.Map<GrauParentescoViewModel>(grauParentesco);
             return Ok(resultado);
         }
 
         /// <summary>
-        /// Busca as nacionalidades pelo nome
+        /// Busca os graus de parentescos pelo nome
         /// </summary>
         /// <param name="parametro"></param>
         /// <returns></returns>
         [HttpGet("BuscarPorNome")]
         [ProducesResponseType(
-            typeof(List<NacionalidadeViewModel>),
+            typeof(List<GrauParentescoViewModel>),
             StatusCodes.Status200OK
         )]
         [Authorize(Roles = "ADMIN,GESTOR,CLIENTE")]
         public async Task<ActionResult> BuscarPorNome([FromQuery] BuscarComNomeParametro parametro)
         {
-            var nacionalidade = await _nacionalidadeServico.BuscarPorNome(parametro);
+            var grauParentesco = await _grauParentescoServico.BuscarPorNome(parametro);
 
-            if (nacionalidade == null || nacionalidade.Count == 0)
-                return NotFound("Nenhuma nacionalidade encontrada");
+            if (grauParentesco == null || grauParentesco.Count == 0)
+                return NotFound("Nenhum grau de parentesco encontrado");
 
-            var resultado = _mapper.Map<List<NacionalidadeViewModel>>(nacionalidade);
+            var resultado = _mapper.Map<List<GrauParentescoViewModel>>(grauParentesco);
             return Ok(resultado);
         }
 
 
         /// <summary>
-        /// Busca todas as nacionalidade pelo nome
+        /// Busca todos os graus de parentescos pelo nome
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]
         [ProducesResponseType(
-            typeof(List<NacionalidadeViewModel>),
+            typeof(List<GrauParentescoViewModel>),
             StatusCodes.Status200OK
         )]
         [Authorize(Roles = "ADMIN,GESTOR,CLIENTE")]
         public async Task<ActionResult> BuscarTodos()
         {
-            var nacionalidade = await _nacionalidadeServico.BuscarTodos();
+            var grauParentesco = await _grauParentescoServico.BuscarTodos();
 
-            if (nacionalidade == null || nacionalidade.Count == 0)
-                return NotFound("Nenhuma nacionalidade encontrada");
+            if (grauParentesco == null || grauParentesco.Count == 0)
+                return NotFound("Nenhum grau de parentesco encontrado");
 
-            var resultado = _mapper.Map<List<NacionalidadeViewModel>>(nacionalidade);
+            var resultado = _mapper.Map<List<GrauParentescoViewModel>>(grauParentesco);
             return Ok(resultado);
         }
     }

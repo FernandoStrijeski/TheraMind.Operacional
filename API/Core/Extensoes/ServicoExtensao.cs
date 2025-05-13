@@ -6,6 +6,7 @@ using API.Servicos.Escolaridades;
 using API.Servicos.Estados;
 using API.Servicos.EstadosCivis;
 using API.Servicos.Filiais;
+using API.Servicos.GrauParentescos;
 using API.Servicos.IdentidadesGeneros;
 using API.Servicos.Nacionalidades;
 using API.Servicos.OrientacoesSexuais;
@@ -58,6 +59,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IEstadoRepo, EstadoRepo>()
                 .AddScoped<ICidadeRepo, CidadeRepo>()
                 .AddScoped<INacionalidadeRepo, NacionalidadeRepo>()
+                .AddScoped<IGrauParentescoRepo, GrauParentescoRepo>()
 
                 
 
@@ -77,6 +79,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IEstadoServico, EstadoServico>()                
                 .AddScoped<ICidadeServico, CidadeServico>()                
                 .AddScoped<INacionalidadeServico, NacionalidadeServico>()                
+                .AddScoped<IGrauParentescoServico, GrauParentescoServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

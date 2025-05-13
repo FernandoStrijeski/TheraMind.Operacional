@@ -7,6 +7,7 @@ using API.Servicos.Estados;
 using API.Servicos.EstadosCivis;
 using API.Servicos.Filiais;
 using API.Servicos.IdentidadesGeneros;
+using API.Servicos.Nacionalidades;
 using API.Servicos.OrientacoesSexuais;
 using API.Servicos.Paises;
 using API.Servicos.TiposDocumentos;
@@ -56,6 +57,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IPaisRepo, PaisRepo>()
                 .AddScoped<IEstadoRepo, EstadoRepo>()
                 .AddScoped<ICidadeRepo, CidadeRepo>()
+                .AddScoped<INacionalidadeRepo, NacionalidadeRepo>()
 
                 
 
@@ -74,6 +76,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IPaisServico, PaisServico>()                
                 .AddScoped<IEstadoServico, EstadoServico>()                
                 .AddScoped<ICidadeServico, CidadeServico>()                
+                .AddScoped<INacionalidadeServico, NacionalidadeServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

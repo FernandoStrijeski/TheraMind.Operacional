@@ -22,7 +22,7 @@ namespace Infra.Repositorios
           int take = 0
           )
         {
-            IQueryable<Estado> query = _dbSet.AsNoTracking();
+            IQueryable<Estado> query = _dbSet.AsNoTracking().Include(estado => estado.Cidades);
 
             if (filtro != null)
                 query = query.Where(filtro);
@@ -40,7 +40,7 @@ namespace Infra.Repositorios
         }
         public async Task<Estado>? BuscarPorID(string uf)
         {
-            var query = _dbSet.AsQueryable();
+            var query = _dbSet.AsQueryable().Include(estado => estado.Cidades);
             var estado = await query.FirstOrDefaultAsync(where => where.Uf == uf);
             return estado;
         }

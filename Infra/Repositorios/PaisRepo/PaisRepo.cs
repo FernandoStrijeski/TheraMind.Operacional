@@ -22,7 +22,7 @@ namespace Infra.Repositorios
             int take = 0
             )
         {
-            IQueryable<Pais> query = _dbSet.AsQueryable().Include(pais => pais.Estados).ThenInclude(estado => estado.Cidades);
+            IQueryable<Pais> query = _dbSet.AsQueryable().Include(pais => pais.Estados);
 
             
             if (filtro != null)
@@ -50,7 +50,7 @@ namespace Infra.Repositorios
 
         public async Task<Pais>? BuscarPorID(int paisID)
         {
-            var query = _dbSet.AsQueryable().Include(pais => pais.Estados).ThenInclude(estado => estado.Cidades);
+            var query = _dbSet.AsQueryable().Include(pais => pais.Estados);
             var pais = await query.FirstOrDefaultAsync(where => where.PaisId == paisID);
             return pais;
         }        

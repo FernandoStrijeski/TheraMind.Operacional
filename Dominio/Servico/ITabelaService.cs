@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Dominio.Servico
+namespace Dominio.Service
 {
     public interface ITabelaService
     {

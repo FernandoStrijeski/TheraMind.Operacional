@@ -30,5 +30,36 @@ namespace Dominio.Entidades
         public virtual ICollection<AgendaSessao> AgendaSessaos { get; set; }
         public virtual ICollection<FormularioSessaoCampo> FormularioSessaoCampos { get; set; }
         public virtual ICollection<FormularioSessao> FormularioSessaos { get; set; }
+
+        public static Servico CriarParaImportacao(Guid empresaID, int filialID, string nome, bool padrao, short? duracaoMinutos, bool? ativo)
+        {
+            var servico = new Servico
+            {
+                EmpresaId = empresaID,
+                FilialId = filialID,
+                Nome = nome,
+                Padrao = padrao,
+                DuracaoMinutos = duracaoMinutos,
+                Ativo = ativo
+            };
+            return servico;
+        }
+
+        public Servico AtualizarPropriedades(Guid empresaID, int filialID, string nome, bool padrao, short? duracaoMinutos, bool? ativo)
+        {
+            EmpresaId = empresaID;
+            FilialId = filialID;
+            Nome = nome;
+            Padrao = padrao;
+
+            if (ativo != null)
+                DuracaoMinutos = duracaoMinutos;
+                
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
+
     }
 }

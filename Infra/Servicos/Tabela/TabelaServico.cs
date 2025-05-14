@@ -1,4 +1,4 @@
-using Dominio.Servico;
+using Dominio.Service;
 using Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using System;

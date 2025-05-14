@@ -18,6 +18,7 @@ using API.Servicos.Servicos;
 using API.Servicos.TiposDocumentos;
 using API.Servicos.TiposEtnias;
 using API.Servicos.TiposLogradouros;
+using API.Servicos.Usuarios;
 using Dominio.Core.Repositorios;
 using Dominio.Repositorios;
 using Dominio.Service;
@@ -68,6 +69,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IPlanoRepo, PlanoRepo>()
                 .AddScoped<IServicoRepo, ServicoRepo>()
                 .AddScoped<ISalaRepo, SalaRepo>()
+                .AddScoped<IUsuarioRepo, UsuarioRepo>()
 
                 
 
@@ -92,6 +94,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IPlanoServico, PlanoServico>()                
                 .AddScoped<IServicoServico, ServicoServico>()                
                 .AddScoped<ISalaServico, SalaServico>()                
+                .AddScoped<IUsuarioServico, UsuarioServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

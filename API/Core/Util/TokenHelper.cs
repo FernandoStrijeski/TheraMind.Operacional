@@ -12,15 +12,16 @@ namespace AdmissaoDigital.Core.Utils
         public static class TokenHelper
         {
             public static TokenClaims LerToken(string token)
-            {                
+            {
+                string tokenSemBearer = token.Replace("Bearer ", "");
                 var handler = new JwtSecurityTokenHandler();
 
-                if (!handler.CanReadToken(token))
+                if (!handler.CanReadToken(tokenSemBearer))
                 {
                     throw new ArgumentException("Token inválido.");
                 }
 
-                var jwtToken = handler.ReadJwtToken(token);
+                var jwtToken = handler.ReadJwtToken(tokenSemBearer);
 
                 var claims = jwtToken.Claims;
 
@@ -37,6 +38,8 @@ namespace AdmissaoDigital.Core.Utils
 
             public static InformacoesAudit ObterInformacoesToken(string token, HttpContext? httpContext, string tokenCriptografia, string chaveCriptografia)
             {
+                string tokenSemBearer = token.Replace("Bearer ", "");
+
                 string ipCapturado = "" + JobUtils.GetClientIp(httpContext);
 
                 string IPEncriptado = "";
@@ -50,12 +53,12 @@ namespace AdmissaoDigital.Core.Utils
                 }
                 var handler = new JwtSecurityTokenHandler();
 
-                if (!handler.CanReadToken(token))
+                if (!handler.CanReadToken(tokenSemBearer))
                 {
                     throw new ArgumentException("Token inválido.");
                 }
 
-                var jwtToken = handler.ReadJwtToken(token);
+                var jwtToken = handler.ReadJwtToken(tokenSemBearer);
 
                 var claims = jwtToken.Claims;
 

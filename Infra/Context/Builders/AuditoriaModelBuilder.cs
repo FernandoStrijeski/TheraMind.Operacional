@@ -44,7 +44,7 @@ namespace Infra.Context.Builders
                 .HasConstraintName("FK__Auditoria__Filia__0A338187");
 
             builder.HasOne(d => d.Usuario)
-                .WithMany(p => p.Auditoria)
+                .WithMany()
                 .HasForeignKey(d => d.UsuarioID)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Auditoria__Usuar__0B27A5C0");

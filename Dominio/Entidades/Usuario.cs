@@ -7,8 +7,7 @@ namespace Dominio.Entidades
     public partial class Usuario
     {
         public Usuario()
-        {
-            Auditoria = new HashSet<Auditoria>();
+        {            
         }
 
         [Key]
@@ -24,6 +23,34 @@ namespace Dominio.Entidades
 
         public virtual Empresa? Empresa { get; set; }
         public virtual Filial? Filial { get; set; }
-        public virtual ICollection<Auditoria> Auditoria { get; set; }
+        public static Usuario CriarParaImportacao(Guid? empresaID, int? filialID, string email, string senhaHash, bool trocaSenhaProximoAcesso, string perfilAcesso, bool? ativo)
+        {
+            var usuario = new Usuario
+            {
+                EmpresaId = empresaID,
+                FilialId = filialID,
+                Email = email,
+                SenhaHash = senhaHash,
+                TrocaSenhaProximoAcesso = trocaSenhaProximoAcesso,
+                PerfilAcesso = perfilAcesso,
+                Ativo = ativo
+            };
+            return usuario;
+        }
+
+        public Usuario AtualizarPropriedades(Guid? empresaID, int? filialID, string email, string senhaHash, bool trocaSenhaProximoAcesso, string perfilAcesso, bool? ativo)
+        {
+            EmpresaId = empresaID;
+            FilialId = filialID;
+            Email = email;
+            SenhaHash = senhaHash;
+            TrocaSenhaProximoAcesso = trocaSenhaProximoAcesso;
+            PerfilAcesso = perfilAcesso;
+                
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using API.Core.Util;
 using API.Operacional.Servicos.TiposLogradouros;
 using API.Servicos.Auditorias;
+using API.Servicos.Boletos;
 using API.Servicos.Cidades;
 using API.Servicos.Empresas;
 using API.Servicos.Escolaridades;
@@ -95,6 +96,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IServicoServico, ServicoServico>()                
                 .AddScoped<ISalaServico, SalaServico>()                
                 .AddScoped<IUsuarioServico, UsuarioServico>()                
+                .AddScoped<IBoletoServico, BoletoServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

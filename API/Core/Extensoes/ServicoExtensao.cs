@@ -13,6 +13,7 @@ using API.Servicos.Nacionalidades;
 using API.Servicos.OrientacoesSexuais;
 using API.Servicos.Paises;
 using API.Servicos.Planos;
+using API.Servicos.Salas;
 using API.Servicos.Servicos;
 using API.Servicos.TiposDocumentos;
 using API.Servicos.TiposEtnias;
@@ -66,6 +67,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IAuditoriaRepo, AuditoriaRepo>()
                 .AddScoped<IPlanoRepo, PlanoRepo>()
                 .AddScoped<IServicoRepo, ServicoRepo>()
+                .AddScoped<ISalaRepo, SalaRepo>()
 
                 
 
@@ -89,6 +91,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IAuditoriaServico, AuditoriaServico>()                
                 .AddScoped<IPlanoServico, PlanoServico>()                
                 .AddScoped<IServicoServico, ServicoServico>()                
+                .AddScoped<ISalaServico, SalaServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

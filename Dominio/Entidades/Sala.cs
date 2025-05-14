@@ -22,5 +22,29 @@ namespace Dominio.Entidades
         public virtual Empresa Empresa { get; set; } = null!;
         public virtual Filial Filial { get; set; } = null!;
         public virtual ICollection<AgendaSessao> AgendaSessaos { get; set; }
+
+        public static Sala CriarParaImportacao(Guid empresaID, int filialID, string nome, bool? ativo)
+        {
+            var sala = new Sala
+            {
+                EmpresaId = empresaID,
+                FilialId = filialID,
+                Nome = nome,
+                Ativo = ativo
+            };
+            return sala;
+        }
+
+        public Sala AtualizarPropriedades(Guid empresaID, int filialID, string nome, bool? ativo)
+        {
+            EmpresaId = empresaID;
+            FilialId = filialID;
+            Nome = nome;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

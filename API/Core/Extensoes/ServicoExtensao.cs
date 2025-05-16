@@ -8,6 +8,7 @@ using API.Servicos.Escolaridades;
 using API.Servicos.Estados;
 using API.Servicos.EstadosCivis;
 using API.Servicos.Filiais;
+using API.Servicos.GeradorCNAB240Sicredi;
 using API.Servicos.GrauParentescos;
 using API.Servicos.IdentidadesGeneros;
 using API.Servicos.Nacionalidades;
@@ -97,6 +98,7 @@ namespace API.Core.Extensoes
                 .AddScoped<ISalaServico, SalaServico>()                
                 .AddScoped<IUsuarioServico, UsuarioServico>()                
                 .AddScoped<IBoletoServico, BoletoServico>()                
+                .AddScoped<IGeradorCNAB240SicrediServico, GeradorCNAB240SicrediServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

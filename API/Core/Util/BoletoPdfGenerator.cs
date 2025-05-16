@@ -12,6 +12,7 @@ namespace API.Operacional.Core.Util
 
     public class BoletoPdfGenerator
     {
+        
         public byte[] GerarBoletoPdf(CriarBoletoInputModel criarBoletoInputModel)
         {
             QuestPDF.Settings.License = LicenseType.Community;

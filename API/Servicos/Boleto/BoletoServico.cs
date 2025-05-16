@@ -26,5 +26,12 @@ namespace API.Servicos.Boletos
             return pdfBytes;
         }
 
+        public byte[] GerarRemessa(CriarBoletoInputModel criarBoletoInputModel)
+        {
+            var generator = new BoletoPdfGenerator();
+            var pdfBytes = generator.GerarBoletoPdf(criarBoletoInputModel);
+            return pdfBytes;
+        }
+
     }
 }

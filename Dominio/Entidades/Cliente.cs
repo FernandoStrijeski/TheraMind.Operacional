@@ -67,6 +67,7 @@ namespace Dominio.Entidades
         public short Situacao { get; set; }
         public string? MotivoDesativacao { get; set; }
         public DateTime? DataCriacao { get; set; }
+        public Guid? UsuarioID { get; set; }
 
         public virtual Cidade? Cidade { get; set; }
         public virtual Convenio? Convenio { get; set; }

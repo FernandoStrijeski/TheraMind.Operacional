@@ -17,7 +17,6 @@ namespace Dominio.Entidades
             AnamneseSubGrupoQuestaos = new HashSet<AnamneseSubGrupoQuestao>();
             AnamneseSubGrupos = new HashSet<AnamneseSubGrupo>();
             ProfissionalAcessos = new HashSet<ProfissionalAcesso>();
-            Usuario = new Usuario();
         }
 
         [Key]
@@ -37,9 +36,9 @@ namespace Dominio.Entidades
         public string Sexo { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Celular { get; set; } = null!;
+        public Guid? UsuarioID { get; set; } = null!;
         public bool? Ativo { get; set; }
         public DateTime? DataCriacao { get; set; }
-        public Usuario? Usuario { get; set; } = null!;
 
         public virtual ICollection<AcompanhamentoClinico> AcompanhamentoClinicos { get; set; }
         public virtual ICollection<AgendaProfissional> AgendaProfissionals { get; set; }

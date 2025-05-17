@@ -103,6 +103,8 @@ namespace Infra.Context.Builders
 
             duilder.Property(e => e.Profissao).HasMaxLength(100);
 
+            duilder.Property(e => e.UsuarioID).HasColumnName("UsuarioID");
+
             duilder.Property(e => e.Rg)
                 .HasMaxLength(20)
                 .HasColumnName("RG");

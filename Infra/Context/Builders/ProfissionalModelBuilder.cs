@@ -68,6 +68,8 @@ namespace Infra.Context.Builders
             builder.Property(e => e.TipoPessoa).HasMaxLength(2);
 
             builder.Property(e => e.TipoProfissional).HasMaxLength(50);
+
+            builder.Property(e => e.UsuarioID).HasColumnName("UsuarioID");
         }        
     }
 }

@@ -15,6 +15,7 @@ using API.Servicos.Nacionalidades;
 using API.Servicos.OrientacoesSexuais;
 using API.Servicos.Paises;
 using API.Servicos.Planos;
+using API.Servicos.Profissionais;
 using API.Servicos.Salas;
 using API.Servicos.Servicos;
 using API.Servicos.TiposDocumentos;
@@ -22,10 +23,12 @@ using API.Servicos.TiposEtnias;
 using API.Servicos.TiposLogradouros;
 using API.Servicos.Usuarios;
 using Dominio.Core.Repositorios;
+using Dominio.Profissionais;
 using Dominio.Repositorios;
 using Dominio.Service;
 using Infra.Context;
 using Infra.Core.Repositorios;
+using Infra.Profissionais;
 using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using Infra.Servicos.Tabela;
@@ -72,6 +75,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IServicoRepo, ServicoRepo>()
                 .AddScoped<ISalaRepo, SalaRepo>()
                 .AddScoped<IUsuarioRepo, UsuarioRepo>()
+                .AddScoped<IProfissionalRepo, ProfissionalRepo>()
 
                 
 
@@ -99,6 +103,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IUsuarioServico, UsuarioServico>()                
                 .AddScoped<IBoletoServico, BoletoServico>()                
                 .AddScoped<IGeradorCNAB240SicrediServico, GeradorCNAB240SicrediServico>()                
+                .AddScoped<IProfissionalServico, ProfissionalServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

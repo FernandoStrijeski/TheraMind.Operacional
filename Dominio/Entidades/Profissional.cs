@@ -48,6 +48,79 @@ namespace Dominio.Entidades
         public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcaos { get; set; }
         public virtual ICollection<AnamneseSubGrupoQuestao> AnamneseSubGrupoQuestaos { get; set; }
         public virtual ICollection<AnamneseSubGrupo> AnamneseSubGrupos { get; set; }
-        public virtual ICollection<ProfissionalAcesso> ProfissionalAcessos { get; set; }        
+        public virtual ICollection<ProfissionalAcesso> ProfissionalAcessos { get; set; }
+
+        public static Profissional CriarParaImportacao(string tipoProfissional, string tipoPessoa, string nomeCompleto, string? areaAtuacao, string? cpf, string? cnpj,
+                            string? crp, string? crfa, string? crefito, string? crm, string? crn, string? coffito, string sexo, string email, string celular, Guid? usuarioID, bool? ativo)
+        {
+            var profissional = new Profissional
+            {
+                TipoProfissional = tipoProfissional,
+                TipoPessoa = tipoPessoa,
+                NomeCompleto = nomeCompleto,
+                AreaAtuacao = areaAtuacao,
+                Cpf = cpf,
+                Cnpj = cnpj,
+                Crp = crp,
+                Crfa = crfa,
+                Crefito = crefito,
+                Crm = crm,
+                Crn = crn,
+                Coffito = coffito,
+                Sexo = sexo,
+                Email = email,
+                Celular = celular,
+                UsuarioID = usuarioID,
+                Ativo = ativo
+            };
+            return profissional;
+        }
+
+        public Profissional AtualizarPropriedades(string tipoProfissional, string tipoPessoa, string nomeCompleto, string? areaAtuacao, string? cpf, string? cnpj,
+                            string? crp, string? crfa, string? crefito, string? crm, string? crn, string? coffito, string sexo, string email, string celular, Guid? usuarioID, bool? ativo)
+        {
+            TipoProfissional = tipoProfissional;
+            TipoPessoa = tipoPessoa;
+            NomeCompleto = nomeCompleto;
+
+            if (areaAtuacao != null)
+                AreaAtuacao = areaAtuacao;
+
+            if (cpf != null)
+                Cpf = cpf;
+
+            if (cnpj != null)
+                Cnpj = cnpj;
+
+            if (crp != null)
+                Crp = crp;
+
+            if (crfa != null)
+                Crfa = crfa;
+
+            if (crefito != null)
+                Crefito = crefito;
+
+            if (crm != null)
+                Crm = crm;
+
+            if (crn != null)
+                Crn = crn;
+
+            if (coffito != null)
+                Coffito = coffito;
+
+            Sexo = sexo;
+            Email = email;
+            Celular = celular;
+
+            if (usuarioID != null)
+                UsuarioID = usuarioID;
+            
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

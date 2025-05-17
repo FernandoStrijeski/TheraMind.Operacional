@@ -1,6 +1,7 @@
 namespace API.Operacional.Core.Util
 {
     using API.modelos.InputModels;
+    using API.Operacional.modelos.ViewModels;
     using BoletoNetCore;
     using QuestPDF.Fluent;
     using QuestPDF.Helpers;
@@ -13,7 +14,7 @@ namespace API.Operacional.Core.Util
     public class BoletoPdfGenerator
     {
         
-        public byte[] GerarBoletoPdf(CriarBoletoInputModel criarBoletoInputModel)
+        public BoletoGeradoViewModel GerarBoletoPdf(CriarBoletoInputModel criarBoletoInputModel)
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
@@ -102,7 +103,7 @@ namespace API.Operacional.Core.Util
                 });
             });
 
-            return pdf.GeneratePdf();
+            return new BoletoGeradoViewModel(boleto.NossoNumero, pdf.GeneratePdf());            
         }
 
         //public byte[] GerarBoletoPdf(CriarBoletoInputModel criarBoletoInputModel)

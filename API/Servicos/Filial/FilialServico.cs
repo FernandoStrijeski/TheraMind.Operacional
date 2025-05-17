@@ -39,7 +39,7 @@ namespace API.Servicos.Filiais
             await Comitar();
         }
 
-        public async Task<bool> CriarOuAtualizar(CriarFilialInputModel filial, bool atualizaSeExistir)
+        public async Task<(bool criado, int filialId)> CriarOuAtualizar(CriarFilialInputModel filial, bool atualizaSeExistir)
         {
             var cFilial = (await _filialRepo.Buscar(
                 x => x.EmpresaId == filial.EmpresaId && x.FilialId == filial.FilialId
@@ -64,7 +64,7 @@ namespace API.Servicos.Filiais
                         ativo: filial.Ativo
                     );
                 await Salvar(cFilial);
-                return true;
+                return (true, cFilial.FilialId); // <-- retorno com o novo ID
             }
             else if (atualizaSeExistir)
             {
@@ -103,7 +103,7 @@ namespace API.Servicos.Filiais
                 await Atualizar(cFilial);
 
             }
-            return false;
+            return (false, cFilial.FilialId); // <-- retorno com o novo ID
         }
 
         public async Task CriarParaImportacao(int filialId, Guid empresaId, string? cpf, string? cnpj, string? inscricaoEstadual, string? inscricaoMunicipal, string nomeFilial,

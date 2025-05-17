@@ -50,7 +50,7 @@ namespace API.Servicos.TiposDocumentos
             await Comitar();
         }
 
-        public async Task<bool> CriarOuAtualizar(CriarTipoDocumentoInputModel tipoDocumento, bool atualizaSeExistir)
+        public async Task<(bool criado, int tipoDocumentoId)> CriarOuAtualizar(CriarTipoDocumentoInputModel tipoDocumento, bool atualizaSeExistir)
         {
             var cTipoDocumento = (await _tipoDocumentoRepo.Buscar(
                 x => x.TipoDocumentoId == tipoDocumento.TipoDocumentoID
@@ -59,7 +59,7 @@ namespace API.Servicos.TiposDocumentos
             {
                 cTipoDocumento = TipoDocumento.CriarParaImportacao(descricao: tipoDocumento.Descricao, ativo: tipoDocumento.Ativo);
                 await Salvar(cTipoDocumento);
-                return true;
+                return (true, cTipoDocumento.TipoDocumentoId); // <-- retorno com o novo ID
             }
             else if (atualizaSeExistir)
             {
@@ -69,7 +69,7 @@ namespace API.Servicos.TiposDocumentos
                 await Atualizar(cTipoDocumento);
 
             }
-            return false;
+            return (false, cTipoDocumento.TipoDocumentoId); // <-- retorno com o novo ID
         }
 
         public async Task CriarParaImportacao(int tipoDocumentoID, string descricao, bool ativo)

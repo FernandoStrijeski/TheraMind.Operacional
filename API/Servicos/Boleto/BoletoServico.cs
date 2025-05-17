@@ -1,5 +1,6 @@
 using API.modelos.InputModels;
 using API.Operacional.Core.Util;
+using API.Operacional.modelos.ViewModels;
 using Dominio.Core.Repositorios;
 using Infra.Servicos.MultiTenant;
 using Microsoft.AspNetCore.Mvc;
@@ -19,19 +20,10 @@ namespace API.Servicos.Boletos
         {
             _configuration = configuration;
         }
-        public byte[] GerarBoleto(CriarBoletoInputModel criarBoletoInputModel)
+        public BoletoGeradoViewModel GerarBoleto(CriarBoletoInputModel criarBoletoInputModel)
         {
             var generator = new BoletoPdfGenerator();
-            var pdfBytes = generator.GerarBoletoPdf(criarBoletoInputModel);
-            return pdfBytes;
+            return generator.GerarBoletoPdf(criarBoletoInputModel);            
         }
-
-        public byte[] GerarRemessa(CriarBoletoInputModel criarBoletoInputModel)
-        {
-            var generator = new BoletoPdfGenerator();
-            var pdfBytes = generator.GerarBoletoPdf(criarBoletoInputModel);
-            return pdfBytes;
-        }
-
     }
 }

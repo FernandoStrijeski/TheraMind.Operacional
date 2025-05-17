@@ -51,11 +51,12 @@ namespace API.Servicos.Profissionais
             await Comitar();
         }
 
-        public async Task<bool> CriarOuAtualizar(CriarProfissionalInputModel profissional, bool atualizaSeExistir)
+        public async Task<(bool criado, Guid profissionalId)> CriarOuAtualizar(CriarProfissionalInputModel profissional, bool atualizaSeExistir)
         {
             var cProfissional = (await _profissionalRepo.Buscar(
                 x => x.ProfissionalId == profissional.ProfissionalId
             )).FirstOrDefault();
+
             if (cProfissional == null)
             {
                 cProfissional = Profissional.CriarParaImportacao(
@@ -76,9 +77,9 @@ namespace API.Servicos.Profissionais
                     celular: profissional.Celular,
                     usuarioID: profissional.UsuarioID,
                     ativo: profissional.Ativo
-                    );
+                );
                 await Salvar(cProfissional);
-                return true;
+                return (true, cProfissional.ProfissionalId); // <-- retorno com o novo ID
             }
             else if (atualizaSeExistir)
             {
@@ -100,13 +101,14 @@ namespace API.Servicos.Profissionais
                     celular: profissional.Celular,
                     usuarioID: profissional.UsuarioID,
                     ativo: profissional.Ativo
-                    );
+                );
                 await _profissionalRepo.Atualizar(cProfissional);
                 await Atualizar(cProfissional);
-
             }
-            return false;
+
+            return (false, profissional.ProfissionalId);
         }
+
 
         public async Task CriarParaImportacao(Guid profissionalID, string tipoProfissional, string tipoPessoa, string nomeCompleto, string? areaAtuacao, string? cpf, string? cnpj,
                             string? crp, string? crfa, string? crefito, string? crm, string? crn, string? coffito, string sexo, string email, string celular, Guid? usuarioID, bool? ativo)

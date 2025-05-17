@@ -2,6 +2,7 @@ using API.AdmissaoDigital.modelos.ViewModels;
 using API.Core.Filtros;
 using API.modelos;
 using API.modelos.InputModels;
+using API.Operacional.modelos.ViewModels;
 using API.Servicos.Profissionais;
 using Asp.Versioning;
 using AutoMapper;
@@ -103,17 +104,25 @@ namespace API.Controllers
         /// <summary>
         /// Cria ou atualiza um profissional
         /// </summary>
-        /// <response code="202">Profissional criado com sucesso</response>
+        /// <response code="202">Profissional criado com sucesso. O corpo da resposta contém o ID gerado.</response>
         /// <response code="204">Profissional atualizado com sucesso</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
         [HttpPut("")]
         [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(ProfissionalIdResponseViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult> Put([FromBody] CriarProfissionalInputModel body)
         {
-            bool criou = await _profissionalServico.CriarOuAtualizar(body, true);
-            if (criou) return Accepted();
-            return NoContent();
+            var (criou, profissionalId) = await _profissionalServico.CriarOuAtualizar(body, true);
+
+            if (criou)            
+                return Accepted(new UsuarioIdResponseViewModel(profissionalId));
+            
+            return NoContent(); // Atualizado com sucesso, sem corpo
+
         }
     }
 }

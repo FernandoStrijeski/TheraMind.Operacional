@@ -51,14 +51,10 @@ namespace API.Servicos.Empresas
             await Comitar();
         }
 
-        public async Task<bool> CriarOuAtualizar(CriarEmpresaInputModel empresa, bool atualizaSeExistir)
+        public async Task<(bool criado, Guid empresaId)> CriarOuAtualizar(CriarEmpresaInputModel empresa, bool atualizaSeExistir)
         {
             var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
-            if (string.IsNullOrEmpty(token))
-            {
-                return false;
-            }
-
+            
             InformacoesAudit informacoesAudit = TokenHelper.ObterInformacoesToken(
                 token, _httpContextAccessor.HttpContext,
                 _configuration["SecuritySettings:Token"],
@@ -87,7 +83,7 @@ namespace API.Servicos.Empresas
                 await _auditoriaRepo.Adicionar(auditoria);
                 await Comitar();
 
-                return true;
+                return (true, cEmpresa.EmpresaId); // <-- retorno com o novo ID
             }
             else if (atualizaSeExistir)
             {
@@ -111,10 +107,8 @@ namespace API.Servicos.Empresas
 
                 await _auditoriaRepo.Adicionar(auditoria);
                 await Comitar();
-
-                return true;
             }
-            return false;
+            return (false, cEmpresa.EmpresaId);
         }
 
         public async Task CriarParaImportacao(Guid empresaID, string razaoSocial, string nomeFantasia, byte[] logotipo, bool ativo)

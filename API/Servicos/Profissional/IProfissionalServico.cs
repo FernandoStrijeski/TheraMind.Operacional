@@ -32,6 +32,6 @@ namespace API.Servicos.Profissionais
         /// <param name="profissional"></param>
         /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<bool> CriarOuAtualizar(CriarProfissionalInputModel profissional, bool atualizaSeExistir);
+        Task<(bool criado, Guid profissionalId)> CriarOuAtualizar(CriarProfissionalInputModel profissional, bool atualizaSeExistir);
     }
 }

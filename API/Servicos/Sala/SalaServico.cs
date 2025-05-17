@@ -50,7 +50,7 @@ namespace API.Servicos.Salas
             await Comitar();
         }
 
-        public async Task<bool> CriarOuAtualizar(CriarSalaInputModel sala, bool atualizaSeExistir)
+        public async Task<(bool criado, string salaId)> CriarOuAtualizar(CriarSalaInputModel sala, bool atualizaSeExistir)
         {
             var cSala = (await _salaRepo.Buscar(
                 x => x.SalaId == sala.SalaId
@@ -64,7 +64,7 @@ namespace API.Servicos.Salas
                     ativo: sala.Ativo
                     );
                 await Salvar(cSala);
-                return true;
+                return (true, cSala.SalaId); // <-- retorno com o novo ID
             }
             else if (atualizaSeExistir)
             {
@@ -78,7 +78,7 @@ namespace API.Servicos.Salas
                 await _salaRepo.Atualizar(cSala);
                 await Atualizar(cSala);
             }
-            return false;
+            return (false, cSala.SalaId); // <-- retorno com o novo ID
         }
 
         public async Task CriarParaImportacao(string salaID, Guid empresaID, int filialID, string nome, bool? ativo)

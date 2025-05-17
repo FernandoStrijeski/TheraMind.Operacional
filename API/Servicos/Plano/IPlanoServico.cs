@@ -32,6 +32,6 @@ namespace API.Servicos.Planos
         /// <param name="plano"></param>
         /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<bool> CriarOuAtualizar(CriarPlanoInputModel plano, bool atualizaSeExistir);
+        Task<(bool criado, Guid planoId)> CriarOuAtualizar(CriarPlanoInputModel plano, bool atualizaSeExistir);
     }
 }

@@ -32,6 +32,6 @@ namespace API.Servicos.Servicos
         /// <param name="servico"></param>
         /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<bool> CriarOuAtualizar(CriarServicoInputModel servico, bool atualizaSeExistir);
+        Task<(bool criado, int servicoId)> CriarOuAtualizar(CriarServicoInputModel servico, bool atualizaSeExistir);
     }
 }

@@ -32,6 +32,6 @@ namespace API.Servicos.Salas
         /// <param name="sala"></param>
         /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<bool> CriarOuAtualizar(CriarSalaInputModel sala, bool atualizaSeExistir);
+        Task<(bool criado, string salaId)> CriarOuAtualizar(CriarSalaInputModel sala, bool atualizaSeExistir);
     }
 }

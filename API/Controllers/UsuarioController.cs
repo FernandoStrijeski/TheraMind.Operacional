@@ -2,6 +2,7 @@ using API.AdmissaoDigital.modelos.ViewModels;
 using API.Core.Filtros;
 using API.modelos;
 using API.modelos.InputModels;
+using API.Operacional.modelos.ViewModels;
 using API.Servicos.Planos;
 using API.Servicos.Usuarios;
 using Asp.Versioning;
@@ -9,6 +10,7 @@ using AutoMapper;
 using Dominio.Entidades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.DirectoryServices.Protocols;
 
 namespace API.Controllers
 {
@@ -103,17 +105,24 @@ namespace API.Controllers
         /// <summary>
         /// Cria ou atualiza um usuário
         /// </summary>
-        /// <response code="202">Usuário criado com sucesso</response>
+        /// <response code="202">Usuário criado com sucesso. O corpo da resposta contém o ID gerado.</response>
         /// <response code="204">Usuário atualizado com sucesso</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
         [HttpPut("")]
         [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(UsuarioIdResponseViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult> Put([FromBody] CriarUsuarioInputModel body)
         {
-            bool criou = await _usuarioServico.CriarOuAtualizar(body, true);
-            if (criou) return Accepted();
-            return NoContent();
+            var (criou, usuarioId) = await _usuarioServico.CriarOuAtualizar(body, true);
+
+            if (criou)
+                return Accepted(new UsuarioIdResponseViewModel(usuarioId));
+
+            return NoContent(); // Atualizado com sucesso, sem corpo            
         }
     }
 }

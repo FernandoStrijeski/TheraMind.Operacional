@@ -32,6 +32,6 @@ namespace API.Servicos.TiposDocumentos
         /// <param name="tipoDocumento"></param>
         /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<bool> CriarOuAtualizar(CriarTipoDocumentoInputModel tipoDocumento, bool atualizaSeExistir);
+        Task<(bool criado, int tipoDocumentoId)> CriarOuAtualizar(CriarTipoDocumentoInputModel tipoDocumento, bool atualizaSeExistir);
     }
 }

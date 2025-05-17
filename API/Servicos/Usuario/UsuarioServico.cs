@@ -49,8 +49,8 @@ namespace API.Servicos.Usuarios
             await _usuarioRepo.Atualizar(usuario);
             await Comitar();
         }
-
-        public async Task<bool> CriarOuAtualizar(CriarUsuarioInputModel usuario, bool atualizaSeExistir)
+        
+        public async Task<(bool criado, Guid usuarioId)> CriarOuAtualizar(CriarUsuarioInputModel usuario, bool atualizaSeExistir)
         {
             var cUsuario = (await _usuarioRepo.Buscar(
                 x => x.UsuarioId == usuario.UsuarioId
@@ -67,7 +67,7 @@ namespace API.Servicos.Usuarios
                     ativo: usuario.Ativo
                     );
                 await Salvar(cUsuario);
-                return true;
+                return (true, cUsuario.UsuarioId); // <-- retorno com o novo ID
             }
             else if (atualizaSeExistir)
             {
@@ -84,7 +84,7 @@ namespace API.Servicos.Usuarios
                 await Atualizar(cUsuario);
 
             }
-            return false;
+            return (false, usuario.UsuarioId);
         }
 
         public async Task CriarParaImportacao(Guid usuarioID, Guid? empresaID, int? filialID, string email, string senhaHash, bool trocaSenhaProximoAcesso, string perfilAcesso, bool? ativo)

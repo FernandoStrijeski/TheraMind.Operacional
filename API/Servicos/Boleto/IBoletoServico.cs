@@ -1,5 +1,6 @@
 using API.modelos;
 using API.modelos.InputModels;
+using API.Operacional.modelos.ViewModels;
 using Dominio.Entidades;
 
 namespace API.Servicos.Boletos
@@ -10,6 +11,6 @@ namespace API.Servicos.Boletos
         /// Gera o binário do boleto
         /// </summary>
         /// <returns></returns>
-        byte[] GerarBoleto(CriarBoletoInputModel criarBoletoInputModel);
+        BoletoGeradoViewModel GerarBoleto(CriarBoletoInputModel criarBoletoInputModel);
     }
 }

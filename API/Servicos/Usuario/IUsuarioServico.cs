@@ -32,6 +32,6 @@ namespace API.Servicos.Usuarios
         /// <param name="usuario"></param>
         /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<bool> CriarOuAtualizar(CriarUsuarioInputModel usuario, bool atualizaSeExistir);
+        Task<(bool criado, Guid usuarioId)> CriarOuAtualizar(CriarUsuarioInputModel usuario, bool atualizaSeExistir);
     }
 }

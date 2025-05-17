@@ -18,6 +18,6 @@ namespace API.Servicos.Filiais
         /// <param name="filial"></param>
         /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<bool> CriarOuAtualizar(CriarFilialInputModel filial, bool atualizaSeExistir);
+        Task<(bool criado, int filialId)> CriarOuAtualizar(CriarFilialInputModel filial, bool atualizaSeExistir);
     }
 }

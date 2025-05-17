@@ -1,6 +1,7 @@
 using API.AdmissaoDigital.modelos.ViewModels;
 using API.Core.Filtros;
 using API.modelos.InputModels;
+using API.Operacional.modelos.ViewModels;
 using API.Servicos.Empresas;
 using Asp.Versioning;
 using AutoMapper;
@@ -57,17 +58,24 @@ namespace API.Controllers
         /// <summary>
         /// Cria ou atualiza uma empresa
         /// </summary>
-        /// <response code="202">Empresa criada com sucesso</response>
+        /// <response code="202">Empresa criada com sucesso. O corpo da resposta contém o ID gerado.</response>
         /// <response code="204">Empresa atualizada com sucesso</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
         [HttpPut("")]
         [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(EmpresaIdResponseViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult> Put([FromBody] CriarEmpresaInputModel body)
         {
-            bool criou = await _empresaServico.CriarOuAtualizar(body, true);
-            if (criou) return Accepted();
-            return NoContent();
+            var (criou, empresaId) = await _empresaServico.CriarOuAtualizar(body, true);
+
+            if (criou)
+                return Accepted(new EmpresaIdResponseViewModel(empresaId));
+
+            return NoContent(); // Atualizado com sucesso, sem corpo    
         }
     }
 }

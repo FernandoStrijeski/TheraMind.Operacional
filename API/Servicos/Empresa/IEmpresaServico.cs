@@ -17,6 +17,6 @@ namespace API.Servicos.Empresas
         /// <param name="empresa"></param>
         /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<bool> CriarOuAtualizar(CriarEmpresaInputModel empresa, bool atualizaSeExistir);
+        Task<(bool criado, Guid empresaId)> CriarOuAtualizar(CriarEmpresaInputModel empresa, bool atualizaSeExistir);
     }
 }

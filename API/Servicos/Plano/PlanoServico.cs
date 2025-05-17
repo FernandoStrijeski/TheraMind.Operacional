@@ -51,7 +51,7 @@ namespace API.Servicos.Planos
             await Comitar();
         }
 
-        public async Task<bool> CriarOuAtualizar(CriarPlanoInputModel plano, bool atualizaSeExistir)
+        public async Task<(bool criado, Guid planoId)> CriarOuAtualizar(CriarPlanoInputModel plano, bool atualizaSeExistir)
         {
             var cPlano = (await _planoRepo.Buscar(
                 x => x.PlanoId == plano.PlanoId
@@ -67,7 +67,7 @@ namespace API.Servicos.Planos
                     ativo: plano.Ativo
                     );
                 await Salvar(cPlano);
-                return true;
+                return (true, cPlano.PlanoId); // <-- retorno com o novo ID
             }
             else if (atualizaSeExistir)
             {
@@ -84,7 +84,7 @@ namespace API.Servicos.Planos
                 await Atualizar(cPlano);
 
             }
-            return false;
+            return (false, cPlano.PlanoId); // <-- retorno com o novo ID
         }
 
         public async Task CriarParaImportacao(Guid planoID, string nomePlano, decimal valorPlanoMensal, decimal valorPlanoAnual, decimal descontoPromocional, short descontoMeses, bool ativo)

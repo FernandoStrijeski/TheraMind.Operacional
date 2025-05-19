@@ -78,7 +78,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os tipos de identidades de gêneros pelo nome
+        /// Busca todos os tipos de identidades de gêneros
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

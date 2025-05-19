@@ -80,7 +80,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os convênios pelo nome
+        /// Busca todos os convênios
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

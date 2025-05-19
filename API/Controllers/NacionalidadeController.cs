@@ -77,7 +77,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todas as nacionalidade pelo nome
+        /// Busca todas as nacionalidade
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

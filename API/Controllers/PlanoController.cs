@@ -80,7 +80,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os planos pelo nome
+        /// Busca todos os planos
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

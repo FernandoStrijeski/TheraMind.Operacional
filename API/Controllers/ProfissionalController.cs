@@ -80,7 +80,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os profissionais pelo nome
+        /// Busca todos os profissionais
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

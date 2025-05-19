@@ -79,7 +79,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os tipos de documentos pelo nome
+        /// Busca todos os tipos de documentos
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

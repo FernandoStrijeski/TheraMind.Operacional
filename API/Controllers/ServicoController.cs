@@ -80,7 +80,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os serviços pelo nome
+        /// Busca todos os serviços
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

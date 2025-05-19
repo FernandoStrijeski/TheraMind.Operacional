@@ -78,7 +78,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os tipos de etnias pelo nome
+        /// Busca todos os tipos de etnias
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

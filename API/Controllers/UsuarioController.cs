@@ -82,7 +82,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os usuários pelo nome
+        /// Busca todos os usuários
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

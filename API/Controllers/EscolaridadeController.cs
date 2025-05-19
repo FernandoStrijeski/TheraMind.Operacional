@@ -78,7 +78,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os tipos de escolaridades pelo nome
+        /// Busca todos os tipos de escolaridades
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

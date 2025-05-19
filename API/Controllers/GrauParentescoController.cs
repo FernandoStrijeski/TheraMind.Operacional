@@ -77,7 +77,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os graus de parentescos pelo nome
+        /// Busca todos os graus de parentescos
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

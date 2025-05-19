@@ -78,7 +78,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os tipos de orientações sexuais pelo nome
+        /// Busca todos os tipos de orientações sexuais
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

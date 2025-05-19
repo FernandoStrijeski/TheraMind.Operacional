@@ -78,7 +78,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os tipos de logradouros pelo nome
+        /// Busca todos os tipos de logradouros
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

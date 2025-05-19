@@ -78,7 +78,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os tipos de estados civis pelo nome
+        /// Busca todos os tipos de estados civis
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

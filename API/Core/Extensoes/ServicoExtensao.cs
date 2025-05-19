@@ -5,6 +5,7 @@ using API.Servicos.Boletos;
 using API.Servicos.Cidades;
 using API.Servicos.Convenios;
 using API.Servicos.Empresas;
+using API.Servicos.EmpresasAssinaturas;
 using API.Servicos.Escolaridades;
 using API.Servicos.Estados;
 using API.Servicos.EstadosCivis;
@@ -26,6 +27,7 @@ using API.Servicos.TiposEtnias;
 using API.Servicos.TiposLogradouros;
 using API.Servicos.Usuarios;
 using Dominio.Core.Repositorios;
+using Dominio.EmpresasAssinaturas;
 using Dominio.PacotesFechados;
 using Dominio.Profissionais;
 using Dominio.ProfissionaisAcessos;
@@ -33,6 +35,7 @@ using Dominio.Repositorios;
 using Dominio.Service;
 using Infra.Context;
 using Infra.Core.Repositorios;
+using Infra.EmpresasAssinaturas;
 using Infra.PacotesFechados;
 using Infra.Profissionais;
 using Infra.ProfissionaisAcessos;
@@ -86,6 +89,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IProfissionalAcessoRepo, ProfissionalAcessoRepo>()
                 .AddScoped<IConvenioRepo, ConvenioRepo>()
                 .AddScoped<IPacoteFechadoRepo, PacoteFechadoRepo>()
+                .AddScoped<IEmpresaAssinaturaRepo, EmpresaAssinaturaRepo>()
 
                 
 
@@ -117,6 +121,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IProfissionalAcessoServico, ProfissionalAcessoServico>()                
                 .AddScoped<IConvenioServico, ConvenioServico>()                
                 .AddScoped<IPacoteFechadoServico, PacoteFechadoServico>()                
+                .AddScoped<IEmpresaAssinaturaServico, EmpresaAssinaturaServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

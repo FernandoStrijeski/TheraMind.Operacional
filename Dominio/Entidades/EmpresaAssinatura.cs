@@ -26,5 +26,44 @@ namespace Dominio.Entidades
         public virtual Empresa Empresa { get; set; } = null!;
         public virtual Plano Plano { get; set; } = null!;
         public virtual ICollection<EmpresaFatura> EmpresaFaturas { get; set; }
+
+
+        public static EmpresaAssinatura CriarParaImportacao(Guid empresaID, Guid planoID, short tipoPlano, decimal valorAtual, decimal? descontoPromocional, short? descontoMeses, DateTime? dataExpiracao, bool? ativo)
+        {
+            var pacoteFechado = new EmpresaAssinatura
+            {
+                EmpresaId = empresaID,
+                PlanoId = planoID,
+                TipoPlano = tipoPlano,  
+                ValorAtual = valorAtual,
+                DescontoPromocional = descontoPromocional,
+                DescontoMeses = descontoMeses,
+                DataExpiracao = dataExpiracao,
+                Ativo = ativo
+            };
+            return pacoteFechado;
+        }
+
+        public EmpresaAssinatura AtualizarPropriedades(Guid empresaID, Guid planoID, short tipoPlano, decimal valorAtual, decimal? descontoPromocional, short? descontoMeses, DateTime? dataExpiracao, bool? ativo)
+        {
+            EmpresaId = empresaID;
+            PlanoId = planoID;
+            TipoPlano = tipoPlano;
+            ValorAtual = valorAtual;
+
+            if (descontoPromocional != null)
+                DescontoPromocional = descontoPromocional;
+
+            if (descontoMeses != null)
+                DescontoMeses = descontoMeses;
+
+            if (dataExpiracao != null)
+                DataExpiracao = dataExpiracao;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

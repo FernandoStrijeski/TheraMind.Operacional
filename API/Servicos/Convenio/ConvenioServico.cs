@@ -90,21 +90,21 @@ namespace API.Servicos.Convenios
 
         public async Task CriarParaImportacao(int convenioID, Guid empresaID, int filialID, string nome, short tipoRepasse, decimal valorRepasse, bool? ativo)
         {
-            var cProfissional = (await _convenioRepo.Buscar(
+            var cConvenio = (await _convenioRepo.Buscar(
                             x => x.ConvenioId == convenioID)
                             ).FirstOrDefault();
-            if (cProfissional == null)
+            if (cConvenio == null)
             {
-                cProfissional = Convenio.CriarParaImportacao(empresaID, filialID, nome, tipoRepasse, valorRepasse, ativo);
-                await Salvar(cProfissional);
+                cConvenio = Convenio.CriarParaImportacao(empresaID, filialID, nome, tipoRepasse, valorRepasse, ativo);
+                await Salvar(cConvenio);
             }
             return;
         }
 
         public async Task Validar(int convenioID)
         {
-            var cPlano = (await _convenioRepo.Buscar(x => x.ConvenioId == convenioID)).FirstOrDefault();
-            if (cPlano == null)
+            var cConvenio = (await _convenioRepo.Buscar(x => x.ConvenioId == convenioID)).FirstOrDefault();
+            if (cConvenio == null)
             {
                 throw new HttpErroDeUsuario(
                     HttpStatusCode.NotFound,

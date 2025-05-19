@@ -14,6 +14,7 @@ using API.Servicos.GrauParentescos;
 using API.Servicos.IdentidadesGeneros;
 using API.Servicos.Nacionalidades;
 using API.Servicos.OrientacoesSexuais;
+using API.Servicos.PacotesFechados;
 using API.Servicos.Paises;
 using API.Servicos.Planos;
 using API.Servicos.Profissionais;
@@ -25,12 +26,14 @@ using API.Servicos.TiposEtnias;
 using API.Servicos.TiposLogradouros;
 using API.Servicos.Usuarios;
 using Dominio.Core.Repositorios;
+using Dominio.PacotesFechados;
 using Dominio.Profissionais;
 using Dominio.ProfissionaisAcessos;
 using Dominio.Repositorios;
 using Dominio.Service;
 using Infra.Context;
 using Infra.Core.Repositorios;
+using Infra.PacotesFechados;
 using Infra.Profissionais;
 using Infra.ProfissionaisAcessos;
 using Infra.Repositorios;
@@ -82,6 +85,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IProfissionalRepo, ProfissionalRepo>()
                 .AddScoped<IProfissionalAcessoRepo, ProfissionalAcessoRepo>()
                 .AddScoped<IConvenioRepo, ConvenioRepo>()
+                .AddScoped<IPacoteFechadoRepo, PacoteFechadoRepo>()
 
                 
 
@@ -112,6 +116,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IProfissionalServico, ProfissionalServico>()                
                 .AddScoped<IProfissionalAcessoServico, ProfissionalAcessoServico>()                
                 .AddScoped<IConvenioServico, ConvenioServico>()                
+                .AddScoped<IPacoteFechadoServico, PacoteFechadoServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

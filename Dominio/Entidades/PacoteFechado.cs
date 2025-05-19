@@ -23,5 +23,32 @@ namespace Dominio.Entidades
         public virtual Empresa Empresa { get; set; } = null!;
         public virtual Filial Filial { get; set; } = null!;
         public virtual ICollection<Cliente> Clientes { get; set; }
+
+
+        public static PacoteFechado CriarParaImportacao(Guid empresaID, int filialID, int quantidadeSessoes, decimal valorTotal, bool? ativo)
+        {
+            var pacoteFechado = new PacoteFechado
+            {
+                EmpresaId = empresaID,
+                FilialId = filialID,
+                QuantidadeSessoes = quantidadeSessoes,
+                ValorTotal = valorTotal,
+                Ativo = ativo
+            };
+            return pacoteFechado;
+        }
+
+        public PacoteFechado AtualizarPropriedades(Guid empresaID, int filialID, int quantidadeSessoes, decimal valorTotal, bool? ativo)
+        {
+            EmpresaId = empresaID;
+            FilialId = filialID;
+            QuantidadeSessoes = quantidadeSessoes;
+            ValorTotal = valorTotal;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

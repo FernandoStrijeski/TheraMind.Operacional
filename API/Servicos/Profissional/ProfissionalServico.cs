@@ -126,8 +126,8 @@ namespace API.Servicos.Profissionais
 
         public async Task Validar(Guid profissionalID)
         {
-            var cPlano = (await _profissionalRepo.Buscar(x => x.ProfissionalId == profissionalID)).FirstOrDefault();
-            if (cPlano == null)
+            var cProfissional = (await _profissionalRepo.Buscar(x => x.ProfissionalId == profissionalID)).FirstOrDefault();
+            if (cProfissional == null)
             {
                 throw new HttpErroDeUsuario(
                     HttpStatusCode.NotFound,

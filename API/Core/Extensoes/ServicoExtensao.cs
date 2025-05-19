@@ -3,6 +3,7 @@ using API.Operacional.Servicos.TiposLogradouros;
 using API.Servicos.Auditorias;
 using API.Servicos.Boletos;
 using API.Servicos.Cidades;
+using API.Servicos.Convenios;
 using API.Servicos.Empresas;
 using API.Servicos.Escolaridades;
 using API.Servicos.Estados;
@@ -80,6 +81,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IUsuarioRepo, UsuarioRepo>()
                 .AddScoped<IProfissionalRepo, ProfissionalRepo>()
                 .AddScoped<IProfissionalAcessoRepo, ProfissionalAcessoRepo>()
+                .AddScoped<IConvenioRepo, ConvenioRepo>()
 
                 
 
@@ -109,6 +111,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IGeradorCNAB240SicrediServico, GeradorCNAB240SicrediServico>()                
                 .AddScoped<IProfissionalServico, ProfissionalServico>()                
                 .AddScoped<IProfissionalAcessoServico, ProfissionalAcessoServico>()                
+                .AddScoped<IConvenioServico, ConvenioServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

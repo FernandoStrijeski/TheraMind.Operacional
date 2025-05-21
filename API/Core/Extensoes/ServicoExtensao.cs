@@ -5,6 +5,7 @@ using API.Servicos.Boletos;
 using API.Servicos.Cidades;
 using API.Servicos.Clientes;
 using API.Servicos.Convenios;
+using API.Servicos.DocumentosVariaveis;
 using API.Servicos.Empresas;
 using API.Servicos.EmpresasAssinaturas;
 using API.Servicos.Escolaridades;
@@ -29,6 +30,7 @@ using API.Servicos.TiposLogradouros;
 using API.Servicos.Usuarios;
 using Dominio.Clientes;
 using Dominio.Core.Repositorios;
+using Dominio.DocumentosVariaveis;
 using Dominio.EmpresasAssinaturas;
 using Dominio.PacotesFechados;
 using Dominio.Profissionais;
@@ -38,6 +40,7 @@ using Dominio.Service;
 using Infra.Clientes;
 using Infra.Context;
 using Infra.Core.Repositorios;
+using Infra.DocumentosVariaveis;
 using Infra.EmpresasAssinaturas;
 using Infra.PacotesFechados;
 using Infra.Profissionais;
@@ -94,6 +97,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IPacoteFechadoRepo, PacoteFechadoRepo>()
                 .AddScoped<IEmpresaAssinaturaRepo, EmpresaAssinaturaRepo>()
                 .AddScoped<IClienteRepo, ClienteRepo>()
+                .AddScoped<IDocumentoVariavelRepo, DocumentoVariavelRepo>()
 
                 
 
@@ -127,6 +131,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IPacoteFechadoServico, PacoteFechadoServico>()                
                 .AddScoped<IEmpresaAssinaturaServico, EmpresaAssinaturaServico>()                
                 .AddScoped<IClienteServico, ClienteServico>()                
+                .AddScoped<IDocumentoVariavelServico, DocumentoVariavelServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

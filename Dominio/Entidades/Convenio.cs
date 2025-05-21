@@ -27,7 +27,7 @@ namespace Dominio.Entidades
 
         public static Convenio CriarParaImportacao(Guid empresaID, int filialID, string nome, short tipoRepasse, decimal valorRepasse, bool? ativo)
         {
-            var profissionalAcesso = new Convenio
+            var convenio = new Convenio
             {
                 EmpresaId = empresaID,
                 FilialId = filialID,
@@ -36,7 +36,7 @@ namespace Dominio.Entidades
                 ValorRepasse = valorRepasse,
                 Ativo = ativo
             };
-            return profissionalAcesso;
+            return convenio;
         }
 
         public Convenio AtualizarPropriedades(Guid empresaID, int filialID, string nome, short tipoRepasse, decimal valorRepasse, bool? ativo)

@@ -147,7 +147,7 @@ namespace API
             app.UseMiddleware(typeof(InterceptarErroMiddleware));
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {

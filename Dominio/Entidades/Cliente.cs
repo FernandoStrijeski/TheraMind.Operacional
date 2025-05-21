@@ -87,5 +87,228 @@ namespace Dominio.Entidades
         public virtual ICollection<AcompanhamentoClinico> AcompanhamentoClinicos { get; set; }
         public virtual ICollection<AgendaSessaoItem> AgendaSessaoItems { get; set; }
         public virtual ICollection<AgendaSessao> AgendaSessaos { get; set; }
+
+
+        public static Cliente CriarParaImportacao(Guid empresaId, int filialId, string nomeCompleto, string? nomeSocial, DateTime dataNascimento,
+                                                  string cpf, string? rg, string email, string celular, string sexo, int? identidadeGeneroId,
+                                                  int? orientacaoSexualId, string? estadoCivilId, int? escolaridadeId, int? tipoEtniaId, string? profissao, bool? deficiencia, bool? naturalizado,
+                                                  DateTime? dataNaturalizacao, string? nomeResponsavel, string? celularResponsavel, string? emailResponsavel, string? cpfresponsavel, string? rgresponsavel,
+                                                  DateTime? dataNascimentoResponsavel, string? parenteNome, string? parenteCelular, int? parenteGrauParentescoId, string? tipoLogradouroId,
+                                                  string? endereco, int? numero, string? cep, string? complemento, string? bairro, int? cidadeId, string? uf, int? paisId,
+                                                  int? nacionalidadeId, short? planoPagamento, int? convenioId, decimal? convenioValorRepasse, int? pacoteFechadoId, short? planoMensalInicio,
+                                                  DateTime? planoMensalDataVencimento, short? pacoteFechadoNroSessoes, DateTime? pacoteFechadoDataInicio, DateTime? pacoteFechadoDataVencimento,
+                                                  decimal? valorPagamento, short? formaPagamento, short situacao, string? motivoDesativacao, Guid? usuarioID)
+        {
+            var cliente = new Cliente
+            {
+                EmpresaId = empresaId,
+                FilialId = filialId,
+                NomeCompleto = nomeCompleto,
+                NomeSocial = nomeSocial,
+                DataNascimento = dataNascimento,
+                Cpf = cpf,
+                Rg = rg,
+                Email = email,
+                Celular = celular,
+                Sexo = sexo,
+                IdentidadeGeneroId = identidadeGeneroId,
+                OrientacaoSexualId = orientacaoSexualId,
+                EstadoCivilId = estadoCivilId,
+                EscolaridadeId = escolaridadeId,
+                TipoEtniaId = tipoEtniaId,
+                Profissao = profissao,
+                Deficiencia = deficiencia,
+                Naturalizado = naturalizado,
+                DataNaturalizacao = dataNaturalizacao,
+                NomeResponsavel = nomeResponsavel,
+                CelularResponsavel = celularResponsavel,
+                EmailResponsavel = emailResponsavel,
+                Cpfresponsavel = cpfresponsavel,
+                Rgresponsavel = rgresponsavel,
+                DataNascimentoResponsavel = dataNascimentoResponsavel,
+                ParenteNome = parenteNome,
+                ParenteCelular = parenteCelular,
+                ParenteGrauParentescoId = parenteGrauParentescoId,
+                TipoLogradouroId = tipoLogradouroId,
+                Endereco = endereco,
+                Numero = numero,
+                Cep = cep,
+                Complemento = complemento,
+                Bairro = bairro,
+                CidadeId = cidadeId,
+                Uf = uf,
+                PaisId = paisId,
+                NacionalidadeId = nacionalidadeId,
+                PlanoPagamento = planoPagamento,
+                ConvenioId = convenioId,
+                ConvenioValorRepasse = convenioValorRepasse,
+                PacoteFechadoId = pacoteFechadoId,
+                PlanoMensalInicio = planoMensalInicio,
+                PlanoMensalDataVencimento = planoMensalDataVencimento,
+                PacoteFechadoNroSessoes = pacoteFechadoNroSessoes,
+                PacoteFechadoDataInicio = pacoteFechadoDataInicio,
+                PacoteFechadoDataVencimento = pacoteFechadoDataVencimento,
+                ValorPagamento = valorPagamento,
+                FormaPagamento = formaPagamento,
+                Situacao = situacao,
+                MotivoDesativacao = motivoDesativacao,
+                UsuarioID = usuarioID
+            };
+            return cliente;
+        }
+
+        public Cliente AtualizarPropriedades(Guid empresaId, int filialId, string nomeCompleto, string? nomeSocial, DateTime dataNascimento,
+                                            string cpf, string? rg, string email, string celular, string sexo, int? identidadeGeneroId,
+                                            int? orientacaoSexualId, string? estadoCivilId, int? escolaridadeId, int? tipoEtniaId, string? profissao, bool? deficiencia, bool? naturalizado,
+                                            DateTime? dataNaturalizacao, string? nomeResponsavel, string? celularResponsavel, string? emailResponsavel, string? cpfresponsavel, string? rgresponsavel,
+                                            DateTime? dataNascimentoResponsavel, string? parenteNome, string? parenteCelular, int? parenteGrauParentescoId, string? tipoLogradouroId,
+                                            string? endereco, int? numero, string? cep, string? complemento, string? bairro, int? cidadeId, string? uf, int? paisId,
+                                            int? nacionalidadeId, short? planoPagamento, int? convenioId, decimal? convenioValorRepasse, int? pacoteFechadoId, short? planoMensalInicio,
+                                            DateTime? planoMensalDataVencimento, short? pacoteFechadoNroSessoes, DateTime? pacoteFechadoDataInicio, DateTime? pacoteFechadoDataVencimento,
+                                            decimal? valorPagamento, short? formaPagamento, short situacao, string? motivoDesativacao, Guid? usuarioID)
+        {
+            EmpresaId = empresaId;
+            FilialId = filialId;
+            NomeCompleto = nomeCompleto;
+
+            if (nomeSocial != null)
+                NomeSocial = nomeSocial;
+
+            DataNascimento = dataNascimento;
+            Cpf = cpf;
+
+            if (rg != null)
+                Rg = rg;
+            Email = email;
+            Celular = celular;
+            Sexo = sexo;
+
+            if (identidadeGeneroId != null)
+                IdentidadeGeneroId = identidadeGeneroId;
+
+            if (orientacaoSexualId != null)
+                OrientacaoSexualId = orientacaoSexualId;
+
+            if (estadoCivilId != null)
+                EstadoCivilId = estadoCivilId;
+
+            if (escolaridadeId != null)
+                EscolaridadeId = escolaridadeId;
+
+            if (tipoEtniaId != null)
+                TipoEtniaId = tipoEtniaId;
+
+            if (profissao != null)
+                Profissao = profissao;
+
+            if (deficiencia != null)
+                Deficiencia = deficiencia;
+
+            if (naturalizado != null)
+                Naturalizado = naturalizado;
+
+            if (dataNaturalizacao != null)
+                DataNaturalizacao = dataNaturalizacao;
+
+            if (nomeResponsavel != null)
+                NomeResponsavel = nomeResponsavel;
+
+            if (celularResponsavel != null)
+                CelularResponsavel = celularResponsavel;
+
+            if (emailResponsavel != null)
+                EmailResponsavel = emailResponsavel;
+
+            if (cpfresponsavel != null)
+                Cpfresponsavel = cpfresponsavel;
+
+            if (rgresponsavel != null)
+                Rgresponsavel = rgresponsavel;
+
+            if (dataNascimentoResponsavel != null)
+                DataNascimentoResponsavel = dataNascimentoResponsavel;
+
+            if (parenteNome != null)
+                ParenteNome = parenteNome;
+
+            if (parenteCelular != null)
+                ParenteCelular = parenteCelular;
+
+            if (parenteGrauParentescoId != null)
+                ParenteGrauParentescoId = parenteGrauParentescoId;
+
+            if (tipoLogradouroId != null)
+                TipoLogradouroId = tipoLogradouroId;
+
+            if (endereco != null)
+                Endereco = endereco;
+
+            if (numero != null)
+                Numero = numero;
+
+            if (cep != null)
+                Cep = cep;
+
+            if (complemento != null)
+                Complemento = complemento;
+
+            if (bairro != null)
+                Bairro = bairro;
+
+            if (cidadeId != null)
+                CidadeId = cidadeId;
+
+            if (uf != null)
+                Uf = uf;
+
+            if (paisId != null)
+                PaisId = paisId;
+
+            if (nacionalidadeId != null)
+                NacionalidadeId = nacionalidadeId;
+
+            if (planoPagamento != null)
+                PlanoPagamento = planoPagamento;
+
+            if (convenioId != null)
+                ConvenioId = convenioId;
+
+            if (convenioValorRepasse != null)
+                ConvenioValorRepasse = convenioValorRepasse;
+
+            if (pacoteFechadoId != null)
+                PacoteFechadoId = pacoteFechadoId;
+
+            if (planoMensalInicio != null)
+                PlanoMensalInicio = planoMensalInicio;
+
+            if (planoMensalDataVencimento != null)
+                PlanoMensalDataVencimento = planoMensalDataVencimento;
+
+            if (pacoteFechadoNroSessoes != null)
+                PacoteFechadoNroSessoes = pacoteFechadoNroSessoes;
+
+            if (pacoteFechadoDataInicio != null)
+                PacoteFechadoDataInicio = pacoteFechadoDataInicio;
+
+            if (pacoteFechadoDataVencimento != null)
+                PacoteFechadoDataVencimento = pacoteFechadoDataVencimento;
+
+            if (valorPagamento != null)
+                ValorPagamento = valorPagamento;
+
+            if (formaPagamento != null)
+                FormaPagamento = formaPagamento;
+
+            Situacao = situacao;
+
+            if (motivoDesativacao != null)
+                MotivoDesativacao = motivoDesativacao;
+
+            if (usuarioID != null)
+                UsuarioID = usuarioID;
+
+            return this;
+        }
     }
 }

@@ -3,6 +3,7 @@ using API.Operacional.Servicos.TiposLogradouros;
 using API.Servicos.Auditorias;
 using API.Servicos.Boletos;
 using API.Servicos.Cidades;
+using API.Servicos.Clientes;
 using API.Servicos.Convenios;
 using API.Servicos.Empresas;
 using API.Servicos.EmpresasAssinaturas;
@@ -26,6 +27,7 @@ using API.Servicos.TiposDocumentos;
 using API.Servicos.TiposEtnias;
 using API.Servicos.TiposLogradouros;
 using API.Servicos.Usuarios;
+using Dominio.Clientes;
 using Dominio.Core.Repositorios;
 using Dominio.EmpresasAssinaturas;
 using Dominio.PacotesFechados;
@@ -33,6 +35,7 @@ using Dominio.Profissionais;
 using Dominio.ProfissionaisAcessos;
 using Dominio.Repositorios;
 using Dominio.Service;
+using Infra.Clientes;
 using Infra.Context;
 using Infra.Core.Repositorios;
 using Infra.EmpresasAssinaturas;
@@ -90,6 +93,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IConvenioRepo, ConvenioRepo>()
                 .AddScoped<IPacoteFechadoRepo, PacoteFechadoRepo>()
                 .AddScoped<IEmpresaAssinaturaRepo, EmpresaAssinaturaRepo>()
+                .AddScoped<IClienteRepo, ClienteRepo>()
 
                 
 
@@ -122,6 +126,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IConvenioServico, ConvenioServico>()                
                 .AddScoped<IPacoteFechadoServico, PacoteFechadoServico>()                
                 .AddScoped<IEmpresaAssinaturaServico, EmpresaAssinaturaServico>()                
+                .AddScoped<IClienteServico, ClienteServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

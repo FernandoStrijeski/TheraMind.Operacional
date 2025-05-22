@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Dominio.Convenios;
 using Dominio.Entidades;
-using Dominio.Profissionais;
 using Infra.Context;
 using Infra.Core.Repositorios;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infra.Profissionais
+namespace Infra.Convenios
 {
     public class ConvenioRepo : BaseRepositorio<Convenio>, IConvenioRepo
     {

@@ -6,7 +6,7 @@ using Dominio.Entidades;
 using System.Linq.Expressions;
 using System.Linq;
 
-namespace Dominio.Profissionais
+namespace Dominio.Convenios
 {
     public interface IConvenioRepo : IBaseRepositorio<Convenio>
     {

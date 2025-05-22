@@ -7,7 +7,7 @@ namespace Dominio.Entidades
     public partial class DocumentoModeloEmpresa
     {
         [Key]
-        public int DocumentoModeloId { get; set; }
+        public int DocumentoModeloEmpresaID { get; set; }
         public Guid EmpresaId { get; set; }
         public int FilialId { get; set; }
         public int TipoDocumentoId { get; set; }

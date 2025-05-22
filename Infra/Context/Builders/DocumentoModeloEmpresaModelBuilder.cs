@@ -10,11 +10,11 @@ namespace Infra.Context.Builders
         public void Configure(EntityTypeBuilder<DocumentoModeloEmpresa> builder)
         {
             builder.ToTable("DocumentoModeloEmpresa");
-            builder.HasKey(e => e.DocumentoModeloId)
-                .HasName("PK__Document__BA5C66194C50DE4A");
+            builder.HasKey(e => e.DocumentoModeloEmpresaID)
+                .HasName("PK__Document__5A4DAD1973444193");
 
 
-            builder.Property(e => e.DocumentoModeloId).HasColumnName("DocumentoModeloID");
+            builder.Property(e => e.DocumentoModeloEmpresaID).HasColumnName("DocumentoModeloEmpresaID");
 
             builder.Property(e => e.Ativo)
                 .IsRequired()
@@ -36,19 +36,19 @@ namespace Infra.Context.Builders
                 .WithMany(p => p.DocumentoModeloEmpresas)
                 .HasForeignKey(d => d.EmpresaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Documento__Empre__634EBE90");
+                .HasConstraintName("FK__Documento__Empre__405A880E");
 
             builder.HasOne(d => d.Filial)
                 .WithMany(p => p.DocumentoModeloEmpresas)
                 .HasForeignKey(d => d.FilialId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Documento__Filia__6442E2C9");
+                .HasConstraintName("FK__Documento__Filia__414EAC47");
 
             builder.HasOne(d => d.TipoDocumento)
                 .WithMany(p => p.DocumentoModeloEmpresas)
                 .HasForeignKey(d => d.TipoDocumentoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Documento__TipoD__65370702");
+                .HasConstraintName("FK__Documento__TipoD__4242D080");
         }        
     }
 }

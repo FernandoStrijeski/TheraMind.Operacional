@@ -16,7 +16,7 @@ namespace Dominio.Entidades
         public Guid EmpresaId { get; set; }
         public int FilialId { get; set; }
         public Guid ProfissionalId { get; set; }
-        public int AgendaId { get; set; }
+        public int AgendaProfissionalId { get; set; }
         public int ServicoId { get; set; }
         public int FormularioSessaoId { get; set; }
         public Guid? ClienteId { get; set; }

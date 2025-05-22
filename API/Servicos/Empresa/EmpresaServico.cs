@@ -1,14 +1,11 @@
-using AdmissaoDigital.Core.Utils.API.Core.Utils;
-using AdmissaoDigital.Core.Utils.Class;
 using API.Core.Exceptions;
 using API.Core.Utils;
 using API.modelos.InputModels;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
-using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
-using Microsoft.AspNetCore.Mvc;
+using Operacional.Core.Utils.Class;
 using System.Net;
 
 namespace API.Servicos.Empresas

@@ -13,7 +13,7 @@ namespace Infra.Context.Builders
 
             builder.Property(e => e.AgendaSessaoItemId).HasColumnName("AgendaSessaoItemID");
 
-            builder.Property(e => e.AgendaId).HasColumnName("AgendaID");
+            builder.Property(e => e.AgendaProfissionalId).HasColumnName("AgendaID");
 
             builder.Property(e => e.AgendaSessaoId).HasColumnName("AgendaSessaoID");
 
@@ -39,50 +39,50 @@ namespace Infra.Context.Builders
 
             builder.HasOne(d => d.Agenda)
                 .WithMany(p => p.AgendaSessaoItems)
-                .HasForeignKey(d => d.AgendaId)
+                .HasForeignKey(d => d.AgendaProfissionalId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AgendaSes__Agend__3B0BC30C");
+                .HasConstraintName("FK__AgendaSes__Agend__37C5420D");
 
             builder.HasOne(d => d.AgendaSessao)
                 .WithMany(p => p.AgendaSessaoItems)
                 .HasForeignKey(d => d.AgendaSessaoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AgendaSes__Agend__3EDC53F0");
+                .HasConstraintName("FK__AgendaSes__Agend__3B95D2F1");
 
             builder.HasOne(d => d.Cliente)
                 .WithMany(p => p.AgendaSessaoItems)
                 .HasForeignKey(d => d.ClienteId)
-                .HasConstraintName("FK__AgendaSes__Clien__3DE82FB7");
+                .HasConstraintName("FK__AgendaSes__Clien__3AA1AEB8");
 
             builder.HasOne(d => d.Empresa)
                 .WithMany(p => p.AgendaSessaoItems)
                 .HasForeignKey(d => d.EmpresaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AgendaSes__Empre__382F5661");
+                .HasConstraintName("FK__AgendaSes__Empre__34E8D562");
 
             builder.HasOne(d => d.Filial)
                 .WithMany(p => p.AgendaSessaoItems)
                 .HasForeignKey(d => d.FilialId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AgendaSes__Filia__39237A9A");
+                .HasConstraintName("FK__AgendaSes__Filia__35DCF99B");
 
             builder.HasOne(d => d.FormularioSessao)
                 .WithMany(p => p.AgendaSessaoItems)
                 .HasForeignKey(d => d.FormularioSessaoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AgendaSes__Formu__3CF40B7E");
+                .HasConstraintName("FK__AgendaSes__Formu__39AD8A7F");
 
             builder.HasOne(d => d.Profissional)
                 .WithMany(p => p.AgendaSessaoItems)
                 .HasForeignKey(d => d.ProfissionalId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AgendaSes__Profi__3A179ED3");
+                .HasConstraintName("FK__AgendaSes__Profi__36D11DD4");
 
             builder.HasOne(d => d.Servico)
                 .WithMany(p => p.AgendaSessaoItems)
                 .HasForeignKey(d => d.ServicoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AgendaSes__Servi__3BFFE745");
+                .HasConstraintName("FK__AgendaSes__Servi__38B96646");
         }        
     }
 }

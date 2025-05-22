@@ -11,10 +11,10 @@ namespace Infra.Context.Builders
         {
             builder.ToTable("AgendaProfissional");
 
-            builder.HasKey(e => e.AgendaId)
-                .HasName("PK__AgendaPr__B9D4363458871882");
+            builder.HasKey(e => e.AgendaProfissionalId)
+                .HasName("PK__AgendaPr__CE8CCC6159C8A869");
 
-            builder.Property(e => e.AgendaId).HasColumnName("AgendaID");
+            builder.Property(e => e.AgendaProfissionalId).HasColumnName("AgendaProfissionalID");
 
             builder.Property(e => e.DataCriacao)
                 .HasColumnType("datetime")
@@ -48,19 +48,19 @@ namespace Infra.Context.Builders
                 .WithMany(p => p.AgendaProfissionals)
                 .HasForeignKey(d => d.EmpresaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AgendaPro__Empre__2334397B");
+                .HasConstraintName("FK__AgendaPro__Empre__1FEDB87C");
 
             builder.HasOne(d => d.Filial)
                 .WithMany(p => p.AgendaProfissionals)
                 .HasForeignKey(d => d.FilialId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AgendaPro__Filia__24285DB4");
+                .HasConstraintName("FK__AgendaPro__Filia__20E1DCB5");
 
             builder.HasOne(d => d.Profissional)
                 .WithMany(p => p.AgendaProfissionals)
                 .HasForeignKey(d => d.ProfissionalId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AgendaPro__Profi__251C81ED");
+                .HasConstraintName("FK__AgendaPro__Profi__21D600EE");
         }
     }
 }

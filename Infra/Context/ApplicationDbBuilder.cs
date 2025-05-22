@@ -87,7 +87,6 @@ namespace Infra.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder                
-                .ApplyConfiguration(new AcessoAdministrativoModelBuilder())
                 .ApplyConfiguration(new AcompanhamentoClinicoModelBuilder())
                 .ApplyConfiguration(new AgendaProfissionalModelBuilder())
                 .ApplyConfiguration(new AgendaSessaoItemModelBuilder())
@@ -101,7 +100,6 @@ namespace Infra.Context
                 .ApplyConfiguration(new CidadeModelBuilder())
                 .ApplyConfiguration(new ClienteModelBuilder())
                 .ApplyConfiguration(new ConvenioModelBuilder())
-                .ApplyConfiguration(new DocumentoModelBuilder())
                 .ApplyConfiguration(new DocumentoModeloEmpresaModelBuilder())
                 .ApplyConfiguration(new DocumentoModeloEmpresaModelBuilder())
                 .ApplyConfiguration(new DocumentoModeloModelBuilder())

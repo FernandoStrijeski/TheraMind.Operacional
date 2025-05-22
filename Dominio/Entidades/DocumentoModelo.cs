@@ -16,5 +16,30 @@ namespace Dominio.Entidades
         public DateTime? DataCriacao { get; set; }
 
         public virtual TipoDocumento TipoDocumento { get; set; } = null!;
+        public static DocumentoModelo CriarParaImportacao(int tipoDocumentoId, string titulo, short conteudoTipo, string conteudo, bool? ativo)
+        {
+            var convenio = new DocumentoModelo
+            {
+                TipoDocumentoId = tipoDocumentoId,
+                Titulo = titulo,
+                ConteudoTipo = conteudoTipo,
+                Conteudo = conteudo,
+                Ativo = ativo
+            };
+            return convenio;
+        }
+
+        public DocumentoModelo AtualizarPropriedades(int tipoDocumentoId, string titulo, short conteudoTipo, string conteudo, bool? ativo)
+        {
+            TipoDocumentoId = tipoDocumentoId;
+            Titulo = titulo;
+            ConteudoTipo = conteudoTipo;
+            Conteudo = conteudo;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

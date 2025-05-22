@@ -6,6 +6,7 @@ using API.Servicos.Boletos;
 using API.Servicos.Cidades;
 using API.Servicos.Clientes;
 using API.Servicos.Convenios;
+using API.Servicos.DocumentosModelos;
 using API.Servicos.DocumentosVariaveis;
 using API.Servicos.Empresas;
 using API.Servicos.EmpresasAssinaturas;
@@ -31,7 +32,9 @@ using API.Servicos.TiposLogradouros;
 using API.Servicos.Usuarios;
 using Dominio.AgendasProfissionais;
 using Dominio.Clientes;
+using Dominio.Convenios;
 using Dominio.Core.Repositorios;
+using Dominio.DocumentosModelos;
 using Dominio.DocumentosVariaveis;
 using Dominio.EmpresasAssinaturas;
 using Dominio.PacotesFechados;
@@ -42,7 +45,9 @@ using Dominio.Service;
 using Infra.AgendasProfissionais;
 using Infra.Clientes;
 using Infra.Context;
+using Infra.Convenios;
 using Infra.Core.Repositorios;
+using Infra.DocumentosModelos;
 using Infra.DocumentosVariaveis;
 using Infra.EmpresasAssinaturas;
 using Infra.PacotesFechados;
@@ -102,6 +107,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IClienteRepo, ClienteRepo>()
                 .AddScoped<IDocumentoVariavelRepo, DocumentoVariavelRepo>()
                 .AddScoped<IAgendaProfissionalRepo, AgendaProfissionalRepo>()
+                .AddScoped<IDocumentoModeloRepo, DocumentoModeloRepo>()
 
                 
 
@@ -137,6 +143,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IClienteServico, ClienteServico>()                
                 .AddScoped<IDocumentoVariavelServico, DocumentoVariavelServico>()                
                 .AddScoped<IAgendaProfissionalServico, AgendaProfissionalServico>()                
+                .AddScoped<IDocumentoModeloServico, DocumentoModeloServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

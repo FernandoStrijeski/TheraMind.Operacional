@@ -1,6 +1,7 @@
 using API.Core.Exceptions;
 using API.modelos;
 using API.modelos.InputModels;
+using Dominio.Convenios;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Profissionais;

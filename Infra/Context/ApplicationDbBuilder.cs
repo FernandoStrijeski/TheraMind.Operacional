@@ -25,7 +25,6 @@ namespace Infra.Context
         }
 
         public virtual DbSet<Cidade> Cidades { get; set; } = null!;
-        public virtual DbSet<Documento> Documentos { get; set; } = null!;
         public virtual DbSet<Empresa> Empresas { get; set; } = null!;
         public virtual DbSet<Escolaridade> Escolaridades { get; set; } = null!;
         public virtual DbSet<Estado> Estados { get; set; } = null!;
@@ -37,8 +36,7 @@ namespace Infra.Context
         public virtual DbSet<Pais> Paises { get; set; } = null!;
         public virtual DbSet<TipoDocumento> TiposDocumentos { get; set; } = null!;
         public virtual DbSet<TipoEtnia> TiposEtnias { get; set; } = null!;
-        public virtual DbSet<TipoLogradouro> TiposLogradouros { get; set; } = null!;
-        public virtual DbSet<AcessoAdministrativo> AcessosAdministrativos { get; set; } = null!;
+        public virtual DbSet<TipoLogradouro> TiposLogradouros { get; set; } = null!;        
         public virtual DbSet<AcompanhamentoClinico> AcompanhamentosClinicos { get; set; } = null!;
         public virtual DbSet<AgendaProfissional> AgendasProfissionais { get; set; } = null!;
         public virtual DbSet<AgendaSessao> AgendasSessoes { get; set; } = null!;

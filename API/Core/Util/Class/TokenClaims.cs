@@ -1,4 +1,4 @@
-namespace AdmissaoDigital.Core.Utils.Class
+namespace Operacional.Core.Utils.Class
 {
     public class TokenClaims
     {

@@ -13,6 +13,7 @@ using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
+using API.Core.Utils;
 
 namespace API
 {
@@ -37,9 +38,9 @@ namespace API
                 .AdicionaInjecaoDeDependencia(Configuration)
                 .AddControllers()
                 .AddNewtonsoftJson(options =>
-                    {
-                        // Ignorar ciclos de referência no Newtonsoft.Json
-                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    {                        
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; // Ignorar ciclos de referência no Newtonsoft.Json
+                        options.SerializerSettings.Converters.Add(new TimeSpanNewtonsoftConverter()); // Adicionar o conversor de TimeSpan para o formato HH:mm:ss
                         options.SerializerSettings.ContractResolver = new DefaultContractResolver(); // Para evitar o loop
                     })
                     .AddJsonOptions(options =>
@@ -95,6 +96,8 @@ namespace API
             {
                 options.OperationFilter<SwaggerDefaultValues>();
 
+                options.SchemaFilter<TimeSpanSchemaFilter>();
+                
                 options.AddSecurityDefinition(
                     "Bearer",
                     new OpenApiSecurityScheme

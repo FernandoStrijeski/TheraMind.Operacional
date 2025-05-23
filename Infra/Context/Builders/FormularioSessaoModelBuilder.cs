@@ -30,19 +30,19 @@ namespace Infra.Context.Builders
             builder.Property(e => e.ServicoId).HasColumnName("ServicoID");
 
             builder.HasOne(d => d.Empresa)
-                .WithMany(p => p.FormularioSessaos)
+                .WithMany(p => p.FormularioSessoes)
                 .HasForeignKey(d => d.EmpresaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Formulari__Empre__69FBBC1F");
 
             builder.HasOne(d => d.Filial)
-                .WithMany(p => p.FormularioSessaos)
+                .WithMany(p => p.FormularioSessoes)
                 .HasForeignKey(d => d.FilialId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Formulari__Filia__6AEFE058");
 
             builder.HasOne(d => d.Servico)
-                .WithMany(p => p.FormularioSessaos)
+                .WithMany(p => p.FormularioSessoes)
                 .HasForeignKey(d => d.ServicoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Formulari__Servi__6BE40491");

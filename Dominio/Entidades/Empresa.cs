@@ -28,7 +28,7 @@ namespace Dominio.Entidades
             EmpresaFaturas = new HashSet<EmpresaFatura>();
             Filials = new HashSet<Filial>();
             FormularioSessaoCampos = new HashSet<FormularioSessaoCampo>();
-            FormularioSessaos = new HashSet<FormularioSessao>();
+            FormularioSessoes = new HashSet<FormularioSessao>();
             PacoteFechados = new HashSet<PacoteFechado>();
             ProfissionalAcessos = new HashSet<ProfissionalAcesso>();
             Salas = new HashSet<Sala>();
@@ -62,7 +62,7 @@ namespace Dominio.Entidades
         public virtual ICollection<EmpresaFatura> EmpresaFaturas { get; set; }
         public virtual ICollection<Filial> Filials { get; set; }
         public virtual ICollection<FormularioSessaoCampo> FormularioSessaoCampos { get; set; }
-        public virtual ICollection<FormularioSessao> FormularioSessaos { get; set; }
+        public virtual ICollection<FormularioSessao> FormularioSessoes { get; set; }
         public virtual ICollection<PacoteFechado> PacoteFechados { get; set; }
         public virtual ICollection<ProfissionalAcesso> ProfissionalAcessos { get; set; }
         public virtual ICollection<Sala> Salas { get; set; }

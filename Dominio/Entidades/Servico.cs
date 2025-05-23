@@ -11,7 +11,7 @@ namespace Dominio.Entidades
             AgendaSessaoItens = new HashSet<AgendaSessaoItem>();
             AgendaSessoes = new HashSet<AgendaSessao>();
             FormularioSessaoCampos = new HashSet<FormularioSessaoCampo>();
-            FormularioSessaos = new HashSet<FormularioSessao>();
+            FormularioSessoes = new HashSet<FormularioSessao>();
         }
 
         [Key]
@@ -29,7 +29,7 @@ namespace Dominio.Entidades
         public virtual ICollection<AgendaSessaoItem> AgendaSessaoItens { get; set; }
         public virtual ICollection<AgendaSessao> AgendaSessoes { get; set; }
         public virtual ICollection<FormularioSessaoCampo> FormularioSessaoCampos { get; set; }
-        public virtual ICollection<FormularioSessao> FormularioSessaos { get; set; }
+        public virtual ICollection<FormularioSessao> FormularioSessoes { get; set; }
 
         public static Servico CriarParaImportacao(Guid empresaID, int filialID, string nome, bool padrao, short? duracaoMinutos, bool? ativo)
         {

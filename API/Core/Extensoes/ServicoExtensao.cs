@@ -17,6 +17,7 @@ using API.Servicos.Escolaridades;
 using API.Servicos.Estados;
 using API.Servicos.EstadosCivis;
 using API.Servicos.Filiais;
+using API.Servicos.FormulariosSessoes;
 using API.Servicos.GeradorCNAB240Sicredi;
 using API.Servicos.GrauParentescos;
 using API.Servicos.IdentidadesGeneros;
@@ -43,6 +44,7 @@ using Dominio.DocumentosModelosEmpresas;
 using Dominio.DocumentosModelosEmpresasOpcoes;
 using Dominio.DocumentosVariaveis;
 using Dominio.EmpresasAssinaturas;
+using Dominio.FormulariosSessoes;
 using Dominio.PacotesFechados;
 using Dominio.Profissionais;
 using Dominio.ProfissionaisAcessos;
@@ -59,6 +61,7 @@ using Infra.DocumentosModelosEmpresas;
 using Infra.DocumentosModelosEmpresasOpcoes;
 using Infra.DocumentosVariaveis;
 using Infra.EmpresasAssinaturas;
+using Infra.FormulariosSessoes;
 using Infra.PacotesFechados;
 using Infra.Profissionais;
 using Infra.ProfissionaisAcessos;
@@ -120,6 +123,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IDocumentoModeloEmpresaRepo, DocumentoModeloEmpresaRepo>()
                 .AddScoped<IDocumentoModeloEmpresaOpcaoRepo, DocumentoModeloEmpresaOpcaoRepo>()
                 .AddScoped<IAgendaSessaoRepo, AgendaSessaoRepo>()
+                .AddScoped<IFormularioSessaoRepo, FormularioSessaoRepo>()
 
                 
 
@@ -159,6 +163,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IDocumentoModeloEmpresaServico, DocumentoModeloEmpresaServico>()                
                 .AddScoped<IDocumentoModeloEmpresaOpcaoServico, DocumentoModeloEmpresaOpcaoServico>()                
                 .AddScoped<IAgendaSessaoServico, AgendaSessaoServico>()                
+                .AddScoped<IFormularioSessaoServico, FormularioSessaoServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

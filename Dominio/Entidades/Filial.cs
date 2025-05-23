@@ -24,7 +24,7 @@ namespace Dominio.Entidades
             DocumentoModeloEmpresaOpcoes = new HashSet<DocumentoModeloEmpresaOpcao>();
             DocumentoModeloEmpresas = new HashSet<DocumentoModeloEmpresa>();
             FormularioSessaoCampos = new HashSet<FormularioSessaoCampo>();
-            FormularioSessaos = new HashSet<FormularioSessao>();
+            FormularioSessoes = new HashSet<FormularioSessao>();
             PacoteFechados = new HashSet<PacoteFechado>();
             ProfissionalAcessos = new HashSet<ProfissionalAcesso>();
             Salas = new HashSet<Sala>();
@@ -69,7 +69,7 @@ namespace Dominio.Entidades
         public virtual ICollection<DocumentoModeloEmpresaOpcao> DocumentoModeloEmpresaOpcoes { get; set; }
         public virtual ICollection<DocumentoModeloEmpresa> DocumentoModeloEmpresas { get; set; }
         public virtual ICollection<FormularioSessaoCampo> FormularioSessaoCampos { get; set; }
-        public virtual ICollection<FormularioSessao> FormularioSessaos { get; set; }
+        public virtual ICollection<FormularioSessao> FormularioSessoes { get; set; }
         public virtual ICollection<PacoteFechado> PacoteFechados { get; set; }
         public virtual ICollection<ProfissionalAcesso> ProfissionalAcessos { get; set; }
         public virtual ICollection<Sala> Salas { get; set; }

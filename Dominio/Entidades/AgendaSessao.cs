@@ -8,7 +8,7 @@ namespace Dominio.Entidades
     {
         public AgendaSessao()
         {
-            AgendaSessaoItems = new HashSet<AgendaSessaoItem>();
+            AgendaSessaoItens = new HashSet<AgendaSessaoItem>();
         }
 
         [Key]
@@ -44,6 +44,88 @@ namespace Dominio.Entidades
         public virtual Profissional Profissional { get; set; } = null!;
         public virtual Sala? Sala { get; set; }
         public virtual Servico Servico { get; set; } = null!;
-        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItems { get; set; }
+        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItens { get; set; }
+
+
+        public static AgendaSessao CriarParaImportacao(Guid empresaId, int filialId, Guid profissionalId, int agendaProfissionalId, int servicoId, int formularioSessaoId,
+                                                       Guid? clienteId, short tipoEvento, short modalidade, string? salaId, DateTime dataHoraInicio, DateTime dataHoraFim,
+                                                       bool? diaTodo, short tipoRecorrencia, DateTime? recorrenciaDataTermino, short? recorrenciaNroSessoes, short situacao,
+                                                       bool? pagamentoEfetuado, DateTime? dataCancelamento, string? motivoCancelamento, bool? mantemCobranca)
+        {
+            var agendaSessao = new AgendaSessao
+            {
+                EmpresaId = empresaId,
+                FilialId = filialId,
+                ProfissionalId = profissionalId,
+                AgendaProfissionalId = agendaProfissionalId,
+                ServicoId = servicoId,
+                FormularioSessaoId = formularioSessaoId,
+                ClienteId = clienteId,
+                TipoEvento = tipoEvento,
+                Modalidade = modalidade,
+                SalaId = salaId,
+                DataHoraInicio = dataHoraInicio,
+                DataHoraFim = dataHoraFim,
+                DiaTodo = diaTodo,
+                TipoRecorrencia = tipoRecorrencia,
+                RecorrenciaDataTermino = recorrenciaDataTermino,
+                RecorrenciaNroSessoes = recorrenciaNroSessoes,
+                Situacao = situacao,
+                PagamentoEfetuado = pagamentoEfetuado,
+                DataCancelamento = dataCancelamento,
+                MotivoCancelamento = motivoCancelamento,
+                MantemCobranca = mantemCobranca
+            };
+            return agendaSessao;
+        }
+
+        public AgendaSessao AtualizarPropriedades(Guid empresaId, int filialId, Guid profissionalId, int agendaProfissionalId, int servicoId, int formularioSessaoId,
+                                                 Guid? clienteId, short tipoEvento, short modalidade, string? salaId, DateTime dataHoraInicio, DateTime dataHoraFim,
+                                                 bool? diaTodo, short tipoRecorrencia, DateTime? recorrenciaDataTermino, short? recorrenciaNroSessoes, short situacao,
+                                                 bool? pagamentoEfetuado, DateTime? dataCancelamento, string? motivoCancelamento, bool? mantemCobranca)
+        {
+            EmpresaId = empresaId;
+            FilialId = filialId;
+            ProfissionalId = profissionalId;
+            AgendaProfissionalId = agendaProfissionalId;
+            ServicoId = servicoId;
+            FormularioSessaoId = formularioSessaoId;
+            ClienteId = clienteId;
+            TipoEvento = tipoEvento;
+            Modalidade = modalidade;
+
+            if (salaId != null)
+                SalaId = salaId;
+
+            DataHoraInicio = dataHoraInicio;
+            DataHoraFim = dataHoraFim;
+
+            if (diaTodo != null)
+                DiaTodo = diaTodo;
+
+            TipoRecorrencia = tipoRecorrencia;
+
+            if (RecorrenciaDataTermino != null)
+                RecorrenciaDataTermino = recorrenciaDataTermino;
+
+            if (recorrenciaNroSessoes != null)
+                RecorrenciaNroSessoes = recorrenciaNroSessoes;
+
+            Situacao = situacao;
+
+            if (pagamentoEfetuado != null)
+                PagamentoEfetuado = pagamentoEfetuado;
+
+            if (dataCancelamento != null)
+                DataCancelamento = dataCancelamento;
+
+            if (motivoCancelamento != null)
+                MotivoCancelamento = motivoCancelamento;
+
+            if (mantemCobranca != null)
+                MantemCobranca = mantemCobranca;
+
+            return this;
+        }
     }
 }

@@ -8,8 +8,8 @@ namespace Dominio.Entidades
     {
         public Servico()
         {
-            AgendaSessaoItems = new HashSet<AgendaSessaoItem>();
-            AgendaSessaos = new HashSet<AgendaSessao>();
+            AgendaSessaoItens = new HashSet<AgendaSessaoItem>();
+            AgendaSessoes = new HashSet<AgendaSessao>();
             FormularioSessaoCampos = new HashSet<FormularioSessaoCampo>();
             FormularioSessaos = new HashSet<FormularioSessao>();
         }
@@ -26,8 +26,8 @@ namespace Dominio.Entidades
 
         public virtual Empresa Empresa { get; set; } = null!;
         public virtual Filial Filial { get; set; } = null!;
-        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItems { get; set; }
-        public virtual ICollection<AgendaSessao> AgendaSessaos { get; set; }
+        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItens { get; set; }
+        public virtual ICollection<AgendaSessao> AgendaSessoes { get; set; }
         public virtual ICollection<FormularioSessaoCampo> FormularioSessaoCampos { get; set; }
         public virtual ICollection<FormularioSessao> FormularioSessaos { get; set; }
 

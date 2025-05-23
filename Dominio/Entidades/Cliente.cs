@@ -9,8 +9,8 @@ namespace Dominio.Entidades
         public Cliente()
         {
             AcompanhamentoClinicos = new HashSet<AcompanhamentoClinico>();
-            AgendaSessaoItems = new HashSet<AgendaSessaoItem>();
-            AgendaSessaos = new HashSet<AgendaSessao>();
+            AgendaSessaoItens = new HashSet<AgendaSessaoItem>();
+            AgendaSessoes = new HashSet<AgendaSessao>();
         }
 
         [Key]
@@ -85,8 +85,8 @@ namespace Dominio.Entidades
         public virtual TipoLogradouro? TipoLogradouro { get; set; }
         public virtual Estado? UfNavigation { get; set; }
         public virtual ICollection<AcompanhamentoClinico> AcompanhamentoClinicos { get; set; }
-        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItems { get; set; }
-        public virtual ICollection<AgendaSessao> AgendaSessaos { get; set; }
+        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItens { get; set; }
+        public virtual ICollection<AgendaSessao> AgendaSessoes { get; set; }
 
 
         public static Cliente CriarParaImportacao(Guid empresaId, int filialId, string nomeCompleto, string? nomeSocial, DateTime dataNascimento,

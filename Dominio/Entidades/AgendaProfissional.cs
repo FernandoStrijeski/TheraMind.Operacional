@@ -8,8 +8,8 @@ namespace Dominio.Entidades
     {
         public AgendaProfissional()
         {
-            AgendaSessaoItems = new HashSet<AgendaSessaoItem>();
-            AgendaSessaos = new HashSet<AgendaSessao>();
+            AgendaSessaoItens = new HashSet<AgendaSessaoItem>();
+            AgendaSessoes = new HashSet<AgendaSessao>();
         }
 
         [Key]
@@ -32,8 +32,8 @@ namespace Dominio.Entidades
         public virtual Empresa Empresa { get; set; } = null!;
         public virtual Filial Filial { get; set; } = null!;
         public virtual Profissional Profissional { get; set; } = null!;
-        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItems { get; set; }
-        public virtual ICollection<AgendaSessao> AgendaSessaos { get; set; }
+        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItens { get; set; }
+        public virtual ICollection<AgendaSessao> AgendaSessoes { get; set; }
 
         public static AgendaProfissional CriarParaImportacao(Guid empresaID, int filialID, Guid profissionalID, int exibicaoEmMinutos, int duracaoSessaoMinutos, TimeSpan horaInicio, TimeSpan horaFim, 
                                                             string? diasOcultados, bool? exibeSessoesAusentesCanc, bool? exibeComparecimento, bool? exibePagamento, bool? exibeFeriadosNacionais, short tipoVisualizacao)

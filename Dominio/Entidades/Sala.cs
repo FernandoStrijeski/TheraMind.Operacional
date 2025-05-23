@@ -8,7 +8,7 @@ namespace Dominio.Entidades
     {
         public Sala()
         {
-            AgendaSessaos = new HashSet<AgendaSessao>();
+            AgendaSessoes = new HashSet<AgendaSessao>();
         }
 
         [Key]
@@ -21,7 +21,7 @@ namespace Dominio.Entidades
 
         public virtual Empresa Empresa { get; set; } = null!;
         public virtual Filial Filial { get; set; } = null!;
-        public virtual ICollection<AgendaSessao> AgendaSessaos { get; set; }
+        public virtual ICollection<AgendaSessao> AgendaSessoes { get; set; }
 
         public static Sala CriarParaImportacao(Guid empresaID, int filialID, string nome, bool? ativo)
         {

@@ -84,21 +84,21 @@ namespace API.Servicos.ProfissionaisAcessos
 
         public async Task CriarParaImportacao(int profissionalAcessoID, Guid profissionalID, Guid empresaID, int filialID, short acessoTipo)
         {
-            var cProfissional = (await _profissionalAcessoRepo.Buscar(
+            var cProfissionalAcesso = (await _profissionalAcessoRepo.Buscar(
                             x => x.ProfissionalAcessoId == profissionalAcessoID)
                             ).FirstOrDefault();
-            if (cProfissional == null)
+            if (cProfissionalAcesso == null)
             {
-                cProfissional = ProfissionalAcesso.CriarParaImportacao(profissionalID, empresaID, filialID, acessoTipo);
-                await Salvar(cProfissional);
+                cProfissionalAcesso = ProfissionalAcesso.CriarParaImportacao(profissionalID, empresaID, filialID, acessoTipo);
+                await Salvar(cProfissionalAcesso);
             }
             return;
         }
 
         public async Task Validar(int profissionalAcessoID)
         {
-            var cPlano = (await _profissionalAcessoRepo.Buscar(x => x.ProfissionalAcessoId == profissionalAcessoID)).FirstOrDefault();
-            if (cPlano == null)
+            var cProfissionalAcesso = (await _profissionalAcessoRepo.Buscar(x => x.ProfissionalAcessoId == profissionalAcessoID)).FirstOrDefault();
+            if (cProfissionalAcesso == null)
             {
                 throw new HttpErroDeUsuario(
                     HttpStatusCode.NotFound,

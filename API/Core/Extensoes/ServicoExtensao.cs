@@ -1,6 +1,7 @@
 using API.Core.Util;
 using API.Operacional.Servicos.TiposLogradouros;
 using API.Servicos.AgendasProfissionais;
+using API.Servicos.AgendasSessoes;
 using API.Servicos.Auditorias;
 using API.Servicos.Boletos;
 using API.Servicos.Cidades;
@@ -33,6 +34,7 @@ using API.Servicos.TiposEtnias;
 using API.Servicos.TiposLogradouros;
 using API.Servicos.Usuarios;
 using Dominio.AgendasProfissionais;
+using Dominio.AgendasSessoes;
 using Dominio.Clientes;
 using Dominio.Convenios;
 using Dominio.Core.Repositorios;
@@ -47,6 +49,7 @@ using Dominio.ProfissionaisAcessos;
 using Dominio.Repositorios;
 using Dominio.Service;
 using Infra.AgendasProfissionais;
+using Infra.AgendasSessoes;
 using Infra.Clientes;
 using Infra.Context;
 using Infra.Convenios;
@@ -116,6 +119,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IDocumentoModeloRepo, DocumentoModeloRepo>()
                 .AddScoped<IDocumentoModeloEmpresaRepo, DocumentoModeloEmpresaRepo>()
                 .AddScoped<IDocumentoModeloEmpresaOpcaoRepo, DocumentoModeloEmpresaOpcaoRepo>()
+                .AddScoped<IAgendaSessaoRepo, AgendaSessaoRepo>()
 
                 
 
@@ -154,6 +158,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IDocumentoModeloServico, DocumentoModeloServico>()                
                 .AddScoped<IDocumentoModeloEmpresaServico, DocumentoModeloEmpresaServico>()                
                 .AddScoped<IDocumentoModeloEmpresaOpcaoServico, DocumentoModeloEmpresaOpcaoServico>()                
+                .AddScoped<IAgendaSessaoServico, AgendaSessaoServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

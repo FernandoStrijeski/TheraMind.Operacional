@@ -212,8 +212,8 @@ namespace API.Servicos.Clientes
 
         public async Task Validar(Guid clienteID)
         {
-            var cConvenio = (await _clienteRepo.Buscar(x => x.ClienteId == clienteID)).FirstOrDefault();
-            if (cConvenio == null)
+            var cCliente = (await _clienteRepo.Buscar(x => x.ClienteId == clienteID)).FirstOrDefault();
+            if (cCliente == null)
             {
                 throw new HttpErroDeUsuario(
                     HttpStatusCode.NotFound,

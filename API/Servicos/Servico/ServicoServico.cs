@@ -88,13 +88,13 @@ namespace API.Servicos.Servicos
 
         public async Task CriarParaImportacao(int servicoID, Guid empresaID, int filialID, string nome, bool padrao, short? duracaoMinutos, bool? ativo)
         {
-            var cPlano = (await _servicoRepo.Buscar(
+            var cServico = (await _servicoRepo.Buscar(
                             x => x.ServicoId == servicoID)
                             ).FirstOrDefault();
-            if (cPlano == null)
+            if (cServico == null)
             {
-                cPlano = Servico.CriarParaImportacao(empresaID, filialID, nome, padrao, duracaoMinutos, ativo);
-                await Salvar(cPlano);
+                cServico = Servico.CriarParaImportacao(empresaID, filialID, nome, padrao, duracaoMinutos, ativo);
+                await Salvar(cServico);
             }
             return;
         }

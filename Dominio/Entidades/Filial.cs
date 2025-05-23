@@ -11,8 +11,8 @@ namespace Dominio.Entidades
         {
             AcompanhamentoClinicos = new HashSet<AcompanhamentoClinico>();
             AgendaProfissionals = new HashSet<AgendaProfissional>();
-            AgendaSessaoItems = new HashSet<AgendaSessaoItem>();
-            AgendaSessaos = new HashSet<AgendaSessao>();
+            AgendaSessaoItens = new HashSet<AgendaSessaoItem>();
+            AgendaSessoes = new HashSet<AgendaSessao>();
             AnamneseGrupos = new HashSet<AnamneseGrupo>();
             AnamneseRespostaClientes = new HashSet<AnamneseRespostaCliente>();
             AnamneseSubGrupoQuestaoOpcoes = new HashSet<AnamneseSubGrupoQuestaoOpcao>();
@@ -56,8 +56,8 @@ namespace Dominio.Entidades
         public virtual TipoLogradouro? TipoLogradouro { get; set; }
         public virtual ICollection<AcompanhamentoClinico> AcompanhamentoClinicos { get; set; }
         public virtual ICollection<AgendaProfissional> AgendaProfissionals { get; set; }
-        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItems { get; set; }
-        public virtual ICollection<AgendaSessao> AgendaSessaos { get; set; }
+        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItens { get; set; }
+        public virtual ICollection<AgendaSessao> AgendaSessoes { get; set; }
         public virtual ICollection<AnamneseGrupo> AnamneseGrupos { get; set; }
         public virtual ICollection<AnamneseRespostaCliente> AnamneseRespostaClientes { get; set; }
         public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcoes { get; set; }

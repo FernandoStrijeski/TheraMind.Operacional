@@ -28,13 +28,13 @@ namespace Infra.Context.Builders
             builder.Property(e => e.Transparencia).HasColumnType("decimal(18, 0)");
 
             builder.HasOne(d => d.Empresa)
-                .WithMany(p => p.DocumentoModeloEmpresaOpcaos)
+                .WithMany(p => p.DocumentoModeloEmpresaOpcoes)
                 .HasForeignKey(d => d.EmpresaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Documento__Empre__5F492382");
 
             builder.HasOne(d => d.Filial)
-                .WithMany(p => p.DocumentoModeloEmpresaOpcaos)
+                .WithMany(p => p.DocumentoModeloEmpresaOpcoes)
                 .HasForeignKey(d => d.FilialId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Documento__Filia__603D47BB");

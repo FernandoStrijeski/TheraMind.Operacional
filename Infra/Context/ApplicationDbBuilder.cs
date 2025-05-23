@@ -45,13 +45,13 @@ namespace Infra.Context
         public virtual DbSet<AnamneseRespostaCliente> AnamnesesRespostaClientes { get; set; } = null!;
         public virtual DbSet<AnamneseSubGrupo> AnamnesesSubGrupos { get; set; } = null!;
         public virtual DbSet<AnamneseSubGrupoQuestao> AnamnesesSubGrupoQuestaos { get; set; } = null!;
-        public virtual DbSet<AnamneseSubGrupoQuestaoOpcao> AnamnesesSubGrupoQuestaoOpcaos { get; set; } = null!;
+        public virtual DbSet<AnamneseSubGrupoQuestaoOpcao> AnamnesesSubGrupoQuestaoOpcoes { get; set; } = null!;
         public virtual DbSet<Auditoria> Auditorias { get; set; } = null!;
         public virtual DbSet<Cliente> Clientes { get; set; } = null!;
         public virtual DbSet<Convenio> Convenios { get; set; } = null!;
         public virtual DbSet<DocumentoModelo> DocumentosModelos { get; set; } = null!;
         public virtual DbSet<DocumentoModeloEmpresa> DocumentosModeloEmpresas { get; set; } = null!;
-        public virtual DbSet<DocumentoModeloEmpresaOpcao> DocumentosModeloEmpresaOpcaos { get; set; } = null!;
+        public virtual DbSet<DocumentoModeloEmpresaOpcao> DocumentosModelosEmpresasOpcoes { get; set; } = null!;
         public virtual DbSet<DocumentoVariavel> DocumentosVariaveis { get; set; } = null!;
         public virtual DbSet<EmpresaAssinatura> EmpresasAssinaturas { get; set; } = null!;
         public virtual DbSet<EmpresaFatura> EmpresasFaturas { get; set; } = null!;
@@ -99,7 +99,7 @@ namespace Infra.Context
                 .ApplyConfiguration(new ClienteModelBuilder())
                 .ApplyConfiguration(new ConvenioModelBuilder())
                 .ApplyConfiguration(new DocumentoModeloEmpresaModelBuilder())
-                .ApplyConfiguration(new DocumentoModeloEmpresaModelBuilder())
+                .ApplyConfiguration(new DocumentoModeloEmpresaOpcaoModelBuilder())
                 .ApplyConfiguration(new DocumentoModeloModelBuilder())
                 .ApplyConfiguration(new DocumentoVariavelModelBuilder())
                 .ApplyConfiguration(new EmpresaAssinaturaModelBuilder())

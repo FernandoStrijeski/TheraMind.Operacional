@@ -36,37 +36,37 @@ namespace Infra.Context.Builders
             builder.Property(e => e.Texto).HasMaxLength(250);
 
             builder.HasOne(d => d.AnamneseGrupo)
-                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcaos)
+                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcoes)
                 .HasForeignKey(d => d.AnamneseGrupoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__AnamneseS__Anamn__3E1D39E1");
 
             builder.HasOne(d => d.AnamneseSubGrupo)
-                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcaos)
+                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcoes)
                 .HasForeignKey(d => d.AnamneseSubGrupoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__AnamneseS__Anamn__3F115E1A");
 
             builder.HasOne(d => d.AnamneseSubGrupoQuestao)
-                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcaos)
+                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcoes)
                 .HasForeignKey(d => d.AnamneseSubGrupoQuestaoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__AnamneseS__Anamn__40058253");
 
             builder.HasOne(d => d.Empresa)
-                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcaos)
+                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcoes)
                 .HasForeignKey(d => d.EmpresaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__AnamneseS__Empre__3B40CD36");
 
             builder.HasOne(d => d.Filial)
-                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcaos)
+                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcoes)
                 .HasForeignKey(d => d.FilialId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__AnamneseS__Filia__3C34F16F");
 
             builder.HasOne(d => d.Profissional)
-                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcaos)
+                .WithMany(p => p.AnamneseSubGrupoQuestaoOpcoes)
                 .HasForeignKey(d => d.ProfissionalId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__AnamneseS__Profi__3D2915A8");

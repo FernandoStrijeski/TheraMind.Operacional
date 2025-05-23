@@ -16,13 +16,13 @@ namespace Dominio.Entidades
             AgendaSessaos = new HashSet<AgendaSessao>();
             AnamneseGrupos = new HashSet<AnamneseGrupo>();
             AnamneseRespostaClientes = new HashSet<AnamneseRespostaCliente>();
-            AnamneseSubGrupoQuestaoOpcaos = new HashSet<AnamneseSubGrupoQuestaoOpcao>();
+            AnamneseSubGrupoQuestaoOpcoes = new HashSet<AnamneseSubGrupoQuestaoOpcao>();
             AnamneseSubGrupoQuestaos = new HashSet<AnamneseSubGrupoQuestao>();
             AnamneseSubGrupos = new HashSet<AnamneseSubGrupo>();
             Auditoria = new HashSet<Auditoria>();
             Clientes = new HashSet<Cliente>();
             Convenios = new HashSet<Convenio>();
-            DocumentoModeloEmpresaOpcaos = new HashSet<DocumentoModeloEmpresaOpcao>();
+            DocumentoModeloEmpresaOpcoes = new HashSet<DocumentoModeloEmpresaOpcao>();
             DocumentoModeloEmpresas = new HashSet<DocumentoModeloEmpresa>();
             EmpresaAssinaturas = new HashSet<EmpresaAssinatura>();
             EmpresaFaturas = new HashSet<EmpresaFatura>();
@@ -50,13 +50,13 @@ namespace Dominio.Entidades
         public virtual ICollection<AgendaSessao> AgendaSessaos { get; set; }
         public virtual ICollection<AnamneseGrupo> AnamneseGrupos { get; set; }
         public virtual ICollection<AnamneseRespostaCliente> AnamneseRespostaClientes { get; set; }
-        public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcaos { get; set; }
+        public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcoes { get; set; }
         public virtual ICollection<AnamneseSubGrupoQuestao> AnamneseSubGrupoQuestaos { get; set; }
         public virtual ICollection<AnamneseSubGrupo> AnamneseSubGrupos { get; set; }
         public virtual ICollection<Auditoria> Auditoria { get; set; }
         public virtual ICollection<Cliente> Clientes { get; set; }
         public virtual ICollection<Convenio> Convenios { get; set; }
-        public virtual ICollection<DocumentoModeloEmpresaOpcao> DocumentoModeloEmpresaOpcaos { get; set; }
+        public virtual ICollection<DocumentoModeloEmpresaOpcao> DocumentoModeloEmpresaOpcoes { get; set; }
         public virtual ICollection<DocumentoModeloEmpresa> DocumentoModeloEmpresas { get; set; }
         public virtual ICollection<EmpresaAssinatura> EmpresaAssinaturas { get; set; }
         public virtual ICollection<EmpresaFatura> EmpresaFaturas { get; set; }

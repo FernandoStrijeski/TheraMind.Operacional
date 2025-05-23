@@ -9,7 +9,7 @@ namespace Dominio.Entidades
         public AnamneseSubGrupo()
         {
             AnamneseRespostaClientes = new HashSet<AnamneseRespostaCliente>();
-            AnamneseSubGrupoQuestaoOpcaos = new HashSet<AnamneseSubGrupoQuestaoOpcao>();
+            AnamneseSubGrupoQuestaoOpcoes = new HashSet<AnamneseSubGrupoQuestaoOpcao>();
             AnamneseSubGrupoQuestaos = new HashSet<AnamneseSubGrupoQuestao>();
         }
 
@@ -29,7 +29,7 @@ namespace Dominio.Entidades
         public virtual Filial Filial { get; set; } = null!;
         public virtual Profissional Profissional { get; set; } = null!;
         public virtual ICollection<AnamneseRespostaCliente> AnamneseRespostaClientes { get; set; }
-        public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcaos { get; set; }
+        public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcoes { get; set; }
         public virtual ICollection<AnamneseSubGrupoQuestao> AnamneseSubGrupoQuestaos { get; set; }
     }
 }

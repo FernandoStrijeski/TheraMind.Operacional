@@ -8,6 +8,7 @@ using API.Servicos.Clientes;
 using API.Servicos.Convenios;
 using API.Servicos.DocumentosModelos;
 using API.Servicos.DocumentosModelosEmpresas;
+using API.Servicos.DocumentosModelosEmpresasOpcoes;
 using API.Servicos.DocumentosVariaveis;
 using API.Servicos.Empresas;
 using API.Servicos.EmpresasAssinaturas;
@@ -37,6 +38,7 @@ using Dominio.Convenios;
 using Dominio.Core.Repositorios;
 using Dominio.DocumentosModelos;
 using Dominio.DocumentosModelosEmpresas;
+using Dominio.DocumentosModelosEmpresasOpcoes;
 using Dominio.DocumentosVariaveis;
 using Dominio.EmpresasAssinaturas;
 using Dominio.PacotesFechados;
@@ -51,6 +53,7 @@ using Infra.Convenios;
 using Infra.Core.Repositorios;
 using Infra.DocumentosModelos;
 using Infra.DocumentosModelosEmpresas;
+using Infra.DocumentosModelosEmpresasOpcoes;
 using Infra.DocumentosVariaveis;
 using Infra.EmpresasAssinaturas;
 using Infra.PacotesFechados;
@@ -112,6 +115,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IAgendaProfissionalRepo, AgendaProfissionalRepo>()
                 .AddScoped<IDocumentoModeloRepo, DocumentoModeloRepo>()
                 .AddScoped<IDocumentoModeloEmpresaRepo, DocumentoModeloEmpresaRepo>()
+                .AddScoped<IDocumentoModeloEmpresaOpcaoRepo, DocumentoModeloEmpresaOpcaoRepo>()
 
                 
 
@@ -149,6 +153,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IAgendaProfissionalServico, AgendaProfissionalServico>()                
                 .AddScoped<IDocumentoModeloServico, DocumentoModeloServico>()                
                 .AddScoped<IDocumentoModeloEmpresaServico, DocumentoModeloEmpresaServico>()                
+                .AddScoped<IDocumentoModeloEmpresaOpcaoServico, DocumentoModeloEmpresaOpcaoServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

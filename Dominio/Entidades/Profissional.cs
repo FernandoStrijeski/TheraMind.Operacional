@@ -13,7 +13,7 @@ namespace Dominio.Entidades
             AgendaSessaoItems = new HashSet<AgendaSessaoItem>();
             AgendaSessaos = new HashSet<AgendaSessao>();
             AnamneseRespostaClientes = new HashSet<AnamneseRespostaCliente>();
-            AnamneseSubGrupoQuestaoOpcaos = new HashSet<AnamneseSubGrupoQuestaoOpcao>();
+            AnamneseSubGrupoQuestaoOpcoes = new HashSet<AnamneseSubGrupoQuestaoOpcao>();
             AnamneseSubGrupoQuestaos = new HashSet<AnamneseSubGrupoQuestao>();
             AnamneseSubGrupos = new HashSet<AnamneseSubGrupo>();
             ProfissionalAcessos = new HashSet<ProfissionalAcesso>();
@@ -45,7 +45,7 @@ namespace Dominio.Entidades
         public virtual ICollection<AgendaSessaoItem> AgendaSessaoItems { get; set; }
         public virtual ICollection<AgendaSessao> AgendaSessaos { get; set; }
         public virtual ICollection<AnamneseRespostaCliente> AnamneseRespostaClientes { get; set; }
-        public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcaos { get; set; }
+        public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcoes { get; set; }
         public virtual ICollection<AnamneseSubGrupoQuestao> AnamneseSubGrupoQuestaos { get; set; }
         public virtual ICollection<AnamneseSubGrupo> AnamneseSubGrupos { get; set; }
         public virtual ICollection<ProfissionalAcesso> ProfissionalAcessos { get; set; }

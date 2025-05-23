@@ -20,5 +20,35 @@ namespace Dominio.Entidades
         public virtual Empresa Empresa { get; set; } = null!;
         public virtual Filial Filial { get; set; } = null!;
         public virtual TipoDocumento TipoDocumento { get; set; } = null!;
+
+        public static DocumentoModeloEmpresa CriarParaImportacao(Guid empresaId, int filialId, int tipoDocumentoId, string titulo, short conteudoTipo, string conteudo, bool? ativo)
+        {
+            var convenio = new DocumentoModeloEmpresa
+            {
+                EmpresaId = empresaId,
+                FilialId = filialId,
+                TipoDocumentoId = tipoDocumentoId,
+                Titulo = titulo,
+                ConteudoTipo = conteudoTipo,
+                Conteudo = conteudo,
+                Ativo = ativo
+            };
+            return convenio;
+        }
+
+        public DocumentoModeloEmpresa AtualizarPropriedades(Guid empresaId, int filialId, int tipoDocumentoId, string titulo, short conteudoTipo, string conteudo, bool? ativo)
+        {
+            EmpresaId = empresaId;
+            FilialId = filialId;
+            TipoDocumentoId = tipoDocumentoId;
+            Titulo = titulo;
+            ConteudoTipo = conteudoTipo;
+            Conteudo = conteudo;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

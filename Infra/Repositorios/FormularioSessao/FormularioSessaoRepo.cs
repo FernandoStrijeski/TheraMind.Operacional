@@ -23,7 +23,7 @@ namespace Infra.FormulariosSessoes
             int take = 0
             )
         {
-            IQueryable<FormularioSessao> query = _dbSet.AsNoTracking();
+            IQueryable<FormularioSessao> query = _dbSet.AsNoTracking().Include(formularioSessao => formularioSessao.FormularioSessaoCampos);
 
             if (filtro != null)
                 query = query.Where(filtro);
@@ -42,7 +42,7 @@ namespace Infra.FormulariosSessoes
 
         public async Task<FormularioSessao>? BuscarPorID(int formularioSessaoID)
         {
-            var query = _dbSet.AsQueryable();
+            var query = _dbSet.AsQueryable().Include(formularioSessao => formularioSessao.FormularioSessaoCampos);
 
             var formularioSessao = await query.FirstOrDefaultAsync(where => where.FormularioSessaoId == formularioSessaoID);
             return formularioSessao;

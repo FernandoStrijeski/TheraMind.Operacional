@@ -1,3 +1,5 @@
+using Dominio.Entidades;
+
 namespace API.AdmissaoDigital.modelos.ViewModels
 {
     public class FormularioSessaoViewModel
@@ -8,5 +10,6 @@ namespace API.AdmissaoDigital.modelos.ViewModels
         public int ServicoId { get; set; }
         public string Nome { get; set; } = null!;
         public bool? Ativo { get; set; }
+        public virtual ICollection<FormularioSessaoCampoViewModel> FormularioSessaoCampos { get; set; }
     }
 }

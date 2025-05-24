@@ -12,8 +12,7 @@ namespace API.AdmissaoDigital.modelos.ViewModels
         public int ServicoId { get; set; }
 
         public virtual ServicoViewModel Servico { get; set; } = null!;
-        public int FormularioSessaoId { get; set; }
-        //public virtual FormularioSessaoViewModel FormularioSessao { get; set; } = null!;
+        public int FormularioSessaoId { get; set; }        
         public Guid? ClienteId { get; set; }
         public virtual ClienteViewModel Cliente { get; set; } = null!;
         public short TipoEvento { get; set; }
@@ -31,6 +30,6 @@ namespace API.AdmissaoDigital.modelos.ViewModels
         public DateTime? DataCancelamento { get; set; }
         public string? MotivoCancelamento { get; set; }
         public bool? MantemCobranca { get; set; }
-        //public virtual ICollection<AgendaSessaoItemViewModel> AgendaSessaoItens { get; set; }
+        public virtual ICollection<AgendaSessaoItemViewModel> AgendaSessaoItens { get; set; }
     }
 }

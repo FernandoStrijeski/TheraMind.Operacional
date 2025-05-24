@@ -13,7 +13,7 @@ namespace API.modelos.InputModels
         public Guid ProfissionalId { get; set; }
         public int AgendaProfissionalId { get; set; }
         public int ServicoId { get; set; }
-        public int FormularioSessaoId { get; set; }
+        public int FormularioSessaoId { get; set; }       
         public Guid? ClienteId { get; set; }
         public short TipoEvento { get; set; }
         public short Modalidade { get; set; }

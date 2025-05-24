@@ -9,7 +9,7 @@ namespace API.Servicos.FormularioSessaoCampos
         /// <summary>
         /// Busca o campo do formulário da sessão pelo ID
         /// </summary>
-        /// <param name="formularioSessaoID"></param>
+        /// <param name="formularioSessaoCampoID"></param>
         /// <returns></returns>
         Task<FormularioSessaoCampo>? BuscarPorID(int formularioSessaoCampoID);
 

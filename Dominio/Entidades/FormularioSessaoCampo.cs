@@ -20,6 +20,7 @@ namespace Dominio.Entidades
         public virtual Filial Filial { get; set; } = null!;
         public virtual FormularioSessao FormularioSessao { get; set; } = null!;
         public virtual Servico Servico { get; set; } = null!;
+        public virtual ICollection<AgendaSessaoItem> AgendaSessaoItems { get; set; }
 
         public static FormularioSessaoCampo CriarParaImportacao(Guid empresaID, int filialID, int servicoID, int formularioSessaoID, string nomeCampo, bool? ativo)
         {

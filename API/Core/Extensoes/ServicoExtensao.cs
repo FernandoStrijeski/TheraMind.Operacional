@@ -1,6 +1,8 @@
 using API.Core.Util;
 using API.Operacional.Servicos.TiposLogradouros;
+using API.Servicos.AgendaSessaoItens;
 using API.Servicos.AgendasProfissionais;
+using API.Servicos.AgendasSessaoItens;
 using API.Servicos.AgendasSessoes;
 using API.Servicos.Auditorias;
 using API.Servicos.Boletos;
@@ -36,6 +38,7 @@ using API.Servicos.TiposEtnias;
 using API.Servicos.TiposLogradouros;
 using API.Servicos.Usuarios;
 using Dominio.AgendasProfissionais;
+using Dominio.AgendasSessaoItens;
 using Dominio.AgendasSessoes;
 using Dominio.Clientes;
 using Dominio.Convenios;
@@ -54,6 +57,7 @@ using Dominio.ProfissionaisAcessos;
 using Dominio.Repositorios;
 using Dominio.Service;
 using Infra.AgendasProfissionais;
+using Infra.AgendasSessaoItens;
 using Infra.AgendasSessoes;
 using Infra.Clientes;
 using Infra.Context;
@@ -127,8 +131,9 @@ namespace API.Core.Extensoes
                 .AddScoped<IDocumentoModeloEmpresaRepo, DocumentoModeloEmpresaRepo>()
                 .AddScoped<IDocumentoModeloEmpresaOpcaoRepo, DocumentoModeloEmpresaOpcaoRepo>()
                 .AddScoped<IAgendaSessaoRepo, AgendaSessaoRepo>()
+                .AddScoped<IAgendaSessaoItemRepo, AgendaSessaoItemRepo>()
                 .AddScoped<IFormularioSessaoRepo, FormularioSessaoRepo>()
-                .AddScoped<IFormularioSessaoCampoRepo, FormularioSessaoCampoRepo>()
+                .AddScoped<IFormularioSessaoCampoRepo, FormularioSessaoCampoRepo>()                
 
                 
 
@@ -168,6 +173,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IDocumentoModeloEmpresaServico, DocumentoModeloEmpresaServico>()                
                 .AddScoped<IDocumentoModeloEmpresaOpcaoServico, DocumentoModeloEmpresaOpcaoServico>()                
                 .AddScoped<IAgendaSessaoServico, AgendaSessaoServico>()                
+                .AddScoped<IAgendaSessaoItemServico, AgendaSessaoItemServico>()          
                 .AddScoped<IFormularioSessaoServico, FormularioSessaoServico>()                
                 .AddScoped<IFormularioSessaoCampoServico, FormularioSessaoCampoServico>()                
 

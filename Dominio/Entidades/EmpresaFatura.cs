@@ -25,5 +25,54 @@ namespace Dominio.Entidades
         public virtual Empresa Empresa { get; set; } = null!;
         public virtual EmpresaAssinatura EmpresaAssinatura { get; set; } = null!;
         public virtual Plano Plano { get; set; } = null!;
+
+        public static EmpresaFatura CriarParaImportacao(Guid empresaAssinaturaID, Guid empresaID, Guid planoID, string descricao, DateTime dataInicio, DateTime dataExpiracao, decimal valor,
+                                                        short? formaPagamento, byte[]? anexo, short situacao, DateTime? dataPagamento, bool? ativo)
+        {
+            var convenio = new EmpresaFatura
+            {
+                EmpresaId = empresaID,
+                EmpresaAssinaturaId = empresaAssinaturaID,
+                PlanoId = planoID,
+                Descricao = descricao,
+                DataInicio = dataInicio,
+                DataExpiracao = dataExpiracao,
+                Valor = valor,
+                FormaPagamento = formaPagamento,
+                Anexo = anexo,
+                Situacao = situacao,
+                DataPagamento = dataPagamento,
+                Ativo = ativo
+            };
+            return convenio;
+        }
+
+        public EmpresaFatura AtualizarPropriedades(Guid empresaAssinaturaID, Guid empresaID, Guid planoID, string descricao, DateTime dataInicio, DateTime dataExpiracao, decimal valor,
+                                                        short? formaPagamento, byte[]? anexo, short situacao, DateTime? dataPagamento, bool? ativo)
+        {
+            EmpresaId = empresaID;
+            EmpresaAssinaturaId = empresaAssinaturaID;
+            PlanoId = planoID;
+            Descricao = descricao;
+            DataInicio = dataInicio;
+            DataExpiracao = dataExpiracao;
+            Valor = valor;
+
+            if (formaPagamento != null)
+                FormaPagamento = formaPagamento;
+
+            if (anexo != null)
+                Anexo = anexo;
+
+            Situacao = situacao;
+
+            if (dataPagamento != null)
+                DataPagamento = dataPagamento;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

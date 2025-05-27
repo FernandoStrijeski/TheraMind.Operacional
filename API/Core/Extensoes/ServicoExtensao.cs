@@ -14,6 +14,7 @@ using API.Servicos.DocumentosModelos;
 using API.Servicos.DocumentosModelosEmpresas;
 using API.Servicos.DocumentosModelosEmpresasOpcoes;
 using API.Servicos.DocumentosVariaveis;
+using API.Servicos.EmpresaFaturas;
 using API.Servicos.Empresas;
 using API.Servicos.EmpresasAssinaturas;
 using API.Servicos.Escolaridades;
@@ -49,7 +50,9 @@ using Dominio.DocumentosModelos;
 using Dominio.DocumentosModelosEmpresas;
 using Dominio.DocumentosModelosEmpresasOpcoes;
 using Dominio.DocumentosVariaveis;
+using Dominio.EmpresaFaturas;
 using Dominio.EmpresasAssinaturas;
+using Dominio.Entidades;
 using Dominio.FormulariosSessaoCampos;
 using Dominio.FormulariosSessoes;
 using Dominio.PacotesFechados;
@@ -69,6 +72,7 @@ using Infra.DocumentosModelos;
 using Infra.DocumentosModelosEmpresas;
 using Infra.DocumentosModelosEmpresasOpcoes;
 using Infra.DocumentosVariaveis;
+using Infra.EmpresaFaturas;
 using Infra.EmpresasAssinaturas;
 using Infra.FormularioSessaoCampos;
 using Infra.FormulariosSessoes;
@@ -137,6 +141,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IFormularioSessaoRepo, FormularioSessaoRepo>()
                 .AddScoped<IFormularioSessaoCampoRepo, FormularioSessaoCampoRepo>()                
                 .AddScoped<IAcompanhamentoClinicoRepo, AcompanhamentoClinicoRepo>()                
+                .AddScoped<IEmpresaFaturaRepo, EmpresaFaturaRepo>()                
 
                 
 
@@ -180,6 +185,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IFormularioSessaoServico, FormularioSessaoServico>()                
                 .AddScoped<IFormularioSessaoCampoServico, FormularioSessaoCampoServico>()                
                 .AddScoped<IAcompanhamentoClinicoServico, AcompanhamentoClinicoServico>()                
+                .AddScoped<IEmpresaFaturaServico, EmpresaFaturaServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

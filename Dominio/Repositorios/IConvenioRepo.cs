@@ -16,6 +16,6 @@ namespace Dominio.Convenios
             int skip = 0,
             int take = 0
             );        
-        Task<Convenio>? BuscarPorID(int convenioID);
+        Task<Convenio>? BuscarPorID(int empresaFaturaID);
     }
 }

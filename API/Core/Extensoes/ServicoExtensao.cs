@@ -26,6 +26,8 @@ using API.Servicos.FormulariosSessoes;
 using API.Servicos.GeradorCNAB240Sicredi;
 using API.Servicos.GrauParentescos;
 using API.Servicos.IdentidadesGeneros;
+using API.Servicos.ModelosAnamneseG;
+using API.Servicos.ModelosAnamneseSG;
 using API.Servicos.Nacionalidades;
 using API.Servicos.OrientacoesSexuais;
 using API.Servicos.PacotesFechados;
@@ -55,6 +57,8 @@ using Dominio.EmpresasAssinaturas;
 using Dominio.Entidades;
 using Dominio.FormulariosSessaoCampos;
 using Dominio.FormulariosSessoes;
+using Dominio.ModelosAnamneseG;
+using Dominio.ModelosAnamneseSG;
 using Dominio.PacotesFechados;
 using Dominio.Profissionais;
 using Dominio.ProfissionaisAcessos;
@@ -76,6 +80,8 @@ using Infra.EmpresaFaturas;
 using Infra.EmpresasAssinaturas;
 using Infra.FormularioSessaoCampos;
 using Infra.FormulariosSessoes;
+using Infra.ModelosAnamneseG;
+using Infra.ModelosAnamneseSG;
 using Infra.PacotesFechados;
 using Infra.Profissionais;
 using Infra.ProfissionaisAcessos;
@@ -142,6 +148,8 @@ namespace API.Core.Extensoes
                 .AddScoped<IFormularioSessaoCampoRepo, FormularioSessaoCampoRepo>()                
                 .AddScoped<IAcompanhamentoClinicoRepo, AcompanhamentoClinicoRepo>()                
                 .AddScoped<IEmpresaFaturaRepo, EmpresaFaturaRepo>()                
+                .AddScoped<IModeloAnamneseGRepo, ModeloAnamneseGRepo>()                
+                .AddScoped<IModeloAnamneseSgRepo, ModeloAnamneseSgRepo>()                
 
                 
 
@@ -186,6 +194,8 @@ namespace API.Core.Extensoes
                 .AddScoped<IFormularioSessaoCampoServico, FormularioSessaoCampoServico>()                
                 .AddScoped<IAcompanhamentoClinicoServico, AcompanhamentoClinicoServico>()                
                 .AddScoped<IEmpresaFaturaServico, EmpresaFaturaServico>()                
+                .AddScoped<IModeloAnamneseGServico, ModeloAnamneseGServico>()                
+                .AddScoped<IModeloAnamneseSgServico, ModeloAnamneseSgServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

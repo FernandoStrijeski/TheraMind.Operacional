@@ -23,5 +23,29 @@ namespace Dominio.Entidades
         public virtual ModeloAnamneseG ModeloAnamneseG { get; set; } = null!;
         public virtual ICollection<ModeloAnamneseSgquestaoO> ModeloAnamneseSgquestaoOs { get; set; }
         public virtual ICollection<ModeloAnamneseSgquestao> ModeloAnamneseSgquestaos { get; set; }
+
+        public static ModeloAnamneseSg CriarParaImportacao(int modeloanamneseGID, string titulo, short ordem, bool? ativo)
+        {
+            var modeloAnamneseSg = new ModeloAnamneseSg
+            {
+                ModeloAnamneseGid = modeloanamneseGID,
+                Titulo = titulo,
+                Ordem = ordem,
+                Ativo = ativo
+            };
+            return modeloAnamneseSg;
+        }
+
+        public ModeloAnamneseSg AtualizarPropriedades(int modeloanamneseGID, string titulo, short ordem, bool? ativo)
+        {
+            ModeloAnamneseGid = modeloanamneseGID;
+            Titulo = titulo;
+            Ordem = ordem;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

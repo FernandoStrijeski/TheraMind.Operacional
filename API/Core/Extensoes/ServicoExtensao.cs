@@ -1,5 +1,6 @@
 using API.Core.Util;
 using API.Operacional.Servicos.TiposLogradouros;
+using API.Servicos.AcompanhamentosClinicos;
 using API.Servicos.AgendaSessaoItens;
 using API.Servicos.AgendasProfissionais;
 using API.Servicos.AgendasSessaoItens;
@@ -37,6 +38,7 @@ using API.Servicos.TiposDocumentos;
 using API.Servicos.TiposEtnias;
 using API.Servicos.TiposLogradouros;
 using API.Servicos.Usuarios;
+using Dominio.AcompanhamentosClinicos;
 using Dominio.AgendasProfissionais;
 using Dominio.AgendasSessaoItens;
 using Dominio.AgendasSessoes;
@@ -48,7 +50,6 @@ using Dominio.DocumentosModelosEmpresas;
 using Dominio.DocumentosModelosEmpresasOpcoes;
 using Dominio.DocumentosVariaveis;
 using Dominio.EmpresasAssinaturas;
-using Dominio.Entidades;
 using Dominio.FormulariosSessaoCampos;
 using Dominio.FormulariosSessoes;
 using Dominio.PacotesFechados;
@@ -56,6 +57,7 @@ using Dominio.Profissionais;
 using Dominio.ProfissionaisAcessos;
 using Dominio.Repositorios;
 using Dominio.Service;
+using Infra.AcompanhamentosClinicos;
 using Infra.AgendasProfissionais;
 using Infra.AgendasSessaoItens;
 using Infra.AgendasSessoes;
@@ -134,6 +136,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IAgendaSessaoItemRepo, AgendaSessaoItemRepo>()
                 .AddScoped<IFormularioSessaoRepo, FormularioSessaoRepo>()
                 .AddScoped<IFormularioSessaoCampoRepo, FormularioSessaoCampoRepo>()                
+                .AddScoped<IAcompanhamentoClinicoRepo, AcompanhamentoClinicoRepo>()                
 
                 
 
@@ -176,6 +179,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IAgendaSessaoItemServico, AgendaSessaoItemServico>()          
                 .AddScoped<IFormularioSessaoServico, FormularioSessaoServico>()                
                 .AddScoped<IFormularioSessaoCampoServico, FormularioSessaoCampoServico>()                
+                .AddScoped<IAcompanhamentoClinicoServico, AcompanhamentoClinicoServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

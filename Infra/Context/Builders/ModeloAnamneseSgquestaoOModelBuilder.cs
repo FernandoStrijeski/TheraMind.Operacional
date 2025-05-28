@@ -5,13 +5,13 @@ using System.Reflection.Emit;
 
 namespace Infra.Context.Builders
 {
-    public class ModeloAnamneseSgquestaoOModelBuilder : IEntityTypeConfiguration<ModeloAnamneseSgquestaoO>
+    public class ModeloAnamneseSgquestaoOModelBuilder : IEntityTypeConfiguration<ModeloAnamneseSgQuestaoO>
     {
-        public void Configure(EntityTypeBuilder<ModeloAnamneseSgquestaoO> builder)
+        public void Configure(EntityTypeBuilder<ModeloAnamneseSgQuestaoO> builder)
         {
             builder.ToTable("ModeloAnamneseSGQuestaoO");
 
-            builder.Property(e => e.ModeloAnamneseSgquestaoOid).HasColumnName("ModeloAnamneseSGQuestaoOID");
+            builder.Property(e => e.ModeloAnamneseSgQuestaoOid).HasColumnName("ModeloAnamneseSGQuestaoOID");
 
             builder.Property(e => e.Ativo)
                 .IsRequired()
@@ -25,12 +25,12 @@ namespace Infra.Context.Builders
 
             builder.Property(e => e.ModeloAnamneseSgid).HasColumnName("ModeloAnamneseSGID");
 
-            builder.Property(e => e.ModeloAnamneseSgquestaoId).HasColumnName("ModeloAnamneseSGQuestaoID");
+            builder.Property(e => e.ModeloAnamneseSgQuestaoId).HasColumnName("ModeloAnamneseSGQuestaoID");
 
             builder.Property(e => e.Texto).HasMaxLength(250);
 
             builder.HasOne(d => d.ModeloAnamneseG)
-                .WithMany(p => p.ModeloAnamneseSgquestaoOs)
+                .WithMany(p => p.ModeloAnamneseSubGrupoQuestaoOpcoes)
                 .HasForeignKey(d => d.ModeloAnamneseGid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ModeloAna__Model__00200768");
@@ -41,9 +41,9 @@ namespace Infra.Context.Builders
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ModeloAna__Model__01142BA1");
 
-            builder.HasOne(d => d.ModeloAnamneseSgquestao)
-                .WithMany(p => p.ModeloAnamneseSgquestaoOs)
-                .HasForeignKey(d => d.ModeloAnamneseSgquestaoId)
+            builder.HasOne(d => d.ModeloAnamneseSgQuestao)
+                .WithMany(p => p.ModeloAnamneseSgQuestaoOs)
+                .HasForeignKey(d => d.ModeloAnamneseSgQuestaoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ModeloAna__Model__02084FDA");
         }        

@@ -9,6 +9,6 @@ namespace API.AdmissaoDigital.modelos.ViewModels
         public bool? Privado { get; set; }
         public bool EditadoPorTodos { get; set; }
         public bool? Ativo { get; set; }
-        public virtual ICollection<ModeloAnamneseSg> ModeloAnamneseSgs { get; set; }
+        public virtual ICollection<ModeloAnamneseSgViewModel> ModeloAnamneseSubGrupos { get; set; }
     }
 }

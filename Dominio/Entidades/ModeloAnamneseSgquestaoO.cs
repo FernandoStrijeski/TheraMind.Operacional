@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dominio.Entidades
 {
-    public partial class ModeloAnamneseSgquestaoO
+    public partial class ModeloAnamneseSgQuestaoO
     {
         [Key]
-        public int ModeloAnamneseSgquestaoOid { get; set; }
+        public int ModeloAnamneseSgQuestaoOid { get; set; }
         public int ModeloAnamneseGid { get; set; }
         public int ModeloAnamneseSgid { get; set; }
-        public int ModeloAnamneseSgquestaoId { get; set; }
+        public int ModeloAnamneseSgQuestaoId { get; set; }
         public string? Texto { get; set; }
         public short Ordem { get; set; }
         public bool? Ativo { get; set; }
@@ -18,6 +18,6 @@ namespace Dominio.Entidades
 
         public virtual ModeloAnamneseG ModeloAnamneseG { get; set; } = null!;
         public virtual ModeloAnamneseSg ModeloAnamneseSg { get; set; } = null!;
-        public virtual ModeloAnamneseSgquestao ModeloAnamneseSgquestao { get; set; } = null!;
+        public virtual ModeloAnamneseSgQuestao ModeloAnamneseSgQuestao { get; set; } = null!;
     }
 }

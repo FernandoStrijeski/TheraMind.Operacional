@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dominio.Entidades
 {
-    public partial class ModeloAnamneseSgquestao
+    public partial class ModeloAnamneseSgQuestao
     {
-        public ModeloAnamneseSgquestao()
+        public ModeloAnamneseSgQuestao()
         {
-            ModeloAnamneseSgquestaoOs = new HashSet<ModeloAnamneseSgquestaoO>();
+            ModeloAnamneseSgQuestaoOs = new HashSet<ModeloAnamneseSgQuestaoO>();
         }
 
         [Key]
-        public int ModeloAnamneseSgquestaoId { get; set; }
+        public int ModeloAnamneseSgQuestaoId { get; set; }
         public int ModeloAnamneseGid { get; set; }
         public int ModeloAnamneseSgid { get; set; }
         public string Titulo { get; set; } = null!;
@@ -23,6 +23,33 @@ namespace Dominio.Entidades
 
         public virtual ModeloAnamneseG ModeloAnamneseG { get; set; } = null!;
         public virtual ModeloAnamneseSg ModeloAnamneseSg { get; set; } = null!;
-        public virtual ICollection<ModeloAnamneseSgquestaoO> ModeloAnamneseSgquestaoOs { get; set; }
+        public virtual ICollection<ModeloAnamneseSgQuestaoO> ModeloAnamneseSgQuestaoOs { get; set; }
+        public static ModeloAnamneseSgQuestao CriarParaImportacao(int modeloAnamneseGID, int modeloAnamneseSgID, string titulo, short tipoOpcao, short ordem, bool? ativo)
+        {
+            var modeloAnamneseSgQuestao = new ModeloAnamneseSgQuestao
+            {
+                ModeloAnamneseGid = modeloAnamneseGID,
+                ModeloAnamneseSgid = modeloAnamneseSgID,
+                Titulo = titulo,
+                TipoOpcao = tipoOpcao,
+                Ordem = ordem,
+                Ativo = ativo
+            };
+            return modeloAnamneseSgQuestao;
+        }
+
+        public ModeloAnamneseSgQuestao AtualizarPropriedades(int modeloAnamneseGID, int modeloAnamneseSgID, string titulo, short tipoOpcao, short ordem, bool? ativo)
+        {
+            ModeloAnamneseGid = modeloAnamneseGID;
+            ModeloAnamneseSgid = modeloAnamneseSgID;
+            Titulo = titulo;
+            TipoOpcao = tipoOpcao;
+            Ordem = ordem;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

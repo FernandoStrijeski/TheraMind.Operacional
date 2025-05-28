@@ -28,6 +28,7 @@ using API.Servicos.GrauParentescos;
 using API.Servicos.IdentidadesGeneros;
 using API.Servicos.ModelosAnamneseG;
 using API.Servicos.ModelosAnamneseSG;
+using API.Servicos.ModelosAnamneseSGQuestoes;
 using API.Servicos.Nacionalidades;
 using API.Servicos.OrientacoesSexuais;
 using API.Servicos.PacotesFechados;
@@ -59,6 +60,7 @@ using Dominio.FormulariosSessaoCampos;
 using Dominio.FormulariosSessoes;
 using Dominio.ModelosAnamneseG;
 using Dominio.ModelosAnamneseSG;
+using Dominio.ModelosAnamneseSGQuestoes;
 using Dominio.PacotesFechados;
 using Dominio.Profissionais;
 using Dominio.ProfissionaisAcessos;
@@ -82,6 +84,7 @@ using Infra.FormularioSessaoCampos;
 using Infra.FormulariosSessoes;
 using Infra.ModelosAnamneseG;
 using Infra.ModelosAnamneseSG;
+using Infra.ModelosAnamneseSGQuestoes;
 using Infra.PacotesFechados;
 using Infra.Profissionais;
 using Infra.ProfissionaisAcessos;
@@ -150,6 +153,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IEmpresaFaturaRepo, EmpresaFaturaRepo>()                
                 .AddScoped<IModeloAnamneseGRepo, ModeloAnamneseGRepo>()                
                 .AddScoped<IModeloAnamneseSgRepo, ModeloAnamneseSgRepo>()                
+                .AddScoped<IModeloAnamneseSgQuestaoRepo, ModeloAnamneseSgQuestaoRepo>()                
 
                 
 
@@ -196,6 +200,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IEmpresaFaturaServico, EmpresaFaturaServico>()                
                 .AddScoped<IModeloAnamneseGServico, ModeloAnamneseGServico>()                
                 .AddScoped<IModeloAnamneseSgServico, ModeloAnamneseSgServico>()                
+                .AddScoped<IModeloAnamneseSgQuestaoServico, ModeloAnamneseSgQuestaoServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

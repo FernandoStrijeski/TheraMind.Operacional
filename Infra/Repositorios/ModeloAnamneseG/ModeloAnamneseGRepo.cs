@@ -22,7 +22,8 @@ namespace Infra.ModelosAnamneseG
             int take = 0
             )
         {
-            IQueryable<ModeloAnamneseG> query = _dbSet.AsNoTracking().Include(modeloAnamneseG => modeloAnamneseG.ModeloAnamneseSgs);
+            IQueryable<ModeloAnamneseG> query = _dbSet.AsNoTracking().Include(modeloAnamneseG => modeloAnamneseG.ModeloAnamneseSubGrupos)
+                                                                     .ThenInclude(modeloAnamneseSg => modeloAnamneseSg.ModeloAnamneseSubGrupoQuestoes);
 
             if (filtro != null)
                 query = query.Where(filtro);
@@ -41,9 +42,11 @@ namespace Infra.ModelosAnamneseG
 
         public async Task<ModeloAnamneseG>? BuscarPorID(int ModeloAnamneseGID)
         {
-            var query = _dbSet.AsQueryable().Include(modeloAnamneseG => modeloAnamneseG.ModeloAnamneseSgs);
-            var plano = await query.FirstOrDefaultAsync(where => where.ModeloAnamneseGid == ModeloAnamneseGID);
-            return plano;
+            var query = _dbSet.AsQueryable().Include(modeloAnamneseG => modeloAnamneseG.ModeloAnamneseSubGrupos)
+                                            .ThenInclude(modeloAnamneseSg => modeloAnamneseSg.ModeloAnamneseSubGrupoQuestoes);
+
+            var modeloAnamneseG = await query.FirstOrDefaultAsync(where => where.ModeloAnamneseGid == ModeloAnamneseGID);
+            return modeloAnamneseG;
         }
     }
 }

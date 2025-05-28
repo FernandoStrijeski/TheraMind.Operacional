@@ -60,8 +60,8 @@ namespace Infra.Context
         public virtual DbSet<GrauParentesco> GrausParentescos { get; set; } = null!;
         public virtual DbSet<ModeloAnamneseG> ModelosAnamneseGs { get; set; } = null!;
         public virtual DbSet<ModeloAnamneseSg> ModelosAnamneseSgs { get; set; } = null!;
-        public virtual DbSet<ModeloAnamneseSgquestao> ModelosAnamneseSgquestaos { get; set; } = null!;
-        public virtual DbSet<ModeloAnamneseSgquestaoO> ModelosAnamneseSgquestaoOs { get; set; } = null!;
+        public virtual DbSet<ModeloAnamneseSgQuestao> ModelosAnamneseSgquestaos { get; set; } = null!;
+        public virtual DbSet<ModeloAnamneseSgQuestaoO> ModelosAnamneseSgquestaoOs { get; set; } = null!;
         public virtual DbSet<PacoteFechado> PacotesFechados { get; set; } = null!;
         public virtual DbSet<Plano> Planos { get; set; } = null!;
         public virtual DbSet<Profissional> Profissionais { get; set; } = null!;

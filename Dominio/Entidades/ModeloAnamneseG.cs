@@ -8,9 +8,9 @@ namespace Dominio.Entidades
     {
         public ModeloAnamneseG()
         {
-            ModeloAnamneseSgquestaoOs = new HashSet<ModeloAnamneseSgquestaoO>();
-            ModeloAnamneseSgquestaos = new HashSet<ModeloAnamneseSgquestao>();
-            ModeloAnamneseSgs = new HashSet<ModeloAnamneseSg>();
+            ModeloAnamneseSubGrupoQuestaoOpcoes = new HashSet<ModeloAnamneseSgQuestaoO>();
+            ModeloAnamneseSubGrupoQuestoes = new HashSet<ModeloAnamneseSgQuestao>();
+            ModeloAnamneseSubGrupos = new HashSet<ModeloAnamneseSg>();
         }
 
         [Key]
@@ -21,9 +21,9 @@ namespace Dominio.Entidades
         public bool? Ativo { get; set; }
         public DateTime? DataCriacao { get; set; }
 
-        public virtual ICollection<ModeloAnamneseSgquestaoO> ModeloAnamneseSgquestaoOs { get; set; }
-        public virtual ICollection<ModeloAnamneseSgquestao> ModeloAnamneseSgquestaos { get; set; }
-        public virtual ICollection<ModeloAnamneseSg> ModeloAnamneseSgs { get; set; }
+        public virtual ICollection<ModeloAnamneseSgQuestaoO> ModeloAnamneseSubGrupoQuestaoOpcoes { get; set; }
+        public virtual ICollection<ModeloAnamneseSgQuestao> ModeloAnamneseSubGrupoQuestoes { get; set; }
+        public virtual ICollection<ModeloAnamneseSg> ModeloAnamneseSubGrupos { get; set; }
 
         public static ModeloAnamneseG CriarParaImportacao(string titulo, bool? privado, bool editadoPorTodos, bool? ativo)
         {

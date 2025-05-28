@@ -26,7 +26,7 @@ namespace Infra.Context.Builders
             builder.Property(e => e.Titulo).HasMaxLength(250);
 
             builder.HasOne(d => d.ModeloAnamneseG)
-                .WithMany(p => p.ModeloAnamneseSgs)
+                .WithMany(p => p.ModeloAnamneseSubGrupos)
                 .HasForeignKey(d => d.ModeloAnamneseGid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ModeloAna__Model__75A278F5");

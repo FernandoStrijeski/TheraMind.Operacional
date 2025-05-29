@@ -28,6 +28,7 @@ using API.Servicos.GrauParentescos;
 using API.Servicos.IdentidadesGeneros;
 using API.Servicos.ModelosAnamneseG;
 using API.Servicos.ModelosAnamneseSG;
+using API.Servicos.ModelosAnamneseSGQuestaoOpcoes;
 using API.Servicos.ModelosAnamneseSGQuestoes;
 using API.Servicos.Nacionalidades;
 using API.Servicos.OrientacoesSexuais;
@@ -60,6 +61,7 @@ using Dominio.FormulariosSessaoCampos;
 using Dominio.FormulariosSessoes;
 using Dominio.ModelosAnamneseG;
 using Dominio.ModelosAnamneseSG;
+using Dominio.ModelosAnamneseSGQuestaoOpcoes;
 using Dominio.ModelosAnamneseSGQuestoes;
 using Dominio.PacotesFechados;
 using Dominio.Profissionais;
@@ -84,6 +86,7 @@ using Infra.FormularioSessaoCampos;
 using Infra.FormulariosSessoes;
 using Infra.ModelosAnamneseG;
 using Infra.ModelosAnamneseSG;
+using Infra.ModelosAnamneseSGQuestaoOpcoes;
 using Infra.ModelosAnamneseSGQuestoes;
 using Infra.PacotesFechados;
 using Infra.Profissionais;
@@ -154,6 +157,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IModeloAnamneseGRepo, ModeloAnamneseGRepo>()                
                 .AddScoped<IModeloAnamneseSgRepo, ModeloAnamneseSgRepo>()                
                 .AddScoped<IModeloAnamneseSgQuestaoRepo, ModeloAnamneseSgQuestaoRepo>()                
+                .AddScoped<IModeloAnamneseSgQuestaoORepo, ModeloAnamneseSgQuestaoORepo>()                
 
                 
 
@@ -201,6 +205,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IModeloAnamneseGServico, ModeloAnamneseGServico>()                
                 .AddScoped<IModeloAnamneseSgServico, ModeloAnamneseSgServico>()                
                 .AddScoped<IModeloAnamneseSgQuestaoServico, ModeloAnamneseSgQuestaoServico>()                
+                .AddScoped<IModeloAnamneseSgQuestaoOServico, ModeloAnamneseSgQuestaoOServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

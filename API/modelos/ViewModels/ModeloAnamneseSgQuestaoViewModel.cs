@@ -9,5 +9,6 @@ namespace API.AdmissaoDigital.modelos.ViewModels
         public short TipoOpcao { get; set; }
         public short Ordem { get; set; }
         public bool? Ativo { get; set; }
+        public virtual ICollection<ModeloAnamneseSgQuestaoOViewModel> ModeloAnamneseSgQuestaoOpcoes { get; set; }
     }
 }

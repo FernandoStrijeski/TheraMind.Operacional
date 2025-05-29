@@ -19,5 +19,36 @@ namespace Dominio.Entidades
         public virtual ModeloAnamneseG ModeloAnamneseG { get; set; } = null!;
         public virtual ModeloAnamneseSg ModeloAnamneseSg { get; set; } = null!;
         public virtual ModeloAnamneseSgQuestao ModeloAnamneseSgQuestao { get; set; } = null!;
+
+        public static ModeloAnamneseSgQuestaoO CriarParaImportacao(int modeloAnamneseGID, int modeloAnamneseSgID, int modeloAnamneseSgQuestaoID, string texto, short ordem, bool? ativo)
+        {
+            var modeloAnamneseSgQuestao = new ModeloAnamneseSgQuestaoO
+            {
+                ModeloAnamneseGid = modeloAnamneseGID,
+                ModeloAnamneseSgid = modeloAnamneseSgID,
+                ModeloAnamneseSgQuestaoId = modeloAnamneseSgQuestaoID,
+                Texto = texto,
+                Ordem = ordem,
+                Ativo = ativo
+            };
+            return modeloAnamneseSgQuestao;
+        }
+
+        public ModeloAnamneseSgQuestaoO AtualizarPropriedades(int modeloAnamneseGID, int modeloAnamneseSgID, int modeloAnamneseSgQuestaoID, string texto, short ordem, bool? ativo)
+        {
+            ModeloAnamneseGid = modeloAnamneseGID;
+            ModeloAnamneseSgid = modeloAnamneseSgID;
+            ModeloAnamneseSgQuestaoId = modeloAnamneseSgQuestaoID;
+
+            if (texto != null)
+                Texto = texto;
+
+            Ordem = ordem;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

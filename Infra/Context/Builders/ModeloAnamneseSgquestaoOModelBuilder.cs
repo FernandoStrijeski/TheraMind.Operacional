@@ -36,13 +36,13 @@ namespace Infra.Context.Builders
                 .HasConstraintName("FK__ModeloAna__Model__00200768");
 
             builder.HasOne(d => d.ModeloAnamneseSg)
-                .WithMany(p => p.ModeloAnamneseSgquestaoOs)
+                .WithMany(p => p.ModeloAnamneseSgQuestaoOpcoes)
                 .HasForeignKey(d => d.ModeloAnamneseSgid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ModeloAna__Model__01142BA1");
 
             builder.HasOne(d => d.ModeloAnamneseSgQuestao)
-                .WithMany(p => p.ModeloAnamneseSgQuestaoOs)
+                .WithMany(p => p.ModeloAnamneseSgQuestaoOpcoes)
                 .HasForeignKey(d => d.ModeloAnamneseSgQuestaoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ModeloAna__Model__02084FDA");

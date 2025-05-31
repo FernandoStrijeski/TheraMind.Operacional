@@ -4,6 +4,7 @@ using API.modelos;
 using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.AnamneseGrupos;
+using API.Servicos.AnamneseSubGrupos;
 using API.Servicos.ModelosAnamneseG;
 using Asp.Versioning;
 using AutoMapper;
@@ -17,110 +18,110 @@ namespace API.Controllers
     [Route("[controller]")]
     [ApiVersion(1.0)]
     [RequerValidacaoDeToken]
-    public class AnamneseGrupoController : ControllerBase
+    public class AnamneseSubGrupoController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IAnamneseGrupoServico _anamneseGrupoServico;
+        private readonly IAnamneseSubGrupoServico _anamneseSubGrupoServico;
         private readonly IHttpContextAccessor _httpContext;
 
-        public AnamneseGrupoController(
+        public AnamneseSubGrupoController(
             IMapper mapper,
-            IAnamneseGrupoServico anamneseGrupoServico,
+            IAnamneseSubGrupoServico anamneseSubGrupoServico,
             IHttpContextAccessor httpContext
         )
         {
             _mapper = mapper;
-            _anamneseGrupoServico = anamneseGrupoServico;
+            _anamneseSubGrupoServico = anamneseSubGrupoServico;
             _httpContext = httpContext;
         }
 
         /// <summary>
-        /// Busca o grupo de anamnese a partir do identificador informado
+        /// Busca o subgrupo de anamnese a partir do identificador informado
         /// </summary>
-        /// <response code="200">Retorna o grupo de anamnese pelo ID informado</response>
+        /// <response code="200">Retorna o subgrupo de anamnese pelo ID informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
         [HttpGet("BuscarPorID")]
         [ProducesResponseType(
-            typeof(AnamneseGrupoViewModel),
+            typeof(AnamneseSubGrupoViewModel),
             StatusCodes.Status200OK
         )]
         [Authorize(Roles = "ADMIN,GESTOR")]
-        public async Task<ActionResult> BuscarPorID(int anamneseGrupoID)
+        public async Task<ActionResult> BuscarPorID(int anamneseSubGrupoID)
         {
-            AnamneseGrupo? anamneseGrupo = await _anamneseGrupoServico.BuscarPorID(anamneseGrupoID);
-            if (anamneseGrupo == null)
-                return NotFound("Nenhum grupo de anamnese encontrado");
+            AnamneseSubGrupo? anamneseSubGrupo = await _anamneseSubGrupoServico.BuscarPorID(anamneseSubGrupoID);
+            if (anamneseSubGrupo == null)
+                return NotFound("Nenhum subgrupo de anamnese encontrado");
 
 
-            var resultado = _mapper.Map<AnamneseGrupoViewModel>(anamneseGrupo);
+            var resultado = _mapper.Map<AnamneseSubGrupoViewModel>(anamneseSubGrupo);
             return Ok(resultado);
         }
 
         /// <summary>
-        /// Busca os grupos de anamnese pelo nome
+        /// Busca os subgrupos de anamnese pelo nome
         /// </summary>
         /// <param name="parametro"></param>
         /// <returns></returns>
         [HttpGet("BuscarPorNome")]
         [ProducesResponseType(
-            typeof(List<AnamneseGrupoViewModel>),
+            typeof(List<AnamneseSubGrupoViewModel>),
             StatusCodes.Status200OK
         )]
         [Authorize(Roles = "ADMIN,GESTOR")]
         public async Task<ActionResult> BuscarPorNome([FromQuery] BuscarComNomeParametro parametro)
         {
-            var anamneseGrupo = await _anamneseGrupoServico.BuscarPorNome(parametro);
+            var anamneseSubGrupo = await _anamneseSubGrupoServico.BuscarPorNome(parametro);
 
-            if (anamneseGrupo == null || anamneseGrupo.Count == 0)
-                return NotFound("Nenhum grupo de anamnese encontrado");
+            if (anamneseSubGrupo == null || anamneseSubGrupo.Count == 0)
+                return NotFound("Nenhum subgrupo de anamnese encontrado");
 
-            var resultado = _mapper.Map<List<AnamneseGrupoViewModel>>(anamneseGrupo);
+            var resultado = _mapper.Map<List<AnamneseSubGrupoViewModel>>(anamneseSubGrupo);
             return Ok(resultado);
         }
 
 
         /// <summary>
-        /// Busca todos os grupos de anamnese
+        /// Busca todos os subgrupos de anamnese
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]
         [ProducesResponseType(
-            typeof(List<AnamneseGrupoViewModel>),
+            typeof(List<AnamneseSubGrupoViewModel>),
             StatusCodes.Status200OK
         )]
         [Authorize(Roles = "ADMIN,GESTOR")]
         public async Task<ActionResult> BuscarTodos()
         {
-            var anamneseGrupo = await _anamneseGrupoServico.BuscarTodos();
+            var anamneseGrupo = await _anamneseSubGrupoServico.BuscarTodos();
 
             if (anamneseGrupo == null || anamneseGrupo.Count == 0)
-                return NotFound("Nenhum grupo de anamnese encontrado");
+                return NotFound("Nenhum subgrupo de anamnese encontrado");
 
 
-            var resultado = _mapper.Map<List<AnamneseGrupoViewModel>>(anamneseGrupo);
+            var resultado = _mapper.Map<List<AnamneseSubGrupoViewModel>>(anamneseGrupo);
             return Ok(resultado);
         }
 
         /// <summary>
-        /// Cria ou atualiza um grupo de anamnese
+        /// Cria ou atualiza um subgrupo de anamnese
         /// </summary>
-        /// <response code="202">Grupo de anamnese criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Grupo de anamnese atualizado com sucesso</response>
+        /// <response code="202">Subgrupo de anamnese criado com sucesso. O corpo da resposta contém o ID gerado.</response>
+        /// <response code="204">Subgrupo de anamnese atualizado com sucesso</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
         [HttpPut("")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(AnamneseGrupoIdResponseViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(AnamneseSubGrupoIdResponseViewModel), StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarAnamneseGrupoInputModel body)
+        public async Task<ActionResult> Put([FromBody] CriarAnamneseSubGrupoInputModel body)
         {
-            var (criou, anamneseGrupoId) = await _anamneseGrupoServico.CriarOuAtualizar(body, true);
+            var (criou, anamneseSubGrupoId) = await _anamneseSubGrupoServico.CriarOuAtualizar(body, true);
 
             if (criou)            
-                return Accepted(new AnamneseGrupoIdResponseViewModel(anamneseGrupoId));
+                return Accepted(new AnamneseSubGrupoIdResponseViewModel(anamneseSubGrupoId));
             
             return NoContent(); // Atualizado com sucesso, sem corpo
 

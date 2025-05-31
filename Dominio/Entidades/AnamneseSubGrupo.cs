@@ -31,5 +31,36 @@ namespace Dominio.Entidades
         public virtual ICollection<AnamneseRespostaCliente> AnamneseRespostaClientes { get; set; }
         public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcoes { get; set; }
         public virtual ICollection<AnamneseSubGrupoQuestao> AnamneseSubGrupoQuestaos { get; set; }
+
+        public static AnamneseSubGrupo CriarParaImportacao(Guid empresaID, int filialID, Guid profissionalID, int anamneseGrupoId, string titulo, short ordem, bool? ativo)
+        {
+            var anamneseSubGrupo = new AnamneseSubGrupo
+            {
+                EmpresaId = empresaID,
+                FilialId = filialID,
+                ProfissionalId = profissionalID,
+                AnamneseGrupoId = anamneseGrupoId,
+                Titulo = titulo,
+                Ordem = ordem,
+                Ativo = ativo
+            };
+            return anamneseSubGrupo;
+        }
+
+        public AnamneseSubGrupo AtualizarPropriedades(Guid empresaID, int filialID, Guid profissionalID, int anamneseGrupoId, string titulo, short ordem, bool? ativo)
+        {
+            EmpresaId = empresaID;
+            FilialId = filialID;
+            ProfissionalId = profissionalID;
+            AnamneseGrupoId = anamneseGrupoId;
+
+            Titulo = titulo;
+            Ordem = ordem;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

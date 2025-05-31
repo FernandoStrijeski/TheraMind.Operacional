@@ -10,7 +10,7 @@ namespace Dominio.Entidades
         {
             AnamneseRespostaClientes = new HashSet<AnamneseRespostaCliente>();
             AnamneseSubGrupoQuestaoOpcoes = new HashSet<AnamneseSubGrupoQuestaoOpcao>();
-            AnamneseSubGrupoQuestaos = new HashSet<AnamneseSubGrupoQuestao>();
+            AnamneseSubGrupoQuestoes = new HashSet<AnamneseSubGrupoQuestao>();
         }
 
         [Key]
@@ -30,7 +30,7 @@ namespace Dominio.Entidades
         public virtual Profissional Profissional { get; set; } = null!;
         public virtual ICollection<AnamneseRespostaCliente> AnamneseRespostaClientes { get; set; }
         public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcoes { get; set; }
-        public virtual ICollection<AnamneseSubGrupoQuestao> AnamneseSubGrupoQuestaos { get; set; }
+        public virtual ICollection<AnamneseSubGrupoQuestao> AnamneseSubGrupoQuestoes { get; set; }
 
         public static AnamneseSubGrupo CriarParaImportacao(Guid empresaID, int filialID, Guid profissionalID, int anamneseGrupoId, string titulo, short ordem, bool? ativo)
         {

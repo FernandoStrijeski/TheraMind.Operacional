@@ -3,9 +3,7 @@ using API.Core.Filtros;
 using API.modelos;
 using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
-using API.Servicos.AnamneseGrupos;
 using API.Servicos.AnamneseSubGrupos;
-using API.Servicos.ModelosAnamneseG;
 using Asp.Versioning;
 using AutoMapper;
 using Dominio.Entidades;
@@ -93,13 +91,13 @@ namespace API.Controllers
         [Authorize(Roles = "ADMIN,GESTOR")]
         public async Task<ActionResult> BuscarTodos()
         {
-            var anamneseGrupo = await _anamneseSubGrupoServico.BuscarTodos();
+            var anamneseSubGrupo = await _anamneseSubGrupoServico.BuscarTodos();
 
-            if (anamneseGrupo == null || anamneseGrupo.Count == 0)
+            if (anamneseSubGrupo == null || anamneseSubGrupo.Count == 0)
                 return NotFound("Nenhum subgrupo de anamnese encontrado");
 
 
-            var resultado = _mapper.Map<List<AnamneseSubGrupoViewModel>>(anamneseGrupo);
+            var resultado = _mapper.Map<List<AnamneseSubGrupoViewModel>>(anamneseSubGrupo);
             return Ok(resultado);
         }
 

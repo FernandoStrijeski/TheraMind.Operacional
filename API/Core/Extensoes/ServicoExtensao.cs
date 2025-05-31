@@ -5,6 +5,7 @@ using API.Servicos.AgendaSessaoItens;
 using API.Servicos.AgendasProfissionais;
 using API.Servicos.AgendasSessaoItens;
 using API.Servicos.AgendasSessoes;
+using API.Servicos.AnamneseGrupos;
 using API.Servicos.Auditorias;
 using API.Servicos.Boletos;
 using API.Servicos.Cidades;
@@ -47,6 +48,7 @@ using Dominio.AcompanhamentosClinicos;
 using Dominio.AgendasProfissionais;
 using Dominio.AgendasSessaoItens;
 using Dominio.AgendasSessoes;
+using Dominio.AnamneseGrupos;
 using Dominio.Clientes;
 using Dominio.Convenios;
 using Dominio.Core.Repositorios;
@@ -72,6 +74,7 @@ using Infra.AcompanhamentosClinicos;
 using Infra.AgendasProfissionais;
 using Infra.AgendasSessaoItens;
 using Infra.AgendasSessoes;
+using Infra.AnamneseGrupos;
 using Infra.Clientes;
 using Infra.Context;
 using Infra.Convenios;
@@ -158,6 +161,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IModeloAnamneseSgRepo, ModeloAnamneseSgRepo>()                
                 .AddScoped<IModeloAnamneseSgQuestaoRepo, ModeloAnamneseSgQuestaoRepo>()                
                 .AddScoped<IModeloAnamneseSgQuestaoORepo, ModeloAnamneseSgQuestaoORepo>()                
+                .AddScoped<IAnamneseGrupoRepo, AnamneseGrupoRepo>()                
 
                 
 
@@ -206,6 +210,7 @@ namespace API.Core.Extensoes
                 .AddScoped<IModeloAnamneseSgServico, ModeloAnamneseSgServico>()                
                 .AddScoped<IModeloAnamneseSgQuestaoServico, ModeloAnamneseSgQuestaoServico>()                
                 .AddScoped<IModeloAnamneseSgQuestaoOServico, ModeloAnamneseSgQuestaoOServico>()                
+                .AddScoped<IAnamneseGrupoServico, AnamneseGrupoServico>()                
 
             // HTTP CONTEXT
             // .TryAddSingleton<FilialController>()

@@ -22,7 +22,8 @@ namespace Infra.AnamneseSubGrupos
             int take = 0
             )
         {
-            IQueryable<AnamneseSubGrupo> query = _dbSet.AsNoTracking().Include(anamneseSubGrupo => anamneseSubGrupo.AnamneseSubGrupoQuestoes);
+            IQueryable<AnamneseSubGrupo> query = _dbSet.AsNoTracking().Include(anamneseSubGrupo => anamneseSubGrupo.AnamneseSubGrupoQuestoes)
+                                                                      .ThenInclude(anamneseSubGrupoQuestoes => anamneseSubGrupoQuestoes.AnamneseSubGrupoQuestaoOpcoes);
 
             if (filtro != null)
                 query = query.Where(filtro);
@@ -41,7 +42,8 @@ namespace Infra.AnamneseSubGrupos
 
         public async Task<AnamneseSubGrupo>? BuscarPorID(int anamneseSubGrupoID)
         {
-            var query = _dbSet.AsQueryable().Include(anamneseSubGrupo => anamneseSubGrupo.AnamneseSubGrupoQuestoes);
+            var query = _dbSet.AsQueryable().Include(anamneseSubGrupo => anamneseSubGrupo.AnamneseSubGrupoQuestoes)
+                                            .ThenInclude(anamneseSubGrupoQuestoes => anamneseSubGrupoQuestoes.AnamneseSubGrupoQuestaoOpcoes);
 
             var anamneseGrupo = await query.FirstOrDefaultAsync(where => where.AnamneseSubGrupoId == anamneseSubGrupoID);
             return anamneseGrupo;

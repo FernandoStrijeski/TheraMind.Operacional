@@ -34,7 +34,7 @@ namespace Dominio.Entidades
 
         public static AnamneseSubGrupoQuestao CriarParaImportacao(Guid empresaID, int filialID, Guid profissionalID, int anamneseGrupoID, int anamneseSubGrupoID, string titulo, short tipoOpcao, short ordem, bool? ativo)
         {
-            var anamneseSubGrupo = new AnamneseSubGrupoQuestao
+            var anamneseSubGrupoQuestao = new AnamneseSubGrupoQuestao
             {
                 EmpresaId = empresaID,
                 FilialId = filialID,
@@ -46,7 +46,7 @@ namespace Dominio.Entidades
                 Ordem = ordem,
                 Ativo = ativo
             };
-            return anamneseSubGrupo;
+            return anamneseSubGrupoQuestao;
         }
 
         public AnamneseSubGrupoQuestao AtualizarPropriedades(Guid empresaID, int filialID, Guid profissionalID, int anamneseGrupoID, int anamneseSubGrupoID, string titulo, short tipoOpcao, short ordem, bool? ativo)

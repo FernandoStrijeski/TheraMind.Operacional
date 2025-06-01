@@ -25,5 +25,41 @@ namespace Dominio.Entidades
         public virtual Empresa Empresa { get; set; } = null!;
         public virtual Filial Filial { get; set; } = null!;
         public virtual Profissional Profissional { get; set; } = null!;
+
+        public static AnamneseSubGrupoQuestaoOpcao CriarParaImportacao(Guid empresaID, int filialID, Guid profissionalID, int anamneseGrupoID, int anamneseSubGrupoID,
+                                                                  int anamneseSubGrupoQuestaoID, string? texto, short ordem, bool? ativo)
+        {
+            var anamneseSubGrupoQuestaoOpcao = new AnamneseSubGrupoQuestaoOpcao
+            {
+                EmpresaId = empresaID,
+                FilialId = filialID,
+                ProfissionalId = profissionalID,
+                AnamneseGrupoId = anamneseGrupoID,
+                AnamneseSubGrupoId = anamneseSubGrupoID,
+                AnamneseSubGrupoQuestaoId = anamneseSubGrupoQuestaoID,
+                Texto = texto,
+                Ordem = ordem,
+                Ativo = ativo
+            };
+            return anamneseSubGrupoQuestaoOpcao;
+        }
+
+        public AnamneseSubGrupoQuestaoOpcao AtualizarPropriedades(Guid empresaID, int filialID, Guid profissionalID, int anamneseGrupoID, int anamneseSubGrupoID,
+                                                                  int anamneseSubGrupoQuestaoID, string? texto, short ordem, bool? ativo)
+        {
+            EmpresaId = empresaID;
+            FilialId = filialID;
+            ProfissionalId = profissionalID;
+            AnamneseGrupoId = anamneseGrupoID;
+            AnamneseSubGrupoId = anamneseSubGrupoID;
+            AnamneseSubGrupoQuestaoId = anamneseSubGrupoQuestaoID;
+            Texto = texto;
+            Ordem = ordem;
+
+            if (ativo != null)
+                Ativo = ativo;
+
+            return this;
+        }
     }
 }

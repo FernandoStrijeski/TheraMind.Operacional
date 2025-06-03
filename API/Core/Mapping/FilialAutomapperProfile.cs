@@ -1,6 +1,6 @@
-using API.AdmissaoDigital.DTO;
-using API.AdmissaoDigital.DTO.Empresa;
-using API.AdmissaoDigital.modelos.ViewModels;
+using API.Operacional.DTO;
+using API.Operacional.DTO.Empresa;
+using API.Operacional.modelos.ViewModels;
 using API.modelos.InputModels;
 using AutoMapper;
 using Dominio.Entidades;

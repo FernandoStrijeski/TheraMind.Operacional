@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace API.AdmissaoDigital.modelos.ViewModels
+namespace API.Operacional.modelos.ViewModels
 {
     public class ClienteViewModel
     {

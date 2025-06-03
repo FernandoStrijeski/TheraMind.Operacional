@@ -1,4 +1,3 @@
-using API.AdmissaoDigital.modelos.ViewModels;
 using API.Core.Filtros;
 using API.modelos;
 using API.modelos.InputModels;
@@ -63,7 +62,7 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpGet("BuscarPorNome")]
         [ProducesResponseType(
-            typeof(List<    >),
+            typeof(List<AnamneseSubGrupoQuestaoViewModel>),
             StatusCodes.Status200OK
         )]
         [Authorize(Roles = "ADMIN,GESTOR")]
@@ -80,7 +79,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os subgrupos de anamnese
+        /// Busca todas as questões dos subgrupos de anamnese
         /// </summary>
         /// <returns></returns>
         [HttpGet("Todos")]

@@ -1,4 +1,4 @@
-using API.AdmissaoDigital.modelos.ViewModels;
+using API.Operacional.modelos.ViewModels;
 using AutoMapper;
 using Dominio.Entidades;
 using System.DirectoryServices;

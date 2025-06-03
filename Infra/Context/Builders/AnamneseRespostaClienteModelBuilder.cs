@@ -23,7 +23,6 @@ namespace Infra.Context.Builders
             builder.Property(e => e.AnamneseSubGrupoId).HasColumnName("AnamneseSubGrupoID");
 
             builder.Property(e => e.AnamneseSubGrupoQuestaoId)
-                .ValueGeneratedOnAdd()
                 .HasColumnName("AnamneseSubGrupoQuestaoID");
 
             builder.Property(e => e.ClienteId).HasColumnName("ClienteID");
@@ -36,43 +35,43 @@ namespace Infra.Context.Builders
                 .WithMany(p => p.AnamneseRespostaClientes)
                 .HasForeignKey(d => d.AnamneseGrupoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AnamneseR__Anamn__1A69E950");
+                .HasConstraintName("FK__AnamneseR__Anamn__61BB7BD9");
 
             builder.HasOne(d => d.AnamneseSubGrupo)
                 .WithMany(p => p.AnamneseRespostaClientes)
                 .HasForeignKey(d => d.AnamneseSubGrupoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AnamneseR__Anamn__1B5E0D89");
+                .HasConstraintName("FK__AnamneseR__Anamn__62AFA012");
 
             builder.HasOne(d => d.AnamneseSubGrupoQuestao)
                 .WithMany()
                 .HasForeignKey(d => d.AnamneseSubGrupoQuestaoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AnamneseR__Anamn__1C5231C2");
+                .HasConstraintName("FK__AnamneseR__Anamn__63A3C44B");
 
             builder.HasOne(d => d.Cliente)
                 .WithMany()
                 .HasForeignKey(d => d.ClienteId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AnamneseR__Clien__1D4655FB");
+                .HasConstraintName("FK__AnamneseR__Clien__6497E884");
 
             builder.HasOne(d => d.Empresa)
             .WithMany(p => p.AnamneseRespostaClientes)
             .HasForeignKey(d => d.EmpresaId)
             .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK__AnamneseR__Empre__1E3A7A34");
+            .HasConstraintName("FK__AnamneseR__Empre__5EDF0F2E");
 
             builder.HasOne(d => d.Filial)
                 .WithMany(p => p.AnamneseRespostaClientes)
                 .HasForeignKey(d => d.FilialId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AnamneseR__Filia__1F2E9E6D");
+                .HasConstraintName("FK__AnamneseR__Filia__5FD33367");
 
             builder.HasOne(d => d.Profissional)
                 .WithMany(p => p.AnamneseRespostaClientes)
                 .HasForeignKey(d => d.ProfissionalId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AnamneseR__Profi__2022C2A6");
+                .HasConstraintName("FK__AnamneseR__Profi__60C757A0");
         }
     }        
 }

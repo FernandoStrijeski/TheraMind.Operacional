@@ -113,7 +113,7 @@ namespace API.Servicos.AnamneseSubGrupoQuestoes
             {
                 throw new HttpErroDeUsuario(
                     HttpStatusCode.NotFound,
-                    $"Questão do ubgrupo de anamnese com ID {anamneseSubGrupoQuestaoID} não encontrada."
+                    $"Questão do subgrupo de anamnese com ID {anamneseSubGrupoQuestaoID} não encontrada."
                 );
             }
         }

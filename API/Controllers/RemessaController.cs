@@ -1,12 +1,7 @@
-using API.AdmissaoDigital.modelos.ViewModels;
 using API.Core.Filtros;
-using API.modelos;
-using API.modelos.InputModels;
-using API.Servicos.Boletos;
 using API.Servicos.GeradorCNAB240Sicredi;
 using Asp.Versioning;
 using AutoMapper;
-using Dominio.Entidades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

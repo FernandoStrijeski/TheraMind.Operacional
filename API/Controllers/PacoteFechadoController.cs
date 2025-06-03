@@ -1,9 +1,6 @@
-using API.AdmissaoDigital.modelos.ViewModels;
 using API.Core.Filtros;
-using API.modelos;
 using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
-using API.Servicos.Convenios;
 using API.Servicos.PacotesFechados;
 using Asp.Versioning;
 using AutoMapper;

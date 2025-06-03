@@ -29,7 +29,6 @@ namespace Dominio.Entidades
         public virtual Empresa Empresa { get; set; } = null!;
         public virtual Filial Filial { get; set; } = null!;
         public virtual Profissional Profissional { get; set; } = null!;
-        public virtual AnamneseRespostaCliente AnamneseRespostaCliente { get; set; } = null!;
         public virtual ICollection<AnamneseSubGrupoQuestaoOpcao> AnamneseSubGrupoQuestaoOpcoes { get; set; }
 
         public static AnamneseSubGrupoQuestao CriarParaImportacao(Guid empresaID, int filialID, Guid profissionalID, int anamneseGrupoID, int anamneseSubGrupoID, string titulo, short tipoOpcao, short ordem, bool? ativo)

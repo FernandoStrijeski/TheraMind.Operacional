@@ -1,4 +1,3 @@
-using API.AdmissaoDigital.modelos.ViewModels;
 using API.Core.Filtros;
 using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
@@ -8,7 +7,6 @@ using AutoMapper;
 using Dominio.Entidades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata;
 
 namespace API.Controllers
 {

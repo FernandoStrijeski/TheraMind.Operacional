@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace API.AdmissaoDigital.DTO
+namespace API.Operacional.DTO
 {
     public class FilialDTO
     {        

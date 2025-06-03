@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace API.AdmissaoDigital.DTO.Empresa
+namespace API.Operacional.DTO.Empresa
 {
     public class EmpresaDTO
     {        

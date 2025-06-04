@@ -27,5 +27,12 @@ namespace API.Servicos.Filiais
         /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
         Task<(bool criado, int filialId)> CriarOuAtualizar(CriarFilialInputModel filial, bool atualizaSeExistir);
+
+        /// <summary>
+        /// Busca todas as filiais da empresa do parametro
+        /// </summary>
+        /// <param name="empresaID"></param>
+        /// <returns></returns>
+        Task<List<Dominio.Entidades.Filial>>? BuscarTodasPorEmpresa(Guid empresaID);
     }
 }

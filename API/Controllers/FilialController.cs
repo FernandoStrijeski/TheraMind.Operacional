@@ -77,6 +77,27 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+        /// <summary>
+        /// Busca todas as filiais da empresa
+        /// </summary>
+        /// <param name="empresaID"></param>
+        /// <returns></returns>
+        [HttpGet("BuscarTodasPorEmpresa")]
+        [ProducesResponseType(
+            typeof(List<FilialViewModel>),
+            StatusCodes.Status200OK
+        )]
+        [Authorize(Roles = "ADMIN,GESTOR")]
+        public async Task<ActionResult> BuscarPorEmpresa([FromQuery] Guid empresaID)
+        {
+            var filiais = await _filialServico.BuscarTodasPorEmpresa(empresaID);
+
+            if (filiais == null || filiais.Count == 0)
+                return NotFound("Nenhuma filial encontrada");
+
+            var resultado = _mapper.Map<List<FilialViewModel>>(filiais);
+            return Ok(resultado);
+        }
 
         /// <summary>
         /// Cria ou atualiza uma filial

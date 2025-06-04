@@ -139,11 +139,6 @@ namespace API.Servicos.Filiais
             }
         }
 
-        //public async Task<List<Empresas>> Buscar(BuscarComCodEmpresaParametro parametros)
-        //{
-        //    var query = await _empresasRepo.Buscar(x => x.CodEmpresa == parametros.CodEmpresa);
-        //    return query.ToList();
-        //}
-
+        public async Task<List<Dominio.Entidades.Filial>>? BuscarTodasPorEmpresa(Guid empresaID) => await _filialRepo.BuscarTodasPorEmpresa(empresaID);
     }
 }

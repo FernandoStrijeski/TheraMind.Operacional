@@ -1,8 +1,6 @@
 using API.Core.Exceptions;
-using API.modelos;
 using API.modelos.InputModels;
 using Dominio.AcompanhamentosClinicos;
-using Dominio.Convenios;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Infra.Servicos.MultiTenant;
@@ -29,9 +27,10 @@ namespace API.Servicos.AcompanhamentosClinicos
 
         public async Task<AcompanhamentoClinico>? BuscarPorID(Guid acompanhamentoClinicoID) => await _acompanhamentoClinicoRepo.BuscarPorID(acompanhamentoClinicoID);
 
-        public async Task<List<AcompanhamentoClinico>> BuscarTodos()
-        {
-            return await _acompanhamentoClinicoRepo.BuscarFiltros();
+        public async Task<List<AcompanhamentoClinico>> BuscarTodos() => await _acompanhamentoClinicoRepo.BuscarFiltros();       
+
+        public async Task<List<AcompanhamentoClinico>> BuscarTodosPorProfissionalCliente(Guid profissionalID, Guid clienteID) {
+            return await _acompanhamentoClinicoRepo.BuscarFiltros(x => x.ProfissionalId == profissionalID && x.ClienteId == clienteID);
         }
 
         public async Task Salvar(AcompanhamentoClinico acompanhamentoClinico)

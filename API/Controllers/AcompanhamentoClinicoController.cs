@@ -76,6 +76,27 @@ namespace API.Controllers
         }
 
         /// <summary>
+        /// Busca todos os acompanhamentos clínicos do Clientes e Profissional
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("BuscarTodosPorProfissionalCliente")]
+        [ProducesResponseType(
+            typeof(List<AcompanhamentoClinicoViewModel>),
+            StatusCodes.Status200OK
+        )]
+        [Authorize(Roles = "ADMIN,GESTOR,PROFISSIONAL")]
+        public async Task<ActionResult> BuscarTodosPorProfissionalCliente(Guid profissionalID, Guid clienteID)
+        {
+            var acompanhamentosClinicos = await _acompanhamentoClinicoServico.BuscarTodosPorProfissionalCliente(profissionalID, clienteID);
+
+            if (acompanhamentosClinicos == null || acompanhamentosClinicos.Count == 0)
+                return NotFound("Nenhum acompanhamento clínico encontrado");
+
+            var resultado = _mapper.Map<List<AcompanhamentoClinicoViewModel>>(acompanhamentosClinicos);
+            return Ok(resultado);
+        }
+
+        /// <summary>
         /// Cria ou atualiza um acompanhamento clínico
         /// </summary>
         /// <response code="202">Acompanhamento clínico criado com sucesso. O corpo da resposta contém o ID gerado.</response>

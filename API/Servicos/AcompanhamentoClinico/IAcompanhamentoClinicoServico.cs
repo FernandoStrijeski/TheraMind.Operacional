@@ -20,6 +20,14 @@ namespace API.Servicos.AcompanhamentosClinicos
         Task<List<AcompanhamentoClinico>> BuscarTodos();
 
         /// <summary>
+        /// Buscar todos os acompanhamentos clínicos do profissional e cliente
+        /// </summary>
+        /// <param name="profissionalID"></param>
+        /// <param name="clienteID"></param>
+        /// <returns></returns>
+        Task<List<AcompanhamentoClinico>> BuscarTodosPorProfissionalCliente(Guid profissionalID, Guid clienteID);
+
+        /// <summary>
         /// Cria ou atualiza um acompanhamento clínico a partir do modelo informado
         /// </summary>
         /// <param name="acompanhamentoClinico"></param>

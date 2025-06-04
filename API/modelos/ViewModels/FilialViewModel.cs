@@ -1,3 +1,5 @@
+using Dominio.Entidades;
+
 namespace API.Operacional.modelos.ViewModels
 {
     public class FilialViewModel
@@ -19,5 +21,6 @@ namespace API.Operacional.modelos.ViewModels
         public string? Telefone { get; set; }
         public bool? Ativo { get; set; }
         public DateTime? DataCriacao { get; set; }
+        public virtual EmpresaViewModel Empresa { get; set; }
     }
 }

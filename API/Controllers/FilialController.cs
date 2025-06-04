@@ -1,4 +1,5 @@
 using API.Core.Filtros;
+using API.modelos;
 using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.Filiais;
@@ -39,6 +40,7 @@ namespace API.Controllers
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
         [HttpGet("BuscarPorID")]
         [ProducesResponseType(
+            typeof(FilialViewModel),
             StatusCodes.Status200OK
         )]
         [Authorize(Roles = "ADMIN,GESTOR,CLIENTE")]
@@ -48,8 +50,33 @@ namespace API.Controllers
             if (filial == null)
                 return NotFound("Nenhuma filial encontrada"); ;
 
-            return Ok(filial);
+            var resultado = _mapper.Map<FilialViewModel>(filial);
+            return Ok(resultado);
         }
+
+
+        /// <summary>
+        /// Busca a filial pelo nome
+        /// </summary>
+        /// <param name="parametro"></param>
+        /// <returns></returns>
+        [HttpGet("BuscarPorNome")]
+        [ProducesResponseType(
+            typeof(List<FilialViewModel>),
+            StatusCodes.Status200OK
+        )]
+        [Authorize(Roles = "ADMIN,GESTOR")]
+        public async Task<ActionResult> BuscarPorNome([FromQuery] BuscarComNomeParametro parametro)
+        {
+            var filial = await _filialServico.BuscarPorNome(parametro);
+
+            if (filial == null || filial.Count == 0)
+                return NotFound("Nenhuma filial encontrada");
+
+            var resultado = _mapper.Map<List<FilialViewModel>>(filial);
+            return Ok(resultado);
+        }
+
 
         /// <summary>
         /// Cria ou atualiza uma filial

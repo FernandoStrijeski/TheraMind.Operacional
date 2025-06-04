@@ -1,3 +1,4 @@
+using API.modelos;
 using API.modelos.InputModels;
 
 namespace API.Servicos.Filiais
@@ -11,6 +12,13 @@ namespace API.Servicos.Filiais
         /// <param name="filialID"></param>
         /// <returns></returns>
         Task<Dominio.Entidades.Filial>? BuscarPorID(Guid empresaID, int filialID);
+
+        /// <summary>
+        /// Busca as filiais pelo nome ou parte dele
+        /// </summary>
+        /// <param name="parametros"></param>
+        /// <returns></returns>
+        Task<List<Dominio.Entidades.Filial>> BuscarPorNome(BuscarComNomeParametro parametros);
 
         /// <summary>
         /// Cria ou atualiza uma filial a partir do modelo informado

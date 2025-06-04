@@ -1,4 +1,5 @@
 using API.Core.Exceptions;
+using API.modelos;
 using API.modelos.InputModels;
 using Dominio.Core.Repositorios;
 using Dominio.Repositorios;
@@ -22,6 +23,11 @@ namespace API.Servicos.Filiais
         {
             _configuration = configuration;
             _filialRepo = filialRepo;
+        }
+
+        public async Task<List<Dominio.Entidades.Filial>> BuscarPorNome(BuscarComNomeParametro parametros)
+        {
+            return await _filialRepo.BuscarFiltros(x => x.NomeFilial.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
         public async Task<Dominio.Entidades.Filial>? BuscarPorID(Guid empresaID, int filialID) => await _filialRepo.BuscarPorID(empresaID, filialID);

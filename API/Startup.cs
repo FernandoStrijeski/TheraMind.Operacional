@@ -36,6 +36,24 @@ namespace API
                 .AddResponseCompression()
                 .AddHttpContextAccessor()
                 .AdicionaInjecaoDeDependencia(Configuration)
+
+                .AddCors(options =>
+                    {
+                        options.AddPolicy("PermitirTudo", builder =>
+                        {
+                            builder
+                                .AllowAnyOrigin()
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+
+                            // em prod usar isso ao inves de permitir tudo acima.
+                            // builder.WithOrigins("https://seusite.com")
+                            //     .AllowAnyHeader()
+                            //     .AllowAnyMethod();
+
+                        });
+                    })
+
                 .AddControllers()
                 .AddNewtonsoftJson(options =>
                     {                        
@@ -175,6 +193,8 @@ namespace API
             });
 
             app.UseRouting();
+            
+            app.UseCors("PermitirTudo"); // <-- AQUI
 
             app.UseAuthentication();
             app.UseAuthorization();

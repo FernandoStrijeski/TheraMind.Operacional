@@ -149,13 +149,7 @@ namespace Infra.Context
                 {
                     optionsBuilder.UseSqlServer(connectionParams.ConnectionString);
                     break;
-                }
-                case "oracledb"
-                or "oracle":
-                {
-                    optionsBuilder.UseOracle(connectionParams.ConnectionString, builder => builder.UseOracleSQLCompatibility("11"));
-                    break;
-                }
+                }                
                 case "postgresql"
                 or "postgres":
                 {

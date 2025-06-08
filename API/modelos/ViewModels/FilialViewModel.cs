@@ -6,6 +6,7 @@ namespace API.Operacional.modelos.ViewModels
     {
         public int FilialId { get; set; }
         public Guid EmpresaId { get; set; }
+        public string CodigoUnico { get; set; }
         public string? Cpf { get; set; }
         public string? Cnpj { get; set; }
         public string? InscricaoEstadual { get; set; }

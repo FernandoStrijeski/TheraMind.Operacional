@@ -18,6 +18,11 @@ namespace API.modelos.InputModels
         public Guid EmpresaId { get; set; }
 
         /// <summary>
+        /// Código Único da Filial para Login
+        /// </summary>        
+        public string CodigoUnico { get; set; }
+
+        /// <summary>
         /// CPF quando Empresa Física
         /// </summary>        
         public string? Cpf { get; set; }

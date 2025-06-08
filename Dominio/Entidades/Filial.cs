@@ -35,6 +35,7 @@ namespace Dominio.Entidades
         [Key]
         public int FilialId { get; set; }
         public Guid EmpresaId { get; set; }
+        public string CodigoUnico { get; set; }
         public string? Cpf { get; set; }
         public string? Cnpj { get; set; }
         public string? InscricaoEstadual { get; set; }
@@ -76,12 +77,13 @@ namespace Dominio.Entidades
         public virtual ICollection<Servico> Servicos { get; set; }
         public virtual ICollection<Usuario> Usuarios { get; set; }
 
-        public static Filial CriarParaImportacao(Guid empresaId, string? cpf, string? cnpj, string? inscricaoEstadual, string? inscricaoMunicipal, string nomeFilial,
+        public static Filial CriarParaImportacao(Guid empresaId, string codigoUnico, string? cpf, string? cnpj, string? inscricaoEstadual, string? inscricaoMunicipal, string nomeFilial,
                 string? tipoLogradouroId, string? endereco, short? numero, string? cep, string? complemento, string? bairro, int cidadeId, string? telefone, bool ativo)
         {
             var filial = new Filial
             {
                 EmpresaId = empresaId,
+                CodigoUnico = codigoUnico,
                 Cpf = cpf,
                 Cnpj = cnpj,
                 InscricaoEstadual = inscricaoEstadual,
@@ -101,10 +103,12 @@ namespace Dominio.Entidades
         }
 
         public Filial AtualizarPropriedades(
-            string? cpf, string? cnpj, string? inscricaoEstadual, string? inscricaoMunicipal, string nomeFilial,
+            Guid empresaId, string codigoUnico, string? cpf, string? cnpj, string? inscricaoEstadual, string? inscricaoMunicipal, string nomeFilial,
                 string? tipoLogradouroId, string? endereco, short? numero, string? cep, string? complemento, string? bairro, int cidadeId, string? telefone, bool ativo
         )
         {
+            EmpresaId = empresaId;
+
             if (Cpf != null)
                 Cpf = cpf;
 

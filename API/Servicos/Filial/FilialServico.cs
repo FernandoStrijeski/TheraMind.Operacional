@@ -54,6 +54,7 @@ namespace API.Servicos.Filiais
             {
                 cFilial = Dominio.Entidades.Filial.CriarParaImportacao(
                         empresaId: filial.EmpresaId,
+                        codigoUnico: filial.CodigoUnico,
                         cpf: filial.Cpf,
                         cnpj: filial.Cnpj,
                         inscricaoEstadual: filial.InscricaoEstadual,
@@ -74,6 +75,7 @@ namespace API.Servicos.Filiais
             }
             else if (atualizaSeExistir)
             {
+                cFilial.CodigoUnico  = filial.CodigoUnico;
                 cFilial.Cpf = filial.Cpf;
                 cFilial.Cnpj = filial.Cnpj;
                 cFilial.InscricaoEstadual = filial.InscricaoEstadual;
@@ -90,6 +92,8 @@ namespace API.Servicos.Filiais
                 cFilial.Ativo = filial.Ativo;
 
                 cFilial.AtualizarPropriedades(
+                            empresaId: filial.EmpresaId,
+                            codigoUnico: filial.CodigoUnico,
                             cpf: filial.Cpf,
                             cnpj: filial.Cnpj,
                             inscricaoEstadual: filial.InscricaoEstadual,
@@ -112,7 +116,7 @@ namespace API.Servicos.Filiais
             return (false, cFilial.FilialId); // <-- retorno com o novo ID
         }
 
-        public async Task CriarParaImportacao(int filialId, Guid empresaId, string? cpf, string? cnpj, string? inscricaoEstadual, string? inscricaoMunicipal, string nomeFilial,
+        public async Task CriarParaImportacao(int filialId, Guid empresaId, string codigoUnico, string? cpf, string? cnpj, string? inscricaoEstadual, string? inscricaoMunicipal, string nomeFilial,
                 string? tipoLogradouroId, string? endereco, short? numero, string? cep, string? complemento, string? bairro, int cidadeId, string? telefone, bool ativo)
         {
             var cFilial = (await _filialRepo.Buscar(
@@ -120,7 +124,7 @@ namespace API.Servicos.Filiais
                             ).FirstOrDefault();
             if (cFilial == null)
             {
-                cFilial = Dominio.Entidades.Filial.CriarParaImportacao(empresaId, cpf, cnpj, inscricaoEstadual, inscricaoMunicipal, nomeFilial,
+                cFilial = Dominio.Entidades.Filial.CriarParaImportacao(empresaId, codigoUnico, cpf, cnpj, inscricaoEstadual, inscricaoMunicipal, nomeFilial,
                 tipoLogradouroId, endereco, numero, cep, complemento, bairro, cidadeId, telefone, ativo);
                 await Salvar(cFilial);
             }

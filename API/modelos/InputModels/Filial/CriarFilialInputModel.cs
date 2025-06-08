@@ -11,6 +11,7 @@ namespace API.modelos.InputModels
     {
         public int FilialId { get; set; }
         public Guid EmpresaId { get; set; }
+        public string CodigoUnico { get; set; }
         public string? Cpf { get; set; }
         public string? Cnpj { get; set; }
         public string? InscricaoEstadual { get; set; }
@@ -33,6 +34,7 @@ namespace API.modelos.InputModels
         public CriarFilialInputModelValidator()
         {
             RuleFor(x => x.NomeFilial).NotEmpty().MaximumLength(255).WithMessage("Por favor, informe o nome da Filial!");
+            RuleFor(x => x.CodigoUnico).NotEmpty().MaximumLength(30).WithMessage("Por favor, informe o código único da Filial!");
         }
     }
 }

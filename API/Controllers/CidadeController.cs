@@ -37,7 +37,7 @@ namespace API.Controllers
         /// <response code="200">Retorna a cidade pelo ID informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpGet("BuscarPorID")]
+        [HttpGet("ObterPorId")]
         [ProducesResponseType(
             typeof(CidadeViewModel),
             StatusCodes.Status200OK
@@ -59,7 +59,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="parametro"></param>
         /// <returns></returns>
-        [HttpGet("BuscarPorNome")]
+        [HttpGet("ObterPorNome")]
         [ProducesResponseType(
             typeof(List<CidadeViewModel>),
             StatusCodes.Status200OK
@@ -82,7 +82,7 @@ namespace API.Controllers
         /// <response code="200">Retorna a cidade pelo código do IBGE informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpGet("BuscarPorIBGE")]
+        [HttpGet("ObterPorIBGE")]
         [ProducesResponseType(
             typeof(CidadeViewModel),
             StatusCodes.Status200OK

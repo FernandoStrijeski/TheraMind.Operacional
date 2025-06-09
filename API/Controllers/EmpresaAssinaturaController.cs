@@ -37,7 +37,7 @@ namespace API.Controllers
         /// <response code="200">Retorna a assinatura da empresa pelo ID informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpGet("BuscarPorID")]
+        [HttpGet("ObterPorId")]
         [ProducesResponseType(
             typeof(EmpresaAssinaturaViewModel),
             StatusCodes.Status200OK
@@ -60,7 +60,7 @@ namespace API.Controllers
         /// Busca todas as assinaturas das empresas
         /// </summary>
         /// <returns></returns>
-        [HttpGet("Todos")]
+        [HttpGet("ObterTodos")]
         [ProducesResponseType(
             typeof(List<EmpresaAssinaturaViewModel>),
             StatusCodes.Status200OK
@@ -81,7 +81,7 @@ namespace API.Controllers
         /// Busca todas as assinaturas da empresa
         /// </summary>
         /// <returns></returns>
-        [HttpGet("BuscarPorIdEmpresa")]
+        [HttpGet("ObterPorIdEmpresa")]
         [ProducesResponseType(
             typeof(List<EmpresaAssinaturaViewModel>),
             StatusCodes.Status200OK

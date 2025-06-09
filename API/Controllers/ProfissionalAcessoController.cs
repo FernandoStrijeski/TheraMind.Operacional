@@ -37,7 +37,7 @@ namespace API.Controllers
         /// <response code="200">Retorna o acesso do profissional pelo ID informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpGet("BuscarPorID")]
+        [HttpGet("ObterPorId")]
         [ProducesResponseType(
             typeof(ProfissionalAcessoViewModel),
             StatusCodes.Status200OK
@@ -61,7 +61,7 @@ namespace API.Controllers
         /// <response code="200">Retorna o acesso do profissional pelo ID do profissional informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpGet("BuscarPorIDProfissional")]
+        [HttpGet("ObterPorIdProfissional")]
         [ProducesResponseType(
             typeof(ProfissionalAcessoViewModel),
             StatusCodes.Status200OK
@@ -82,7 +82,7 @@ namespace API.Controllers
         /// Busca todos os acessos profissionais
         /// </summary>
         /// <returns></returns>
-        [HttpGet("Todos")]
+        [HttpGet("ObterTodos")]
         [ProducesResponseType(
             typeof(List<ProfissionalAcessoViewModel>),
             StatusCodes.Status200OK

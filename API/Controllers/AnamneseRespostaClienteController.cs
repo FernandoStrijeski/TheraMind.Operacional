@@ -38,7 +38,7 @@ namespace API.Controllers
         /// <response code="200">Retorna a resposta da questão do subgrupo de anamnese pelo ID informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpGet("BuscarPorID")]
+        [HttpGet("ObterPorId")]
         [ProducesResponseType(
             typeof(AnamneseRespostaClienteViewModel),
             StatusCodes.Status200OK
@@ -60,7 +60,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="parametro"></param>
         /// <returns></returns>
-        [HttpGet("BuscarPorNome")]
+        [HttpGet("ObterPorNome")]
         [ProducesResponseType(
             typeof(List<AnamneseRespostaClienteViewModel>),
             StatusCodes.Status200OK
@@ -82,7 +82,7 @@ namespace API.Controllers
         /// Busca todas as respostas das questões dos subgrupos de anamnese
         /// </summary>
         /// <returns></returns>
-        [HttpGet("Todos")]
+        [HttpGet("ObterTodos")]
         [ProducesResponseType(
             typeof(List<AnamneseRespostaClienteViewModel>),
             StatusCodes.Status200OK

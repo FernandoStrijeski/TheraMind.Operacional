@@ -37,7 +37,7 @@ namespace API.Controllers
         /// <response code="200">Retorna o acompanhamento clínico pelo ID informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpGet("BuscarPorID")]
+        [HttpGet("ObterPorId")]
         [ProducesResponseType(
             typeof(AcompanhamentoClinicoViewModel),
             StatusCodes.Status200OK
@@ -57,7 +57,7 @@ namespace API.Controllers
         /// Busca todos os acompanhamentos clínicos
         /// </summary>
         /// <returns></returns>
-        [HttpGet("Todos")]
+        [HttpGet("ObterTodos")]
         [ProducesResponseType(
             typeof(List<AcompanhamentoClinicoViewModel>),
             StatusCodes.Status200OK
@@ -79,7 +79,7 @@ namespace API.Controllers
         /// Busca todos os acompanhamentos clínicos do Clientes e Profissional
         /// </summary>
         /// <returns></returns>
-        [HttpGet("BuscarTodosPorProfissionalCliente")]
+        [HttpGet("ObterTodosPorProfissionalCliente")]
         [ProducesResponseType(
             typeof(List<AcompanhamentoClinicoViewModel>),
             StatusCodes.Status200OK

@@ -37,7 +37,7 @@ namespace API.Controllers
         /// <response code="200">Retorna a fatura da empresa pelo ID informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpGet("BuscarPorID")]
+        [HttpGet("ObterPorId")]
         [ProducesResponseType(
             typeof(EmpresaFaturaViewModel),
             StatusCodes.Status200OK
@@ -58,7 +58,7 @@ namespace API.Controllers
         /// Busca todas as faturas da empresa
         /// </summary>
         /// <returns></returns>
-        [HttpGet("Todos")]
+        [HttpGet("ObterTodos")]
         [ProducesResponseType(
             typeof(List<EmpresaFaturaViewModel>),
             StatusCodes.Status200OK

@@ -1,3 +1,4 @@
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using AutoMapper;
 using Dominio.Entidades;
@@ -16,7 +17,13 @@ namespace API.Core.Mapping
                 .ForMember(dest => dest.AnamneseSubGrupoQuestaoId, opt => opt.MapFrom(src => src.AnamneseSubGrupoQuestaoId))
                 .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(src => src.ClienteId))
                 .ForMember(dest => dest.Resposta, opt => opt.MapFrom(src => src.Resposta))               
-                .ForMember(dest => dest.DataCriacao, opt => opt.MapFrom(src => src.DataCriacao));                
+                .ForMember(dest => dest.DataCriacao, opt => opt.MapFrom(src => src.DataCriacao));
+
+            CreateMap<AnamneseRespostaCliente, CriarAnamneseRespostaClienteInputModel>().ReverseMap();
+
+            CreateMap<AnamneseRespostaClienteViewModel, CriarAnamneseRespostaClienteInputModel>().ReverseMap();
+
+            CreateMap<AnamneseRespostaCliente, AnamneseRespostaClienteInputModel>().ReverseMap();
         }
     }
 }

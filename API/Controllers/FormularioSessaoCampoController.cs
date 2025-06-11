@@ -101,27 +101,53 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Cria ou atualiza um campo do formulário de sessão
-        /// </summary>
-        /// <response code="202">Campo do formulário de sessão criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Campo do formulário de sessão atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um campo do formulário de sessão.
+        /// </summary>         
+        ///<response code="201">Campo do formulário de sessão criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(FormularioSessaoCampoIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarFormularioSessaoCampoInputModel body)
+        [ProducesResponseType(typeof(FormularioSessaoCampoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarFormularioSessaoCampoInputModel formularioSessaoCampo)
         {
-            var (criou, formularioSessaoCampoId) = await _formularioSessaoCampoServico.CriarOuAtualizar(body, true);
+            var retorno = await _formularioSessaoCampoServico.Adicionar(_mapper.Map<FormularioSessaoCampo>(formularioSessaoCampo));
+            return Ok(_mapper.Map<FormularioSessaoCampoViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new FormularioSessaoCampoIdResponseViewModel(formularioSessaoCampoId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um campo do formulário de sessão.
+        /// </summary>         
+        ///<response code="200">Campo do formulário de sessão atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(FormularioSessaoCampoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] FormularioSessaoCampoInputModel formularioSessaoCampo)
+        {
+            // Busca o registro existente
+            var formularioSessaoCampoExistente = await _formularioSessaoCampoServico.BuscarPorID(formularioSessaoCampo.FormularioSessaoId);
+            if (formularioSessaoCampoExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(formularioSessaoCampo, formularioSessaoCampoExistente); // Faz o merge
+
+            var retorno = await _formularioSessaoCampoServico.Atualizar(_mapper.Map<FormularioSessaoCampo>(formularioSessaoCampoExistente));
+            return Ok(_mapper.Map<FormularioSessaoCampoInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um campo do formulário de sessão.
+        /// </summary>         
+        ///<response code="200">Campo do formulário de sessão excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _formularioSessaoCampoServico.Deletar(id);
+            return Ok();
         }
     }
 }

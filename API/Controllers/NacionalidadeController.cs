@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.Nacionalidades;
 using Asp.Versioning;
@@ -95,6 +96,57 @@ namespace API.Controllers
 
             var resultado = _mapper.Map<List<NacionalidadeViewModel>>(nacionalidade);
             return Ok(resultado);
+        }
+
+
+        /// <summary>
+        /// Cria uma nacionalidade.
+        /// </summary>         
+        ///<response code="201">Nacionalidade criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(NacionalidadeViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarNacionalidadeInputModel nacionalidade)
+        {
+            var retorno = await _nacionalidadeServico.Adicionar(_mapper.Map<Nacionalidade>(nacionalidade));
+            return Ok(_mapper.Map<NacionalidadeViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza uma nacionalidade.
+        /// </summary>         
+        ///<response code="200">Nacionalidade atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(NacionalidadeViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] NacionalidadeInputModel nacionalidade)
+        {
+            // Busca o registro existente
+            var nacionalidadeExistente = await _nacionalidadeServico.BuscarPorID(nacionalidade.NacionalidadeId);
+            if (nacionalidadeExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(nacionalidade, nacionalidadeExistente); // Faz o merge
+
+            var retorno = await _nacionalidadeServico.Atualizar(_mapper.Map<Nacionalidade>(nacionalidadeExistente));
+            return Ok(_mapper.Map<NacionalidadeInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma nacionalidade.
+        /// </summary>         
+        ///<response code="200">Nacionalidade excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _nacionalidadeServico.Deletar(id);
+            return Ok();
         }
     }
 }

@@ -6,9 +6,14 @@ namespace API.modelos.InputModels
     public class ModeloAnamneseSgInputModel
     {
         /// <summary>
+        /// Id do subgrupo do modelo de anamnese
+        /// </summary>
+        public int ModeloAnamneseSgId { get; set; }
+
+        /// <summary>
         /// Id do modelo de anamnese
         /// </summary>
-        public int ModeloAnamneseGid { get; set; }
+        public int ModeloAnamneseGId { get; set; }
 
         /// <summary>
         /// Título do modelo de anamnese

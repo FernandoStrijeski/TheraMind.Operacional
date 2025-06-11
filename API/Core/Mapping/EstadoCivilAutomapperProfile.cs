@@ -9,7 +9,7 @@ namespace API.Core.Mapping
     {
         public EstadoCivilAutomapperProfile()
         {            
-            CreateMap<EstadoCivil, EstadoCivilViewModel>()
+            CreateMap<EstadoCivil, EstadoCivilViewModel>().ReverseMap()
                 .ForMember(dest => dest.EstadoCivilId, opt => opt.MapFrom(src => src.EstadoCivilId))
                 .ForMember(dest => dest.Descricao, opt => opt.MapFrom(src => src.Descricao));
 

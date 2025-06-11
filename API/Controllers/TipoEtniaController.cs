@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.TiposEtnias;
 using Asp.Versioning;
@@ -97,6 +98,57 @@ namespace API.Controllers
 
             var resultado = _mapper.Map<List<TipoEtniaViewModel>>(tiposEtnias);
             return Ok(resultado);
+        }
+
+
+        /// <summary>
+        /// Cria um tipo de etnia.
+        /// </summary>         
+        ///<response code="201">Tipo de etnia criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(TipoEtniaViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarTipoEtniaInputModel tipoEtnia)
+        {
+            var retorno = await _tipoEtniaServico.Adicionar(_mapper.Map<TipoEtnia>(tipoEtnia));
+            return Ok(_mapper.Map<TipoEtniaViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza um tipo de etnia.
+        /// </summary>         
+        ///<response code="200">Tipo de etnia atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(TipoEtniaViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] TipoEtniaInputModel tipoEtnia)
+        {
+            // Busca o registro existente
+            var tipoEtniaViewModelExistente = await _tipoEtniaServico.BuscarPorID(tipoEtnia.TipoEtniaId);
+            if (tipoEtniaViewModelExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(tipoEtnia, tipoEtniaViewModelExistente); // Faz o merge
+
+            var retorno = await _tipoEtniaServico.Atualizar(_mapper.Map<TipoEtnia>(tipoEtniaViewModelExistente));
+            return Ok(_mapper.Map<TipoEtniaViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um tipo de etnia.
+        /// </summary>         
+        ///<response code="200">Tipo de etnia excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _tipoEtniaServico.Deletar(id);
+            return Ok();
         }
     }
 }

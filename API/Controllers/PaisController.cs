@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.Paises;
 using Asp.Versioning;
@@ -97,6 +98,57 @@ namespace API.Controllers
 
             var resultado = _mapper.Map<List<PaisViewModel>>(paises);
             return Ok(resultado);
+        }
+
+
+        /// <summary>
+        /// Cria um país.
+        /// </summary>         
+        ///<response code="201">País criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(PaisViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarPaisInputModel pais)
+        {
+            var retorno = await _paisServico.Adicionar(_mapper.Map<Pais>(pais));
+            return Ok(_mapper.Map<PaisViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza um país.
+        /// </summary>         
+        ///<response code="200">País atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(PaisViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] PaisInputModel pais)
+        {
+            // Busca o registro existente
+            var paisExistente = await _paisServico.BuscarPorID(pais.PaisId);
+            if (paisExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(pais, paisExistente); // Faz o merge
+
+            var retorno = await _paisServico.Atualizar(_mapper.Map<Pais>(paisExistente));
+            return Ok(_mapper.Map<PaisViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um país.
+        /// </summary>         
+        ///<response code="200">País excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _paisServico.Deletar(id);
+            return Ok();
         }
     }
 }

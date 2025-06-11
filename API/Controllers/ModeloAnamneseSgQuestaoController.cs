@@ -99,28 +99,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza uma questão do subgrupo do grupo do modelo de anamnese
-        /// </summary>
-        /// <response code="202">Questão do subgrupo do grupo do modelo de anamnese criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Questão do subgrupo do grupo do modelo de anamnese atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria uma questão do subgrupo do grupo do modelo de anamnese.
+        /// </summary>         
+        ///<response code="201">Questão do subgrupo do grupo do modelo de anamnese criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(ModeloAnamneseSgQuestaoIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarModeloAnamneseSgQuestaoInputModel body)
+        [ProducesResponseType(typeof(ModeloAnamneseSgQuestaoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarModeloAnamneseSgQuestaoInputModel modeloAnamneseSgQuestao)
         {
-            var (criou, modeloAnamneseSgQuestaoId) = await _modeloAnamneseSgQuestaoServico.CriarOuAtualizar(body, true);
+            var retorno = await _modeloAnamneseSgQuestaoServico.Adicionar(_mapper.Map<ModeloAnamneseSgQuestao>(modeloAnamneseSgQuestao));
+            return Ok(_mapper.Map<ModeloAnamneseSgQuestaoViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new ModeloAnamneseSgQuestaoIdResponseViewModel(modeloAnamneseSgQuestaoId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza uma questão do subgrupo do grupo do modelo de anamnese.
+        /// </summary>         
+        ///<response code="200">Questão do subgrupo do grupo do modelo de anamnese atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(ModeloAnamneseSgQuestaoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] ModeloAnamneseSgQuestaoInputModel modeloAnamneseSgQuestao)
+        {
+            // Busca o registro existente
+            var modeloAnamneseSgQuestaoExistente = await _modeloAnamneseSgQuestaoServico.BuscarPorID(modeloAnamneseSgQuestao.ModeloAnamneseSgQuestaoId);
+            if (modeloAnamneseSgQuestaoExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(modeloAnamneseSgQuestao, modeloAnamneseSgQuestaoExistente); // Faz o merge
+
+            var retorno = await _modeloAnamneseSgQuestaoServico.Atualizar(_mapper.Map<ModeloAnamneseSgQuestao>(modeloAnamneseSgQuestaoExistente));
+            return Ok(_mapper.Map<ModeloAnamneseSgQuestaoInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma questão do subgrupo do grupo do modelo de anamnese.
+        /// </summary>         
+        ///<response code="200">Questão do subgrupo do grupo do modelo de anamnese excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _modeloAnamneseSgQuestaoServico.Deletar(id);
+            return Ok();
         }
     }
 }

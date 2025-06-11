@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.TiposLogradouros;
 using Asp.Versioning;
@@ -97,6 +98,57 @@ namespace API.Controllers
 
             var resultado = _mapper.Map<List<TipoLogradouroViewModel>>(tiposLogradouros);
             return Ok(resultado);
+        }
+
+
+        /// <summary>
+        /// Cria um tipo de logradouro.
+        /// </summary>         
+        ///<response code="201">Tipo de logradouro criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(TipoLogradouroViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarTipoLogradouroInputModel tipoLogradouro)
+        {
+            var retorno = await _tipoLogradouroServico.Adicionar(_mapper.Map<TipoLogradouro>(tipoLogradouro));
+            return Ok(_mapper.Map<TipoLogradouroViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza um tipo de logradouro.
+        /// </summary>         
+        ///<response code="200">Tipo de logradouro atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(TipoLogradouroViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] TipoLogradouroInputModel tipoLogradouro)
+        {
+            // Busca o registro existente
+            var tipoLogradouroExistente = await _tipoLogradouroServico.BuscarPorID(tipoLogradouro.TipoLogradouroId);
+            if (tipoLogradouroExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(tipoLogradouro, tipoLogradouroExistente); // Faz o merge
+
+            var retorno = await _tipoLogradouroServico.Atualizar(_mapper.Map<TipoLogradouro>(tipoLogradouroExistente));
+            return Ok(_mapper.Map<TipoLogradouroViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um tipo de logradouro.
+        /// </summary>         
+        ///<response code="200">Tipo de logradouro excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] string id)
+        {
+            await _tipoLogradouroServico.Deletar(id);
+            return Ok();
         }
     }
 }

@@ -100,28 +100,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza um acesso do profissional
-        /// </summary>
-        /// <response code="202">Acesso do profissional criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Acesso do profissional atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um acesso para o profissional.
+        /// </summary>         
+        ///<response code="201">Acesso para o profissional criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(ProfissionalAcessoIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarProfissionalAcessoInputModel body)
+        [ProducesResponseType(typeof(ProfissionalAcessoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarProfissionalAcessoInputModel profissionalAcesso)
         {
-            var (criou, profissionalAcessoId) = await _profissionalAcessoServico.CriarOuAtualizar(body, true);
+            var retorno = await _profissionalAcessoServico.Adicionar(_mapper.Map<ProfissionalAcesso>(profissionalAcesso));
+            return Ok(_mapper.Map<ProfissionalAcessoViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new ProfissionalAcessoIdResponseViewModel(profissionalAcessoId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um acesso para o profissional.
+        /// </summary>         
+        ///<response code="200">Acesso para o profissional atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(ProfissionalAcessoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] ProfissionalAcessoInputModel profissionalAcesso)
+        {
+            // Busca o registro existente
+            var profissionalAcessoExistente = await _profissionalAcessoServico.BuscarPorID(profissionalAcesso.ProfissionalAcessoId);
+            if (profissionalAcessoExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(profissionalAcesso, profissionalAcessoExistente); // Faz o merge
+
+            var retorno = await _profissionalAcessoServico.Atualizar(_mapper.Map<ProfissionalAcesso>(profissionalAcessoExistente));
+            return Ok(_mapper.Map<ProfissionalAcessoViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um acesso para o profissional.
+        /// </summary>         
+        ///<response code="200">Acesso para o profissional excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _profissionalAcessoServico.Deletar(id);
+            return Ok();
         }
     }
 }

@@ -76,28 +76,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza um pacote fechado
-        /// </summary>
-        /// <response code="202">Pacote fechado criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Pacote fechado atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um pacote fechado.
+        /// </summary>         
+        ///<response code="201">pacote fechado criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(PacoteFechadoIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarPacoteFechadoInputModel body)
+        [ProducesResponseType(typeof(PacoteFechadoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarPacoteFechadoInputModel pacoteFechado)
         {
-            var (criou, pacoteFechadoId) = await _pacoteFechadoServico.CriarOuAtualizar(body, true);
+            var retorno = await _pacoteFechadoServico.Adicionar(_mapper.Map<PacoteFechado>(pacoteFechado));
+            return Ok(_mapper.Map<PacoteFechadoViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new PacoteFechadoIdResponseViewModel(pacoteFechadoId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um pacote fechado.
+        /// </summary>         
+        ///<response code="200">pacote fechado atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(PacoteFechadoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] PacoteFechadoInputModel pacoteFechado)
+        {
+            // Busca o registro existente
+            var pacoteFechadoExistente = await _pacoteFechadoServico.BuscarPorID(pacoteFechado.PacoteFechadoId);
+            if (pacoteFechadoExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(pacoteFechado, pacoteFechadoExistente); // Faz o merge
+
+            var retorno = await _pacoteFechadoServico.Atualizar(_mapper.Map<PacoteFechado>(pacoteFechadoExistente));
+            return Ok(_mapper.Map<PacoteFechadoViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um pacote fechado.
+        /// </summary>         
+        ///<response code="200">pacote fechado excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _pacoteFechadoServico.Deletar(id);
+            return Ok();
         }
     }
 }

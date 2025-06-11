@@ -33,9 +33,9 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Busca o grupo do modelo de anamnese a partir do identificador informado
+        /// Busca o subgrupo do modelo de anamnese a partir do identificador informado
         /// </summary>
-        /// <response code="200">Retorna o grupo do modelo de anamnese pelo ID informado</response>
+        /// <response code="200">Retorna o subgrupo do modelo de anamnese pelo ID informado</response>
         /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
         /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
         [HttpGet("ObterPorId")]
@@ -48,7 +48,7 @@ namespace API.Controllers
         {
             ModeloAnamneseSg? modeloAnamneseSg = await _modeloAnamneseSgServico.BuscarPorID(modeloAnamneseSgID);
             if (modeloAnamneseSg == null)
-                return NotFound("Nenhum grupo do modelo de anamnese encontrado");
+                return NotFound("Nenhum subgrupo do modelo de anamnese encontrado");
 
 
             var resultado = _mapper.Map<ModeloAnamneseSgViewModel>(modeloAnamneseSg);
@@ -56,7 +56,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Busca os grupos dos modelos de anamnese pelo nome
+        /// Busca os subgrupos dos modelos de anamnese pelo nome
         /// </summary>
         /// <param name="parametro"></param>
         /// <returns></returns>
@@ -71,7 +71,7 @@ namespace API.Controllers
             var modelosAnamneseSg = await _modeloAnamneseSgServico.BuscarPorNome(parametro);
 
             if (modelosAnamneseSg == null || modelosAnamneseSg.Count == 0)
-                return NotFound("Nenhum grupo do modelo de anamnese encontrado");
+                return NotFound("Nenhum subgrupo do modelo de anamnese encontrado");
 
             var resultado = _mapper.Map<List<ModeloAnamneseSgViewModel>>(modelosAnamneseSg);
             return Ok(resultado);
@@ -79,7 +79,7 @@ namespace API.Controllers
 
 
         /// <summary>
-        /// Busca todos os grupos dos modelos de anamnese
+        /// Busca todos os subgrupos dos modelos de anamnese
         /// </summary>
         /// <returns></returns>
         [HttpGet("ObterTodos")]
@@ -93,35 +93,62 @@ namespace API.Controllers
             var modelosAnamneseSg = await _modeloAnamneseSgServico.BuscarTodos();
 
             if (modelosAnamneseSg == null || modelosAnamneseSg.Count == 0)
-                return NotFound("Nenhum grupo do modelo de anamnese encontrado");
+                return NotFound("Nenhum subgrupo do modelo de anamnese encontrado");
 
 
             var resultado = _mapper.Map<List<ModeloAnamneseSgViewModel>>(modelosAnamneseSg);
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza um grupo do modelo de anamnese
-        /// </summary>
-        /// <response code="202">Grupo do modelo de anamnese criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Grupo do modelo de anamnese atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um subgrupo do modelo de anamnese.
+        /// </summary>         
+        ///<response code="201">Subgrupo do modelo de anamnese criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(ModeloAnamneseSgIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarModeloAnamneseSgInputModel body)
+        [ProducesResponseType(typeof(ModeloAnamneseSgViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarModeloAnamneseSgInputModel modeloAnamneseSg)
         {
-            var (criou, modeloAnamneseSgId) = await _modeloAnamneseSgServico.CriarOuAtualizar(body, true);
+            var retorno = await _modeloAnamneseSgServico.Adicionar(_mapper.Map<ModeloAnamneseSg>(modeloAnamneseSg));
+            return Ok(_mapper.Map<ModeloAnamneseSgViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new ModeloAnamneseSgIdResponseViewModel(modeloAnamneseSgId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um subgrupo do modelo de anamnese.
+        /// </summary>         
+        ///<response code="200">Subgrupo do modelo de anamnese atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(ModeloAnamneseSgViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] ModeloAnamneseSgInputModel modeloAnamneseSg)
+        {
+            // Busca o registro existente
+            var modeloAnamneseSgExistente = await _modeloAnamneseSgServico.BuscarPorID(modeloAnamneseSg.ModeloAnamneseSgId);
+            if (modeloAnamneseSgExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(modeloAnamneseSg, modeloAnamneseSgExistente); // Faz o merge
+
+            var retorno = await _modeloAnamneseSgServico.Atualizar(_mapper.Map<ModeloAnamneseSg>(modeloAnamneseSgExistente));
+            return Ok(_mapper.Map<ModeloAnamneseSgInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um subgrupo do modelo de anamnese.
+        /// </summary>         
+        ///<response code="200">Subgrupo do modelo de anamnese excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _modeloAnamneseSgServico.Deletar(id);
+            return Ok();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace API.modelos.InputModels
     public class CriarModeloAnamneseSgInputModel
     {
         public string Titulo { get; set; } = null!;
-        public int ModeloAnamneseSgid { get; set; }        
+        public int ModeloAnamneseGId { get; set; }        
         public short Ordem { get; set; }
         public bool? Ativo { get; set; }        
     }

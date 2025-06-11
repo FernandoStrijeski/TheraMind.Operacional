@@ -55,7 +55,7 @@ namespace API.Servicos.EmpresaFaturas
                 throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Fatura da empresa não encontrada, verifique o identificador!");
 
             //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
-            await _escolaridad_empresaFaturaRepoeRepo.Deletar(empresaFaturaID);
+            await _empresaFaturaRepo.Deletar(empresaFaturaID);
             await Comitar();
 
             return;

@@ -14,7 +14,7 @@ namespace API.modelos.InputModels
     {
         public CriarEscolaridadeInputModelValidator()
         {
-            RuleFor(x => x.Descricao).NotEmpty().MaximumLength(150).WithMessage("Por favor, informe a descrição da escolaridade!");            
+            RuleFor(x => x.Descricao).NotEmpty().MaximumLength(255).WithMessage("Por favor, informe a descrição da escolaridade!");            
         }
     }
 }

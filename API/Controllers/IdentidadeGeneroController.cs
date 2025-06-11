@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.IdentidadesGeneros;
 using Asp.Versioning;
@@ -89,14 +90,65 @@ namespace API.Controllers
         [Authorize(Roles = "ADMIN,GESTOR,CLIENTE")]
         public async Task<ActionResult> BuscarTodos()
         {
-            var identidadeGenero = await _identidadeGeneroServico.BuscarTodos();
+            var identidadesGeneros = await _identidadeGeneroServico.BuscarTodos();
 
-            if (identidadeGenero == null || identidadeGenero.Count == 0)
+            if (identidadesGeneros == null || identidadesGeneros.Count == 0)
                 return NotFound("Nenhum tipo de identidade de gênero encontrado");
 
 
-            var resultado = _mapper.Map<List<IdentidadeGeneroViewModel>>(identidadeGenero);
+            var resultado = _mapper.Map<List<IdentidadeGeneroViewModel>>(identidadesGeneros);
             return Ok(resultado);
+        }
+
+
+        /// <summary>
+        /// Cria uma identidade de gênero.
+        /// </summary>         
+        ///<response code="201">Identidade de gênero criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(IdentidadeGeneroViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarIdentidadeGeneroInputModel identidadeGenero)
+        {
+            var retorno = await _identidadeGeneroServico.Adicionar(_mapper.Map<IdentidadeGenero>(identidadeGenero));
+            return Ok(_mapper.Map<IdentidadeGeneroViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza uma identidade de gênero.
+        /// </summary>         
+        ///<response code="200">Identidade de gênero atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(IdentidadeGeneroViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] IdentidadeGeneroInputModel identidadeGenero)
+        {
+            // Busca o registro existente
+            var identidadeGeneroExistente = await _identidadeGeneroServico.BuscarPorID(identidadeGenero.IdentidadeGeneroId);
+            if (identidadeGeneroExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(identidadeGenero, identidadeGeneroExistente); // Faz o merge
+
+            var retorno = await _identidadeGeneroServico.Atualizar(_mapper.Map<IdentidadeGenero>(identidadeGeneroExistente));
+            return Ok(_mapper.Map<IdentidadeGeneroInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma identidade de gênero.
+        /// </summary>         
+        ///<response code="200">Identidade de gênero excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _identidadeGeneroServico.Deletar(id);
+            return Ok();
         }
     }
 }

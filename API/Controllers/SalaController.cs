@@ -100,27 +100,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza uma sala
-        /// </summary>
-        /// <response code="202">Sala criada com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Sala atualizada com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria uma sala.
+        /// </summary>         
+        ///<response code="201">Sala criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(SalaIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarSalaInputModel body)
+        [ProducesResponseType(typeof(SalaViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarSalaInputModel sala)
         {
-            var (criou, salaId) = await _salaServico.CriarOuAtualizar(body, true);
-
-            if (criou)
-                return Accepted(new SalaIdResponseViewModel(salaId));
-
-            return NoContent(); // Atualizado com sucesso, sem corpo 
+            var retorno = await _salaServico.Adicionar(_mapper.Map<Sala>(sala));
+            return Ok(_mapper.Map<SalaViewModel>(retorno));
         }
-    }
+
+        /// <summary>
+        /// Atualiza uma sala.
+        /// </summary>         
+        ///<response code="200">Sala atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(SalaViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] SalaInputModel sala)
+        {
+            // Busca o registro existente
+            var salaExistente = await _salaServico.BuscarPorID(sala.SalaId);
+            if (salaExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(sala, salaExistente); // Faz o merge
+
+            var retorno = await _salaServico.Atualizar(_mapper.Map<Sala>(salaExistente));
+            return Ok(_mapper.Map<SalaViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma sala.
+        /// </summary>         
+        ///<response code="200">Sala excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] string id)
+        {
+            await _salaServico.Deletar(id);
+            return Ok();
+        }
+    }    
 }

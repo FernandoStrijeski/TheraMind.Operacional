@@ -44,9 +44,9 @@ namespace API.Controllers
             StatusCodes.Status200OK
         )]
         [Authorize(Roles = "ADMIN,GESTOR,CLIENTE")]
-        public async Task<ActionResult> BuscarPorID(Guid empresaID, int filialID)
+        public async Task<ActionResult> BuscarPorID(int filialID)
         {
-            Filial? filial = await _filialServico.BuscarPorID(empresaID, filialID);
+            Filial? filial = await _filialServico.BuscarPorID(filialID);
             if (filial == null)
                 return NotFound("Nenhuma filial encontrada"); ;
 
@@ -99,28 +99,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza uma filial
-        /// </summary>
-        /// <response code="202">Filial criada com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Empresa atualizada com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria uma filial.
+        /// </summary>         
+        ///<response code="201">Filial criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(FilialIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarFilialInputModel body)
+        [ProducesResponseType(typeof(FilialViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarFilialInputModel filial)
         {
-            var (criou, filialId) = await _filialServico.CriarOuAtualizar(body, true);
+            var retorno = await _filialServico.Adicionar(_mapper.Map<Filial>(filial));
+            return Ok(_mapper.Map<FilialViewModel>(retorno));
+        }
 
-            if (criou)
-                return Accepted(new FilialIdResponseViewModel(filialId));
+        /// <summary>
+        /// Atualiza uma filial.
+        /// </summary>         
+        ///<response code="200">Filial atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(FilialViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] FilialInputModel filial)
+        {
+            // Busca o registro existente
+            var filialExistente = await _filialServico.BuscarPorID(filial.FilialId);
+            if (filialExistente == null)
+                return NotFound();
 
-            return NoContent(); // Atualizado com sucesso, sem corpo 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(filial, filialExistente); // Faz o merge
 
+            var retorno = await _filialServico.Atualizar(_mapper.Map<Filial>(filialExistente));
+            return Ok(_mapper.Map<FilialInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma filial.
+        /// </summary>         
+        ///<response code="200">Filial excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _filialServico.Deletar(id);
+            return Ok();
         }
     }
 }

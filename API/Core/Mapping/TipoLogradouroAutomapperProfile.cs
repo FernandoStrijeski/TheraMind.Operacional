@@ -10,8 +10,17 @@ namespace API.Core.Mapping
     {
         public TipoLogradouroAutomapperProfile()
         {            
-            CreateMap<TipoLogradouro, TipoLogradouroViewModel>()
+            CreateMap<TipoLogradouro, TipoLogradouroViewModel>().ReverseMap()
                 .ForMember(dest => dest.TipoLogradouroId, opt => opt.MapFrom(src => src.TipoLogradouroId))
+                .ForMember(dest => dest.Descricao, opt => opt.MapFrom(src => src.Descricao));
+
+            CreateMap<TipoLogradouro, CriarTipoLogradouroInputModel>().ReverseMap()
+                .ForMember(dest => dest.Descricao, opt => opt.MapFrom(src => src.Descricao));
+
+            CreateMap<TipoLogradouroViewModel, CriarTipoLogradouroInputModel>().ReverseMap()
+                .ForMember(dest => dest.Descricao, opt => opt.MapFrom(src => src.Descricao));
+
+            CreateMap<TipoLogradouro, TipoLogradouroInputModel>().ReverseMap()
                 .ForMember(dest => dest.Descricao, opt => opt.MapFrom(src => src.Descricao));
         }
     }

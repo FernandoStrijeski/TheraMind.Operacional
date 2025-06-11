@@ -100,28 +100,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza um profissional
-        /// </summary>
-        /// <response code="202">Profissional criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Profissional atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um profissional.
+        /// </summary>         
+        ///<response code="201">Profissional criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(ProfissionalIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarProfissionalInputModel body)
+        [ProducesResponseType(typeof(ProfissionalViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarProfissionalInputModel profissional)
         {
-            var (criou, profissionalId) = await _profissionalServico.CriarOuAtualizar(body, true);
+            var retorno = await _profissionalServico.Adicionar(_mapper.Map<Profissional>(profissional));
+            return Ok(_mapper.Map<ProfissionalViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new ProfissionalIdResponseViewModel(profissionalId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um profissional.
+        /// </summary>         
+        ///<response code="200">Profissional atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(ProfissionalViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] ProfissionalInputModel profissional)
+        {
+            // Busca o registro existente
+            var profissionalExistente = await _profissionalServico.BuscarPorID(profissional.ProfissionalId);
+            if (profissionalExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(profissional, profissionalExistente); // Faz o merge
+
+            var retorno = await _profissionalServico.Atualizar(_mapper.Map<Profissional>(profissionalExistente));
+            return Ok(_mapper.Map<ProfissionalViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um profissional.
+        /// </summary>         
+        ///<response code="200">Profissional excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] Guid id)
+        {
+            await _profissionalServico.Deletar(id);
+            return Ok();
         }
     }
 }

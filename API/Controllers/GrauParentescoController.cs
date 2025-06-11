@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.GrauParentescos;
 using Asp.Versioning;
@@ -95,6 +96,57 @@ namespace API.Controllers
 
             var resultado = _mapper.Map<List<GrauParentescoViewModel>>(grauParentesco);
             return Ok(resultado);
+        }
+
+
+        /// <summary>
+        /// Cria um grau de parentesco.
+        /// </summary>         
+        ///<response code="201">Grau de parentesco criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(GrauParentescoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarGrauParentescoInputModel grauParentesco)
+        {
+            var retorno = await _grauParentescoServico.Adicionar(_mapper.Map<GrauParentesco>(grauParentesco));
+            return Ok(_mapper.Map<GrauParentescoViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza um grau de parentesco.
+        /// </summary>         
+        ///<response code="200">Grau de parentesco atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(GrauParentescoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] GrauParentescoInputModel grauParentesco)
+        {
+            // Busca o registro existente
+            var grauParentescoExistente = await _grauParentescoServico.BuscarPorID(grauParentesco.GrauParentescoId);
+            if (grauParentescoExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(grauParentesco, grauParentescoExistente); // Faz o merge
+
+            var retorno = await _grauParentescoServico.Atualizar(_mapper.Map<GrauParentesco>(grauParentescoExistente));
+            return Ok(_mapper.Map<GrauParentescoInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um grau de parentesco.
+        /// </summary>         
+        ///<response code="200">Grau de parentesco excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _grauParentescoServico.Deletar(id);
+            return Ok();
         }
     }
 }

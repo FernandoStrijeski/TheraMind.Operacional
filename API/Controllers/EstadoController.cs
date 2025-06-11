@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.Estados;
 using Asp.Versioning;
@@ -74,6 +75,57 @@ namespace API.Controllers
 
             var resultado = _mapper.Map<List<EstadoViewModel>>(estado);
             return Ok(resultado);
+        }
+
+
+        /// <summary>
+        /// Cria um estado.
+        /// </summary>         
+        ///<response code="201">Estado criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(EstadoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarEstadoInputModel estado)
+        {
+            var retorno = await _estadoServico.Adicionar(_mapper.Map<Estado>(estado));
+            return Ok(_mapper.Map<EstadoViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza um estado.
+        /// </summary>         
+        ///<response code="200">Estado atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(EstadoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] EstadoInputModel estado)
+        {
+            // Busca o registro existente
+            var estadoExistente = await _estadoServico.BuscarPorID(estado.UF);
+            if (estadoExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(estado, estadoExistente); // Faz o merge
+
+            var retorno = await _estadoServico.Atualizar(_mapper.Map<Estado>(estadoExistente));
+            return Ok(_mapper.Map<EstadoInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um estado.
+        /// </summary>         
+        ///<response code="200">Estado excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] string id)
+        {
+            await _estadoServico.Deletar(id);
+            return Ok();
         }
     }
 }

@@ -26,21 +26,21 @@ namespace API.Servicos.IdentidadesGeneros
         Task<List<IdentidadeGenero>> BuscarTodos();
 
         /// <summary>
-        /// Adicionar uma nova escolaridade
+        /// Adicionar uma identidade de gênero
         /// </summary>
         /// <param name="escolaridade"></param>
         /// <returns></returns>
-        Task<Escolaridade> Adicionar(Escolaridade escolaridade);
+        Task<IdentidadeGenero> Adicionar(IdentidadeGenero escolaridade);
 
         /// <summary>
-        /// Atualizar a escolaridade
+        /// Atualizar a identidade de gênero
         /// </summary>
         /// <param name="escolaridade"></param>
         /// <returns></returns>
-        Task<Escolaridade> Atualizar(Escolaridade escolaridade);
+        Task<IdentidadeGenero> Atualizar(IdentidadeGenero escolaridade);
 
         /// <summary>
-        /// Remover a escolaridade
+        /// Remover a identidade de gênero
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

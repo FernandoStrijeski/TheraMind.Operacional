@@ -100,27 +100,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza um plano
-        /// </summary>
-        /// <response code="202">Plano criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Plano atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um plano.
+        /// </summary>         
+        ///<response code="201">Plano criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(PlanoIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarPlanoInputModel body)
+        [ProducesResponseType(typeof(PlanoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarPlanoInputModel plano)
         {
-            var (criou, planoId) = await _planoServico.CriarOuAtualizar(body, true);
+            var retorno = await _planoServico.Adicionar(_mapper.Map<Plano>(plano));
+            return Ok(_mapper.Map<PlanoViewModel>(retorno));
+        }
 
-            if (criou)
-                return Accepted(new PlanoIdResponseViewModel(planoId));
+        /// <summary>
+        /// Atualiza um plano.
+        /// </summary>         
+        ///<response code="200">Plano atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(PlanoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] PlanoInputModel plano)
+        {
+            // Busca o registro existente
+            var planoExistente = await _planoServico.BuscarPorID(plano.PlanoId);
+            if (planoExistente == null)
+                return NotFound();
 
-            return NoContent(); // Atualizado com sucesso, sem corpo 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(plano, planoExistente); // Faz o merge
+
+            var retorno = await _planoServico.Atualizar(_mapper.Map<Plano>(planoExistente));
+            return Ok(_mapper.Map<PlanoViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um plano.
+        /// </summary>         
+        ///<response code="200">Plano excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] Guid id)
+        {
+            await _planoServico.Deletar(id);
+            return Ok();
         }
     }
 }

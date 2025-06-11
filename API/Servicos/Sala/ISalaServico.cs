@@ -45,7 +45,7 @@ namespace API.Servicos.Salas
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task Deletar(int id);
+        Task Deletar(string id);
 
     }
 }

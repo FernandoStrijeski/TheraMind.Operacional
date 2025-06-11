@@ -1,3 +1,4 @@
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using AutoMapper;
 using Dominio.Entidades;
@@ -9,8 +10,14 @@ namespace API.Core.Mapping
     {
         public DocumentoModeloEmpresaOpcaoAutomapperProfile()
         {
-            CreateMap<DocumentoModeloEmpresaOpcao, DocumentoModeloEmpresaOpcaoViewModel>()
+            CreateMap<DocumentoModeloEmpresaOpcao, DocumentoModeloEmpresaOpcaoViewModel>().ReverseMap()
                 .ForMember(dest => dest.DocumentoModeloEmpresaOpcaoId, opt => opt.MapFrom(src => src.DocumentoModeloEmpresaOpcaoId));
+
+            CreateMap<DocumentoModeloEmpresaOpcao, CriarDocumentoModeloEmpresaOpcaoInputModel>().ReverseMap();
+
+            CreateMap<DocumentoModeloEmpresaOpcaoViewModel, CriarDocumentoModeloEmpresaOpcaoInputModel>().ReverseMap();
+
+            CreateMap<DocumentoModeloEmpresaOpcao, DocumentoModeloEmpresaOpcaoInputModel>().ReverseMap();
         }
     }
 }

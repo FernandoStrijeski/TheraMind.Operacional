@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.OrientacoesSexuais;
 using Asp.Versioning;
@@ -97,6 +98,56 @@ namespace API.Controllers
 
             var resultado = _mapper.Map<List<OrientacaoSexualViewModel>>(orientacaoSexual);
             return Ok(resultado);
+        }
+
+        /// <summary>
+        /// Cria uma orientação sexual.
+        /// </summary>         
+        ///<response code="201">Orientação sexual criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(OrientacaoSexualViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarOrientacaoSexualInputModel orientacaoSexual)
+        {
+            var retorno = await _orientacaoSexualServico.Adicionar(_mapper.Map<OrientacaoSexual>(orientacaoSexual));
+            return Ok(_mapper.Map<OrientacaoSexualViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza uma orientação sexual.
+        /// </summary>         
+        ///<response code="200">Orientação sexual atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(OrientacaoSexualViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] OrientacaoSexualInputModel orientacaoSexual)
+        {
+            // Busca o registro existente
+            var orientacaoSexualExistente = await _orientacaoSexualServico.BuscarPorID(orientacaoSexual.OrientacaoSexualId);
+            if (orientacaoSexualExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(orientacaoSexual, orientacaoSexualExistente); // Faz o merge
+
+            var retorno = await _orientacaoSexualServico.Atualizar(_mapper.Map<OrientacaoSexual>(orientacaoSexualExistente));
+            return Ok(_mapper.Map<OrientacaoSexualInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma orientação sexual.
+        /// </summary>         
+        ///<response code="200">Orientação sexual excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _orientacaoSexualServico.Deletar(id);
+            return Ok();
         }
     }
 }

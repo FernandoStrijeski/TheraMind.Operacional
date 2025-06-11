@@ -4,6 +4,7 @@ using API.modelos.InputModels;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using System.Net;
 
@@ -38,77 +39,32 @@ namespace API.Servicos.Servicos
             return await _servicoRepo.BuscarFiltros(x => x.Nome.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(Servico servico)
+        public async Task<Servico> Adicionar(Servico servico)
         {
             await _servicoRepo.Adicionar(servico);
             await Comitar();
+            return servico;
         }
 
-        private async Task Atualizar(Servico servico)
+        public async Task<Servico> Atualizar(Servico servico)
         {
             await _servicoRepo.Atualizar(servico);
             await Comitar();
+            return servico;
         }
 
-        public async Task<(bool criado, int servicoId)> CriarOuAtualizar(CriarServicoInputModel servico, bool atualizaSeExistir)
+        public async Task Deletar(int servicoID)
         {
-            var cServico = (await _servicoRepo.Buscar(
-                x => x.ServicoId == servico.ServicoId
-            )).FirstOrDefault();
-            if (cServico == null)
-            {
-                cServico = Servico.CriarParaImportacao(
-                    empresaID: servico.EmpresaId,
-                    filialID: servico.FilialId,
-                    nome: servico.Nome,                
-                    padrao: servico.Padrao,
-                    duracaoMinutos: servico.DuracaoMinutos,
-                    ativo: servico.Ativo
-                    );
-                await Salvar(cServico);
-                return (true, cServico.ServicoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cServico.Nome = servico.Nome;
-                cServico.AtualizarPropriedades(
-                    empresaID: servico.EmpresaId,
-                    filialID: servico.FilialId,
-                    nome: servico.Nome,
-                    padrao: servico.Padrao,
-                    duracaoMinutos: servico.DuracaoMinutos,
-                    ativo: servico.Ativo
-                    );
-                await _servicoRepo.Atualizar(cServico);
-                await Atualizar(cServico);
+            var servico = _servicoRepo.BuscarPorID(servicoID).Result;
 
-            }
-            return (false, cServico.ServicoId); // <-- retorno com o novo ID
-        }
+            if (servico == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Serviço não encontrado, verifique o identificador!");
 
-        public async Task CriarParaImportacao(int servicoID, Guid empresaID, int filialID, string nome, bool padrao, short? duracaoMinutos, bool? ativo)
-        {
-            var cServico = (await _servicoRepo.Buscar(
-                            x => x.ServicoId == servicoID)
-                            ).FirstOrDefault();
-            if (cServico == null)
-            {
-                cServico = Servico.CriarParaImportacao(empresaID, filialID, nome, padrao, duracaoMinutos, ativo);
-                await Salvar(cServico);
-            }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _servicoRepo.Deletar(servicoID);
+            await Comitar();
+
             return;
-        }
-
-        public async Task Validar(int servicoID)
-        {
-            var cServico = (await _servicoRepo.Buscar(x => x.ServicoId== servicoID)).FirstOrDefault();
-            if (cServico == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Serviço com ID {servicoID} não encontrado."
-                );
-            }
         }
     }
 }

@@ -5,6 +5,7 @@ using API.Servicos.Planos;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using System.Net;
 
@@ -39,77 +40,32 @@ namespace API.Servicos.Planos
             return await _planoRepo.BuscarFiltros(x => x.NomePlano.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(Plano plano)
+        public async Task<Plano> Adicionar(Plano plano)
         {
             await _planoRepo.Adicionar(plano);
             await Comitar();
+            return plano;
         }
 
-        private async Task Atualizar(Plano plano)
+        public async Task<Plano> Atualizar(Plano plano)
         {
             await _planoRepo.Atualizar(plano);
             await Comitar();
+            return plano;
         }
 
-        public async Task<(bool criado, Guid planoId)> CriarOuAtualizar(CriarPlanoInputModel plano, bool atualizaSeExistir)
+        public async Task Deletar(Guid planoID)
         {
-            var cPlano = (await _planoRepo.Buscar(
-                x => x.PlanoId == plano.PlanoId
-            )).FirstOrDefault();
-            if (cPlano == null)
-            {
-                cPlano = Plano.CriarParaImportacao(
-                    nomePlano: plano.NomePlano,                
-                    valorPlanoMensal: plano.ValorPlanoMensal,
-                    valorPlanoAnual: plano.ValorPlanoAnual,
-                    descontoPromocional: plano.DescontoPromocional,
-                    descontoMeses: plano.DescontoMeses,                
-                    ativo: plano.Ativo
-                    );
-                await Salvar(cPlano);
-                return (true, cPlano.PlanoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cPlano.NomePlano = plano.NomePlano;
-                cPlano.AtualizarPropriedades(
-                    nomePlano: plano.NomePlano,
-                    valorPlanoMensal: plano.ValorPlanoMensal,
-                    valorPlanoAnual: plano.ValorPlanoAnual,
-                    descontoPromocional: plano.DescontoPromocional,
-                    descontoMeses: plano.DescontoMeses,
-                    ativo: plano.Ativo
-                    );
-                await _planoRepo.Atualizar(cPlano);
-                await Atualizar(cPlano);
+            var plano = _planoRepo.BuscarPorID(planoID).Result;
 
-            }
-            return (false, cPlano.PlanoId); // <-- retorno com o novo ID
-        }
+            if (plano == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Plano não encontrado, verifique o identificador!");
 
-        public async Task CriarParaImportacao(Guid planoID, string nomePlano, decimal valorPlanoMensal, decimal valorPlanoAnual, decimal descontoPromocional, short descontoMeses, bool ativo)
-        {
-            var cPlano = (await _planoRepo.Buscar(
-                            x => x.PlanoId == planoID)
-                            ).FirstOrDefault();
-            if (cPlano == null)
-            {
-                cPlano = Plano.CriarParaImportacao(nomePlano, valorPlanoMensal, valorPlanoAnual, descontoPromocional, descontoMeses, ativo);
-                await Salvar(cPlano);
-            }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _planoRepo.Deletar(planoID);
+            await Comitar();
+
             return;
-        }
-
-        public async Task Validar(Guid planoID)
-        {
-            var cPlano = (await _planoRepo.Buscar(x => x.PlanoId== planoID)).FirstOrDefault();
-            if (cPlano == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Plano com ID {planoID} não encontrado."
-                );
-            }
         }
     }
 }

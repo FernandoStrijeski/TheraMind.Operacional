@@ -4,6 +4,7 @@ using API.modelos.InputModels;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using System.Net;
 
@@ -38,63 +39,32 @@ namespace API.Servicos.TiposDocumentos
             return await _tipoDocumentoRepo.BuscarFiltros(x => x.Descricao.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(TipoDocumento tipoDocumento)
+        public async Task<TipoDocumento> Adicionar(TipoDocumento tipoDocumento)
         {
             await _tipoDocumentoRepo.Adicionar(tipoDocumento);
             await Comitar();
+            return tipoDocumento;
         }
 
-        private async Task Atualizar(TipoDocumento tipoDocumento)
+        public async Task<TipoDocumento> Atualizar(TipoDocumento tipoDocumento)
         {
             await _tipoDocumentoRepo.Atualizar(tipoDocumento);
             await Comitar();
+            return tipoDocumento;
         }
 
-        public async Task<(bool criado, int tipoDocumentoId)> CriarOuAtualizar(CriarTipoDocumentoInputModel tipoDocumento, bool atualizaSeExistir)
+        public async Task Deletar(int tipoDocumentoID)
         {
-            var cTipoDocumento = (await _tipoDocumentoRepo.Buscar(
-                x => x.TipoDocumentoId == tipoDocumento.TipoDocumentoID
-            )).FirstOrDefault();
-            if (cTipoDocumento == null)
-            {
-                cTipoDocumento = TipoDocumento.CriarParaImportacao(descricao: tipoDocumento.Descricao, ativo: tipoDocumento.Ativo);
-                await Salvar(cTipoDocumento);
-                return (true, cTipoDocumento.TipoDocumentoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cTipoDocumento.Descricao = tipoDocumento.Descricao;                
-                cTipoDocumento.AtualizarPropriedades(descricao: tipoDocumento.Descricao, ativo: tipoDocumento.Ativo);
-                await _tipoDocumentoRepo.Atualizar(cTipoDocumento);
-                await Atualizar(cTipoDocumento);
+            var tipoDocumento = _tipoDocumentoRepo.BuscarPorID(tipoDocumentoID).Result;
 
-            }
-            return (false, cTipoDocumento.TipoDocumentoId); // <-- retorno com o novo ID
-        }
+            if (tipoDocumento == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Tipo de documento não encontrado, verifique o identificador!");
 
-        public async Task CriarParaImportacao(int tipoDocumentoID, string descricao, bool ativo)
-        {
-            var cTipoDocumento = (await _tipoDocumentoRepo.Buscar(
-                            x => x.TipoDocumentoId == tipoDocumentoID)
-                            ).FirstOrDefault();
-            if (cTipoDocumento == null)
-            {
-                cTipoDocumento = TipoDocumento.CriarParaImportacao(descricao, ativo);
-                await Salvar(cTipoDocumento);
-            }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _tipoDocumentoRepo.Deletar(tipoDocumentoID);
+            await Comitar();
+
             return;
-        }
-
-        public async Task Validar(int tipoDocumentoID)
-        {
-            var cTipoDocumento = (await _tipoDocumentoRepo.Buscar(x => x.TipoDocumentoId== tipoDocumentoID)).FirstOrDefault();
-            if (cTipoDocumento == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Tipo de documento com ID {tipoDocumentoID} não encontrada."
-                );
-            }
         }
     }
 }

@@ -20,11 +20,24 @@ namespace API.Servicos.EmpresaFaturas
         Task<List<EmpresaFatura>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza a fatura da empresa a partir do modelo informado
+        /// Adicionar uma nova fatura da empresa
         /// </summary>
         /// <param name="empresaFatura"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int empresaFaturaId)> CriarOuAtualizar(CriarEmpresaFaturaInputModel empresaFatura, bool atualizaSeExistir);
+        Task<EmpresaFatura> Adicionar(EmpresaFatura empresaFatura);
+
+        /// <summary>
+        /// Atualizar a fatura da empresa
+        /// </summary>
+        /// <param name="empresaFatura"></param>
+        /// <returns></returns>
+        Task<EmpresaFatura> Atualizar(EmpresaFatura empresaFatura);
+
+        /// <summary>
+        /// Remover a fatura da empresa
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
     }
 }

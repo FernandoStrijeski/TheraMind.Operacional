@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.Repositorios
 {
-    public interface INacionalidadeRepo : IBaseRepositorio<Nacionalidade>
+    public interface INacionalidadeRepo : IBaseRepositorio<Nacionalidade, int>
     {
         Task<List<Nacionalidade>> BuscarFiltros(
             Expression<Func<Nacionalidade, bool>> filtro = null,

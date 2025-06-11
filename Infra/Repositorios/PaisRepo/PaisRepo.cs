@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class PaisRepo : BaseRepositorio<Pais>, IPaisRepo
+    public class PaisRepo : BaseRepositorio<Pais, int>, IPaisRepo
     {
         public PaisRepo(ApplicationDbContext contexto) : base(contexto) { }
 

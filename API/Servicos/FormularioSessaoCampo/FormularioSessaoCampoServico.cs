@@ -26,7 +26,7 @@ namespace API.Servicos.FormularioSessaoCampos
             _formularioSessaoCampoRepo = formularioSessaoCampoRepo;
         }
 
-        public async Task<FormularioSessaoCampo>? BuscarPorID(int formularioSessaoID) => await _formularioSessaoCampoRepo.BuscarPorID(formularioSessaoID);
+        public async Task<FormularioSessaoCampo>? BuscarPorID(int formularioSessaoCampoID) => await _formularioSessaoCampoRepo.BuscarPorID(formularioSessaoCampoID);
 
         public async Task<List<FormularioSessaoCampo>> BuscarTodos()
         {
@@ -38,78 +38,32 @@ namespace API.Servicos.FormularioSessaoCampos
             return await _formularioSessaoCampoRepo.BuscarFiltros(x => x.NomeCampo.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(FormularioSessaoCampo formularioSessaoCampo)
+        public async Task<FormularioSessaoCampo> Adicionar(FormularioSessaoCampo formularioSessaoCampo)
         {
             await _formularioSessaoCampoRepo.Adicionar(formularioSessaoCampo);
             await Comitar();
+            return formularioSessaoCampo;
         }
 
-        private async Task Atualizar(FormularioSessaoCampo formularioSessaoCampo)
+        public async Task<FormularioSessaoCampo> Atualizar(FormularioSessaoCampo formularioSessaoCampo)
         {
             await _formularioSessaoCampoRepo.Atualizar(formularioSessaoCampo);
             await Comitar();
+            return formularioSessaoCampo;
         }
 
-        public async Task<(bool criado, int formularioSessaoCampoId)> CriarOuAtualizar(CriarFormularioSessaoCampoInputModel formularioSessaoCampo, bool atualizaSeExistir)
+        public async Task Deletar(int formularioSessaoCampoID)
         {
-            var cFormularioSessaoCampo = (await _formularioSessaoCampoRepo.Buscar(
-                x => x.FormularioSessaoCampoId == formularioSessaoCampo.FormularioSessaoCampoId
-            )).FirstOrDefault();
+            var formularioSessaoCampo = _formularioSessaoCampoRepo.BuscarPorID(formularioSessaoCampoID).Result;
 
-            if (cFormularioSessaoCampo == null)
-            {
-                cFormularioSessaoCampo = FormularioSessaoCampo.CriarParaImportacao(
-                    empresaID: formularioSessaoCampo.EmpresaId,
-                    filialID: formularioSessaoCampo.FilialId,
-                    servicoID: formularioSessaoCampo.ServicoId,
-                    formularioSessaoID: formularioSessaoCampo.FormularioSessaoId,
-                    nomeCampo: formularioSessaoCampo.NomeCampo,
-                    ativo: formularioSessaoCampo.Ativo
-                );
-                await Salvar(cFormularioSessaoCampo);
-                return (true, cFormularioSessaoCampo.FormularioSessaoCampoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cFormularioSessaoCampo.AtualizarPropriedades(
-                    empresaID: formularioSessaoCampo.EmpresaId,
-                    filialID: formularioSessaoCampo.FilialId,
-                    servicoID: formularioSessaoCampo.ServicoId,
-                    formularioSessaoID: formularioSessaoCampo.FormularioSessaoId,
-                    nomeCampo: formularioSessaoCampo.NomeCampo,
-                    ativo: formularioSessaoCampo.Ativo
-                );
-                await _formularioSessaoCampoRepo.Atualizar(cFormularioSessaoCampo);
-                await Atualizar(cFormularioSessaoCampo);
-            }
+            if (formularioSessaoCampo == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Campo da sessão do formulário não encontrado, verifique o identificador!");
 
-            return (false, formularioSessaoCampo.FormularioSessaoCampoId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _formularioSessaoCampoRepo.Deletar(formularioSessaoCampoID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int formularioSessaoCampoID, Guid empresaID, int filialID, int servicoID, int formularioSessaoID, string nomeCampo, bool? ativo)
-        {
-            var cFormularioSessaoCampo = (await _formularioSessaoCampoRepo.Buscar(
-                            x => x.FormularioSessaoCampoId == formularioSessaoCampoID)
-                            ).FirstOrDefault();
-            if (cFormularioSessaoCampo == null)
-            {
-                cFormularioSessaoCampo = FormularioSessaoCampo.CriarParaImportacao(empresaID, filialID, servicoID, formularioSessaoID, nomeCampo, ativo);
-                await Salvar(cFormularioSessaoCampo);
-            }
             return;
-        }
-
-        public async Task Validar(int formularioSessaoCampoID)
-        {
-            var cFormularioSessaoCampo = (await _formularioSessaoCampoRepo.Buscar(x => x.FormularioSessaoCampoId == formularioSessaoCampoID)).FirstOrDefault();
-            if (cFormularioSessaoCampo == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Campo do formulario da sessão com ID {formularioSessaoCampoID} não encontrado."
-                );
-            }
         }
     }
 }

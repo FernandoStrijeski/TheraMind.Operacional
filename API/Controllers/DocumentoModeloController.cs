@@ -99,28 +99,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza um modelo de documento
-        /// </summary>
-        /// <response code="202">Modelo de documento criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Modelo de documento atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um modelo de documento.
+        /// </summary>         
+        ///<response code="201">Modelo de documento criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(DocumentoModeloIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarDocumentoModeloInputModel body)
+        [ProducesResponseType(typeof(DocumentoModeloViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarDocumentoModeloInputModel documentoModelo)
         {
-            var (criou, documentoModeloId) = await _documentoModeloServico.CriarOuAtualizar(body, true);
+            var retorno = await _documentoModeloServico.Adicionar(_mapper.Map<DocumentoModelo>(documentoModelo));
+            return Ok(_mapper.Map<DocumentoModeloViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new DocumentoModeloIdResponseViewModel(documentoModeloId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um modelo de documento.
+        /// </summary>         
+        ///<response code="200">Modelo de documento atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(DocumentoModeloViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] DocumentoModeloInputModel documentoModelo)
+        {
+            // Busca o registro existente
+            var documentoModeloExistente = await _documentoModeloServico.BuscarPorID(documentoModelo.DocumentoModeloId);
+            if (documentoModeloExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(documentoModelo, documentoModeloExistente); // Faz o merge
+
+            var retorno = await _documentoModeloServico.Atualizar(_mapper.Map<DocumentoModelo>(documentoModeloExistente));
+            return Ok(_mapper.Map<DocumentoModeloInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um modelo de documento.
+        /// </summary>         
+        ///<response code="200">Modelo de documento excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _documentoModeloServico.Deletar(id);
+            return Ok();
         }
     }
 }

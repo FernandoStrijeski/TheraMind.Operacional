@@ -7,7 +7,6 @@ namespace API.modelos.InputModels
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class CriarEmpresaFaturaInputModel
     {
-        public int EmpresaFaturaId { get; set; }
         public Guid EmpresaAssinaturaId { get; set; }
         public Guid EmpresaId { get; set; }
         public Guid PlanoId { get; set; }

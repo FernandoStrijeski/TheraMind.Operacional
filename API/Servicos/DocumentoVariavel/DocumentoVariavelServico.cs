@@ -7,6 +7,7 @@ using Dominio.DocumentosVariaveis;
 using Dominio.Entidades;
 using Dominio.Profissionais;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using System;
 using System.Net;
@@ -42,73 +43,32 @@ namespace API.Servicos.DocumentosVariaveis
             return await _documentoVariavelRepo.BuscarFiltros(x => x.NomeVariavel.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(DocumentoVariavel documentoVariavel)
+        public async Task<DocumentoVariavel> Adicionar(DocumentoVariavel documentoVariavel)
         {
             await _documentoVariavelRepo.Adicionar(documentoVariavel);
             await Comitar();
+            return documentoVariavel;
         }
 
-        private async Task Atualizar(DocumentoVariavel documentoVariavel)
+        public async Task<DocumentoVariavel> Atualizar(DocumentoVariavel documentoVariavel)
         {
             await _documentoVariavelRepo.Atualizar(documentoVariavel);
             await Comitar();
+            return documentoVariavel;
         }
 
-        public async Task<(bool criado, int documentoVariavelId)> CriarOuAtualizar(CriarDocumentoVariavelInputModel documentoVariavel, bool atualizaSeExistir)
+        public async Task Deletar(int escolaridadeID)
         {
-            var cDocumentoVariavel = (await _documentoVariavelRepo.Buscar(
-                x => x.DocumentoVariavelId == documentoVariavel.DocumentoVariavelId
-            )).FirstOrDefault();
+            var documentoVariavel = _documentoVariavelRepo.BuscarPorID(escolaridadeID).Result;
 
-            if (cDocumentoVariavel == null)
-            {
-                cDocumentoVariavel = DocumentoVariavel.CriarParaImportacao(
-                    nomeVariavel: documentoVariavel.NomeVariavel,
-                    nomeCampo: documentoVariavel.NomeCampo,
-                    nomeTabela: documentoVariavel.NomeTabela,
-                    ativo: documentoVariavel.Ativo
-                );
-                await Salvar(cDocumentoVariavel);
-                return (true, cDocumentoVariavel.DocumentoVariavelId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cDocumentoVariavel.AtualizarPropriedades(
-                    nomeVariavel: documentoVariavel.NomeVariavel,
-                    nomeCampo: documentoVariavel.NomeCampo,
-                    nomeTabela: documentoVariavel.NomeTabela,
-                    ativo: documentoVariavel.Ativo
-                );
-                await _documentoVariavelRepo.Atualizar(cDocumentoVariavel);
-                await Atualizar(cDocumentoVariavel);
-            }
+            if (documentoVariavel == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Variável do documento não encontrada, verifique o identificador!");
 
-            return (false, documentoVariavel.DocumentoVariavelId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _documentoVariavelRepo.Deletar(escolaridadeID);
+            await Comitar();
 
-        public async Task CriarParaImportacao(int documentoVariavelID, string nomeVariavel, string nomeCampo, string nomeTabela, bool? ativo)
-        {
-            var cConvenio = (await _documentoVariavelRepo.Buscar(
-                            x => x.DocumentoVariavelId == documentoVariavelID)
-                            ).FirstOrDefault();
-            if (cConvenio == null)
-            {
-                cConvenio = DocumentoVariavel.CriarParaImportacao(nomeVariavel, nomeCampo, nomeTabela, ativo);
-                await Salvar(cConvenio);
-            }
             return;
-        }
-
-        public async Task Validar(int documentoVariavelID)
-        {
-            var cDocumentoVariavel = (await _documentoVariavelRepo.Buscar(x => x.DocumentoVariavelId == documentoVariavelID)).FirstOrDefault();
-            if (cDocumentoVariavel == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Variável de documento com ID {documentoVariavelID} não encontrado."
-                );
-            }
         }
     }
 }

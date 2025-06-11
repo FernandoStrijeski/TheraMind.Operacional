@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.Escolaridades;
 using Asp.Versioning;
@@ -47,7 +48,7 @@ namespace API.Controllers
         {
             Escolaridade? escolaridade = await _escolaridadeServico.BuscarPorID(escolaridadeID);
             if (escolaridade == null)
-                return NotFound("Nenhum tipo de escolaridade encontrado");
+                return NotFound("Nenhuma escolaridade encontrada");
 
 
             var resultado = _mapper.Map<EscolaridadeViewModel>(escolaridade);
@@ -70,7 +71,7 @@ namespace API.Controllers
             var escolaridade = await _escolaridadeServico.BuscarPorNome(parametro);
 
             if (escolaridade == null || escolaridade.Count == 0)
-                return NotFound("Nenhum tipo de escolaridade encontrado");
+                return NotFound("Nenhuma escolaridade encontrada");
 
             var resultado = _mapper.Map<List<EscolaridadeViewModel>>(escolaridade);
             return Ok(resultado);
@@ -92,11 +93,61 @@ namespace API.Controllers
             var escolaridade = await _escolaridadeServico.BuscarTodos();
 
             if (escolaridade == null || escolaridade.Count == 0)
-                return NotFound("Nenhum tipo de escolaridade encontrado");
+                return NotFound("Nenhuma escolaridade encontrada");
 
 
             var resultado = _mapper.Map<List<EscolaridadeViewModel>>(escolaridade);
             return Ok(resultado);
+        }
+
+        /// <summary>
+        /// Cria uma escolaridade.
+        /// </summary>         
+        ///<response code="201">Escolaridade criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(EscolaridadeViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarEscolaridadeInputModel escolaridade)
+        {
+            var retorno = await _escolaridadeServico.Adicionar(_mapper.Map<Escolaridade>(escolaridade));
+            return Ok(_mapper.Map<EscolaridadeViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza uma escolaridade.
+        /// </summary>         
+        ///<response code="200">Escolaridade atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(EscolaridadeViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] EscolaridadeInputModel escolaridade)
+        {
+            // Busca o registro existente
+            var escolaridadeExistente = await _escolaridadeServico.BuscarPorID(escolaridade.EscolaridadeId);
+            if (escolaridadeExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(escolaridade, escolaridadeExistente); // Faz o merge
+
+            var retorno = await _escolaridadeServico.Atualizar(_mapper.Map<Escolaridade>(escolaridadeExistente));
+            return Ok(_mapper.Map<EscolaridadeInputModel>(retorno));            
+        }
+
+        /// <summary>
+        /// Exclui uma escolaridade.
+        /// </summary>         
+        ///<response code="200">Escolaridade excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _escolaridadeServico.Deletar(id);
+            return Ok();
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infra.AnamneseRespostaClientes
 {
-    public class AnamneseRespostaClienteRepo : BaseRepositorio<AnamneseRespostaCliente>, IAnamneseRespostaClienteRepo
+    public class AnamneseRespostaClienteRepo : BaseRepositorio<AnamneseRespostaCliente, int>, IAnamneseRespostaClienteRepo
     {
         public AnamneseRespostaClienteRepo(ApplicationDbContext contexto) : base(contexto) { }
 

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.EmpresasAssinaturas
 {
-    public class EmpresaAssinaturaRepo : BaseRepositorio<EmpresaAssinatura>, IEmpresaAssinaturaRepo
+    public class EmpresaAssinaturaRepo : BaseRepositorio<EmpresaAssinatura, Guid>, IEmpresaAssinaturaRepo
     {
         public EmpresaAssinaturaRepo(ApplicationDbContext contexto) : base(contexto) { }
 

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Clientes
 {
-    public class ClienteRepo : BaseRepositorio<Cliente>, IClienteRepo
+    public class ClienteRepo : BaseRepositorio<Cliente, Guid>, IClienteRepo
     {
         public ClienteRepo(ApplicationDbContext contexto) : base(contexto) { }
 

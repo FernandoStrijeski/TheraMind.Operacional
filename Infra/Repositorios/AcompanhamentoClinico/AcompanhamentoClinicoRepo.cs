@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.AcompanhamentosClinicos
 {
-    public class AcompanhamentoClinicoRepo : BaseRepositorio<AcompanhamentoClinico>, IAcompanhamentoClinicoRepo
+    public class AcompanhamentoClinicoRepo : BaseRepositorio<AcompanhamentoClinico, Guid>, IAcompanhamentoClinicoRepo
     {
         public AcompanhamentoClinicoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

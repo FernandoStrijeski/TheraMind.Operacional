@@ -7,7 +7,6 @@ namespace API.modelos.InputModels
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class CriarTipoDocumentoInputModel
     {
-        public int TipoDocumentoID { get; set; }
         public string Descricao { get; set; }        
         public bool Ativo { get; set; }
     }

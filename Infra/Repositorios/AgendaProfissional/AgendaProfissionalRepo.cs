@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.AgendasProfissionais
 {
-    public class AgendaProfissionalRepo : BaseRepositorio<AgendaProfissional>, IAgendaProfissionalRepo
+    public class AgendaProfissionalRepo : BaseRepositorio<AgendaProfissional, int>, IAgendaProfissionalRepo
     {
         public AgendaProfissionalRepo(ApplicationDbContext contexto) : base(contexto) { }
 

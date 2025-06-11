@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class TipoEtniaRepo : BaseRepositorio<TipoEtnia>, ITipoEtniaRepo
+    public class TipoEtniaRepo : BaseRepositorio<TipoEtnia, int>, ITipoEtniaRepo
     {
         public TipoEtniaRepo(ApplicationDbContext contexto) : base(contexto) { }
 

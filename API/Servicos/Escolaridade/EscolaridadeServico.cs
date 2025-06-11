@@ -1,8 +1,10 @@
+using API.Core.Exceptions;
 using API.modelos;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
 using Infra.Servicos.MultiTenant;
+using System.Net;
 
 namespace API.Servicos.Escolaridades
 {
@@ -33,6 +35,34 @@ namespace API.Servicos.Escolaridades
         public async Task<List<Escolaridade>> BuscarPorNome(BuscarComNomeParametro parametros)
         {
             return await _escolaridadeRepo.BuscarFiltros(x => x.Descricao.ToUpper().Contains(parametros.Nome.ToUpper()));
+        }
+
+        public async Task<Escolaridade> Adicionar(Escolaridade escolaridade)
+        {
+            await _escolaridadeRepo.Adicionar(escolaridade);
+            await Comitar();
+            return escolaridade;
+        }
+
+        public async Task<Escolaridade> Atualizar(Escolaridade escolaridade)
+        {
+            await _escolaridadeRepo.Atualizar(escolaridade);
+            await Comitar();
+            return escolaridade;
+        }
+
+        public async Task Deletar(int escolaridadeID)
+        {
+            var escolaridade = _escolaridadeRepo.BuscarPorID(escolaridadeID).Result;
+
+            if (escolaridade == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Escolaridade não encontrada, verifique o identificador!");
+
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _escolaridadeRepo.Deletar(escolaridadeID);
+            await Comitar();
+
+            return;
         }
     }
 }

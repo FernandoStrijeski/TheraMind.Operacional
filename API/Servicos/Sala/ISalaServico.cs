@@ -27,11 +27,25 @@ namespace API.Servicos.Salas
         Task<List<Sala>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza uma sala a partir do modelo informado
+        /// Adicionar uma nova sala
         /// </summary>
         /// <param name="sala"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, string salaId)> CriarOuAtualizar(CriarSalaInputModel sala, bool atualizaSeExistir);
+        Task<Sala> Adicionar(Sala sala);
+
+        /// <summary>
+        /// Atualizar a sala
+        /// </summary>
+        /// <param name="sala"></param>
+        /// <returns></returns>
+        Task<Sala> Atualizar(Sala sala);
+
+        /// <summary>
+        /// Remover a sala
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

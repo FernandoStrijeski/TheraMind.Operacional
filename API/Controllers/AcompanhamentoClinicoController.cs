@@ -97,27 +97,53 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Cria ou atualiza um acompanhamento clínico
-        /// </summary>
-        /// <response code="202">Acompanhamento clínico criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Acompanhamento clínico atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um acompanhamento clínico.
+        /// </summary>         
+        ///<response code="201">Acompanhamento clínico criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(AcompanhamentoClinicoIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarAcompanhamentoClinicoInputModel body)
+        [ProducesResponseType(typeof(AcompanhamentoClinicoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarAcompanhamentoClinicoInputModel acompanhamentoClinico)
         {
-            var (criou, acompanhamentoClinicoId) = await _acompanhamentoClinicoServico.CriarOuAtualizar(body, true);
+            var retorno = await _acompanhamentoClinicoServico.Adicionar(_mapper.Map<AcompanhamentoClinico>(acompanhamentoClinico));
+            return Ok(_mapper.Map<AcompanhamentoClinicoViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new AcompanhamentoClinicoIdResponseViewModel(acompanhamentoClinicoId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um acompanhamento clínico.
+        /// </summary>         
+        ///<response code="200">Acompanhamento clínico atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(AcompanhamentoClinicoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] AcompanhamentoClinicoInputModel acompanhamentoClinico)
+        {
+            // Busca o registro existente
+            var acompanhamentoClinicoExistente = await _acompanhamentoClinicoServico.BuscarPorID(acompanhamentoClinico.AcompanhamentoClinicoId);
+            if (acompanhamentoClinicoExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(acompanhamentoClinico, acompanhamentoClinicoExistente); // Faz o merge
+
+            var retorno = await _acompanhamentoClinicoServico.Atualizar(_mapper.Map<AcompanhamentoClinico>(acompanhamentoClinicoExistente));
+            return Ok(_mapper.Map<AcompanhamentoClinicoInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um acompanhamento clínico.
+        /// </summary>         
+        ///<response code="200">Acompanhamento clínico excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] Guid id)
+        {
+            await _acompanhamentoClinicoServico.Deletar(id);
+            return Ok();
         }
     }
 }

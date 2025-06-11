@@ -6,6 +6,7 @@ using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Profissionais;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using System.Net;
 
@@ -40,78 +41,32 @@ namespace API.Servicos.Convenios
             return await _convenioRepo.BuscarFiltros(x => x.Nome.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(Convenio convenio)
+        public async Task<Convenio> Adicionar(Convenio convenio)
         {
             await _convenioRepo.Adicionar(convenio);
             await Comitar();
+            return convenio;
         }
 
-        private async Task Atualizar(Convenio convenio)
+        public async Task<Convenio> Atualizar(Convenio convenio)
         {
             await _convenioRepo.Atualizar(convenio);
             await Comitar();
+            return convenio;
         }
 
-        public async Task<(bool criado, int convenioId)> CriarOuAtualizar(CriarConvenioInputModel convenio, bool atualizaSeExistir)
+        public async Task Deletar(int convenioID)
         {
-            var cConvenio = (await _convenioRepo.Buscar(
-                x => x.ConvenioId == convenio.ConvenioId
-            )).FirstOrDefault();
+            var convenio = _convenioRepo.BuscarPorID(convenioID).Result;
 
-            if (cConvenio == null)
-            {
-                cConvenio = Convenio.CriarParaImportacao(
-                    empresaID: convenio.EmpresaId,
-                    filialID: convenio.FilialId,
-                    nome: convenio.Nome,
-                    tipoRepasse: convenio.TipoRepasse,
-                    valorRepasse: convenio.ValorRepasse,
-                    ativo: convenio.Ativo
-                );
-                await Salvar(cConvenio);
-                return (true, cConvenio.ConvenioId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cConvenio.AtualizarPropriedades(
-                    empresaID: convenio.EmpresaId,
-                    filialID: convenio.FilialId,
-                    nome: convenio.Nome,
-                    tipoRepasse: convenio.TipoRepasse,
-                    valorRepasse: convenio.ValorRepasse,
-                    ativo: convenio.Ativo
-                );
-                await _convenioRepo.Atualizar(cConvenio);
-                await Atualizar(cConvenio);
-            }
+            if (convenio == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Convênio não encontrado, verifique o identificador!");
 
-            return (false, convenio.ConvenioId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _convenioRepo.Deletar(convenioID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int convenioID, Guid empresaID, int filialID, string nome, short tipoRepasse, decimal valorRepasse, bool? ativo)
-        {
-            var cConvenio = (await _convenioRepo.Buscar(
-                            x => x.ConvenioId == convenioID)
-                            ).FirstOrDefault();
-            if (cConvenio == null)
-            {
-                cConvenio = Convenio.CriarParaImportacao(empresaID, filialID, nome, tipoRepasse, valorRepasse, ativo);
-                await Salvar(cConvenio);
-            }
             return;
-        }
-
-        public async Task Validar(int convenioID)
-        {
-            var cConvenio = (await _convenioRepo.Buscar(x => x.ConvenioId == convenioID)).FirstOrDefault();
-            if (cConvenio == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Convênio com ID {convenioID} não encontrado."
-                );
-            }
         }
     }
 }

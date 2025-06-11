@@ -100,28 +100,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza uma variável de documento
-        /// </summary>
-        /// <response code="202">Variável do documento criada com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Variável do documento atualizada com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria uma variável de documento.
+        /// </summary>         
+        ///<response code="201">Variável de documento criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(DocumentoVariavelIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarDocumentoVariavelInputModel body)
+        [ProducesResponseType(typeof(DocumentoVariavelViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarDocumentoVariavelInputModel documentoVariavel)
         {
-            var (criou, documentoVariavelId) = await _documentoVariavelServico.CriarOuAtualizar(body, true);
+            var retorno = await _documentoVariavelServico.Adicionar(_mapper.Map<DocumentoVariavel>(documentoVariavel));
+            return Ok(_mapper.Map<DocumentoVariavelViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new DocumentoVariavelIdResponseViewModel(documentoVariavelId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza uma variável de documento.
+        /// </summary>         
+        ///<response code="200">Variável de documento atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(DocumentoVariavelViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] DocumentoVariavelInputModel documentoVariavel)
+        {
+            // Busca o registro existente
+            var documentoVariavelExistente = await _documentoVariavelServico.BuscarPorID(documentoVariavel.DocumentoVariavelId);
+            if (documentoVariavelExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(documentoVariavel, documentoVariavelExistente); // Faz o merge
+
+            var retorno = await _documentoVariavelServico.Atualizar(_mapper.Map<DocumentoVariavel>(documentoVariavelExistente));
+            return Ok(_mapper.Map<DocumentoVariavelInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma variável de documento.
+        /// </summary>         
+        ///<response code="200">Variável de documento excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _documentoVariavelServico.Deletar(id);
+            return Ok();
         }
     }
 }

@@ -27,11 +27,25 @@ namespace API.Servicos.DocumentosModelosEmpresas
         Task<List<DocumentoModeloEmpresa>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um modelo de documento da empresa a partir do modelo informado
+        /// Adicionar um modelo de documento da empresa
         /// </summary>
         /// <param name="documentoModeloEmpresa"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int documentoModeloEmpresaId)> CriarOuAtualizar(CriarDocumentoModeloEmpresaInputModel documentoModeloEmpresa, bool atualizaSeExistir);
+        Task<DocumentoModeloEmpresa> Adicionar(DocumentoModeloEmpresa documentoModeloEmpresa);
+
+        /// <summary>
+        /// Atualizar o modelo de documento da empresa
+        /// </summary>
+        /// <param name="documentoModeloEmpresa"></param>
+        /// <returns></returns>
+        Task<DocumentoModeloEmpresa> Atualizar(DocumentoModeloEmpresa documentoModeloEmpresa);
+
+        /// <summary>
+        /// Remover o modelo de documento da empresa
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class UsuarioRepo : BaseRepositorio<Usuario>, IUsuarioRepo
+    public class UsuarioRepo : BaseRepositorio<Usuario, Guid>, IUsuarioRepo
     {
         public UsuarioRepo(ApplicationDbContext contexto) : base(contexto) { }
 

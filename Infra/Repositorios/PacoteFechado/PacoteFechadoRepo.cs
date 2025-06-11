@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.PacotesFechados
 {
-    public class PacoteFechadoRepo : BaseRepositorio<PacoteFechado>, IPacoteFechadoRepo
+    public class PacoteFechadoRepo : BaseRepositorio<PacoteFechado, int>, IPacoteFechadoRepo
     {
         public PacoteFechadoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.DocumentosModelosEmpresas
 {
-    public class DocumentoModeloEmpresaRepo : BaseRepositorio<DocumentoModeloEmpresa>, IDocumentoModeloEmpresaRepo
+    public class DocumentoModeloEmpresaRepo : BaseRepositorio<DocumentoModeloEmpresa, int>, IDocumentoModeloEmpresaRepo
     {
         public DocumentoModeloEmpresaRepo(ApplicationDbContext contexto) : base(contexto) { }
 

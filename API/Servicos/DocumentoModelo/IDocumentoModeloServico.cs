@@ -27,11 +27,25 @@ namespace API.Servicos.DocumentosModelos
         Task<List<DocumentoModelo>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um modelo de documento a partir do modelo informado
+        /// Adicionar um modelo de documento
         /// </summary>
         /// <param name="documentoModelo"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int documentoModeloId)> CriarOuAtualizar(CriarDocumentoModeloInputModel documentoModelo, bool atualizaSeExistir);
+        Task<DocumentoModelo> Adicionar(DocumentoModelo documentoModelo);
+
+        /// <summary>
+        /// Atualizar o modelo de documento
+        /// </summary>
+        /// <param name="documentoModelo"></param>
+        /// <returns></returns>
+        Task<DocumentoModelo> Atualizar(DocumentoModelo documentoModelo);
+
+        /// <summary>
+        /// Remover o modelo de documento
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

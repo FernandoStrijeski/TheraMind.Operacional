@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class ServicoRepo : BaseRepositorio<Servico>, IServicoRepo
+    public class ServicoRepo : BaseRepositorio<Servico, int>, IServicoRepo
     {
         public ServicoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

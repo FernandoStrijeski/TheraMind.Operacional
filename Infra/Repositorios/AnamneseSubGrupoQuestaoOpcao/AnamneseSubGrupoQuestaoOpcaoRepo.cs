@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infra.AnamneseSubGrupoQuestaoOpcoes
 {
-    public class AnamneseSubGrupoQuestaoOpcaoRepo : BaseRepositorio<AnamneseSubGrupoQuestaoOpcao>, IAnamneseSubGrupoQuestaoOpcaoRepo
+    public class AnamneseSubGrupoQuestaoOpcaoRepo : BaseRepositorio<AnamneseSubGrupoQuestaoOpcao, int>, IAnamneseSubGrupoQuestaoOpcaoRepo
     {
         public AnamneseSubGrupoQuestaoOpcaoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

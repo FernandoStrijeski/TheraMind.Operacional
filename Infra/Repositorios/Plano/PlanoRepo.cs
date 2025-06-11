@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class PlanoRepo : BaseRepositorio<Plano>, IPlanoRepo
+    public class PlanoRepo : BaseRepositorio<Plano, Guid>, IPlanoRepo
     {
         public PlanoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

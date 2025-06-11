@@ -24,5 +24,27 @@ namespace API.Servicos.GrauParentescos
         /// </summary>
         /// <returns></returns>
         Task<List<GrauParentesco>> BuscarTodos();
+
+        /// <summary>
+        /// Adicionaa novo grau de parentesco
+        /// </summary>
+        /// <param name="grauParentesco"></param>
+        /// <returns></returns>
+        Task<GrauParentesco> Adicionar(GrauParentesco grauParentesco);
+
+        /// <summary>
+        /// Atualizar o grau de parentesco
+        /// </summary>
+        /// <param name="escolaridade"></param>
+        /// <returns></returns>
+        Task<GrauParentesco> Atualizar(GrauParentesco grauParentesco);
+
+        /// <summary>
+        /// Remover o grau de parentesco
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

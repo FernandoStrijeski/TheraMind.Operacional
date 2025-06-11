@@ -100,28 +100,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza um convênio
-        /// </summary>
-        /// <response code="202">Convênio criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Convênio atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um convênio.
+        /// </summary>         
+        ///<response code="201">Convênio criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(ConvenioIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarConvenioInputModel body)
+        [ProducesResponseType(typeof(ConvenioViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarConvenioInputModel convenio)
         {
-            var (criou, convenioId) = await _convenioServico.CriarOuAtualizar(body, true);
+            var retorno = await _convenioServico.Adicionar(_mapper.Map<Convenio>(convenio));
+            return Ok(_mapper.Map<ConvenioViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new ConvenioIdResponseViewModel(convenioId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um convênio.
+        /// </summary>         
+        ///<response code="200">Convênio atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(ConvenioViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] ConvenioInputModel convenio)
+        {
+            // Busca o registro existente
+            var convenioExistente = await _convenioServico.BuscarPorID(convenio.ConvenioId);
+            if (convenioExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(convenio, convenioExistente); // Faz o merge
+
+            var retorno = await _convenioServico.Atualizar(_mapper.Map<Convenio>(convenioExistente));
+            return Ok(_mapper.Map<ConvenioInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um convênio.
+        /// </summary>         
+        ///<response code="200">Convênio excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _convenioServico.Deletar(id);
+            return Ok();
         }
     }
 }

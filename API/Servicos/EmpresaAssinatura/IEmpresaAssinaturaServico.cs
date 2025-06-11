@@ -26,11 +26,24 @@ namespace API.Servicos.EmpresasAssinaturas
         Task<List<EmpresaAssinatura>> BuscarPorIdEmpresa(Guid empresaID);
 
         /// <summary>
-        /// Cria ou atualiza a assinatura da empresa a partir do modelo informado
+        /// Adicionar uma assinatura da empresa
         /// </summary>
-        /// <param name="empresaAssinatura"></param>
-        /// <param name="atualizaSeExistir"></param>
+        /// <param name="assinaturaEmpresa"></param>
         /// <returns></returns>
-        Task<(bool criado, Guid empresaAssinaturaId)> CriarOuAtualizar(CriarEmpresaAssinaturaInputModel empresaAssinatura, bool atualizaSeExistir);
+        Task<EmpresaAssinatura> Adicionar(EmpresaAssinatura assinaturaEmpresa);
+
+        /// <summary>
+        /// Atualizar a assinatura da empresa
+        /// </summary>
+        /// <param name="assinaturaEmpresa"></param>
+        /// <returns></returns>
+        Task<EmpresaAssinatura> Atualizar(EmpresaAssinatura assinaturaEmpresa);
+
+        /// <summary>
+        /// Remover a assinatura da empresa
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(Guid id);
     }
 }

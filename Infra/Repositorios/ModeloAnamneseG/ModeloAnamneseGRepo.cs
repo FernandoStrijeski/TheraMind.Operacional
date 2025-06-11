@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infra.ModelosAnamneseG
 {
-    public class ModeloAnamneseGRepo : BaseRepositorio<ModeloAnamneseG>, IModeloAnamneseGRepo
+    public class ModeloAnamneseGRepo : BaseRepositorio<ModeloAnamneseG, int>, IModeloAnamneseGRepo
     {
         public ModeloAnamneseGRepo(ApplicationDbContext contexto) : base(contexto) { }
 

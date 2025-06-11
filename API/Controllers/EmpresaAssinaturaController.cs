@@ -98,27 +98,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-        /// <summary>
-        /// Cria ou atualiza uma assinatura da empresa
-        /// </summary>
-        /// <response code="202">Assinatura da empresa criada com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Assinatura da empresa atualizada com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
-        [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(EmpresaAssinaturaIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarEmpresaAssinaturaInputModel body)
-        {
-            var (criou, empresaAssinaturaId) = await _empresaAssinaturaServico.CriarOuAtualizar(body, true);
 
-            if (criou)            
-                return Accepted(new EmpresaAssinaturaIdResponseViewModel(empresaAssinaturaId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Cria uma assinatura de empresa.
+        /// </summary>         
+        ///<response code="201">Assinatura de empresa criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(EmpresaAssinaturaViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarEmpresaAssinaturaInputModel empresaAssinatura)
+        {
+            var retorno = await _empresaAssinaturaServico.Adicionar(_mapper.Map<EmpresaAssinatura>(empresaAssinatura));
+            return Ok(_mapper.Map<EmpresaAssinaturaViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza uma assinatura de empresa.
+        /// </summary>         
+        ///<response code="200">Assinatura de empresa atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(EmpresaAssinaturaViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] EmpresaAssinaturaInputModel empresaAssinatura)
+        {
+            // Busca o registro existente
+            var empresaAssinaturaExistente = await _empresaAssinaturaServico.BuscarPorID(empresaAssinatura.EmpresaAssinaturaId);
+            if (empresaAssinaturaExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(empresaAssinatura, empresaAssinaturaExistente); // Faz o merge
+
+            var retorno = await _empresaAssinaturaServico.Atualizar(_mapper.Map<EmpresaAssinatura>(empresaAssinaturaExistente));
+            return Ok(_mapper.Map<EmpresaAssinaturaInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma assinatura de empresa.
+        /// </summary>         
+        ///<response code="200">Assinatura de empresa excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] Guid id)
+        {
+            await _empresaAssinaturaServico.Deletar(id);
+            return Ok();
         }
     }
 }

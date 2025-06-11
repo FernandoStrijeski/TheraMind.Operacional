@@ -27,11 +27,25 @@ namespace API.Servicos.ModelosAnamneseG
         Task<List<ModeloAnamneseG>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um modelo de anamnese a partir do modelo informado
+        /// Adicionar uma grupo de modelo de anamnese
         /// </summary>
         /// <param name="modeloAnamneseG"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int modeloAnamneseGId)> CriarOuAtualizar(CriarModeloAnamneseGInputModel modeloAnamneseG, bool atualizaSeExistir);
+        Task<ModeloAnamneseG> Adicionar(ModeloAnamneseG modeloAnamneseG);
+
+        /// <summary>
+        /// Atualizar o grupo de modelo de anamnese
+        /// </summary>
+        /// <param name="modeloAnamneseG"></param>
+        /// <returns></returns>
+        Task<ModeloAnamneseG> Atualizar(ModeloAnamneseG modeloAnamneseG);
+
+        /// <summary>
+        /// Remover o grupo de modelo de anamnese
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

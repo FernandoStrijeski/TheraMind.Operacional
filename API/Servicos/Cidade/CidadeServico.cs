@@ -1,8 +1,11 @@
+using API.Core.Exceptions;
 using API.modelos;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
+using System.Net;
 
 namespace API.Servicos.Cidades
 {
@@ -36,5 +39,33 @@ namespace API.Servicos.Cidades
         }
 
         public async Task<Cidade>? BuscarPorIBGE(int codigoIBGE) => await _cidadeRepo.BuscarPorIBGE(codigoIBGE);
+
+        public async Task<Cidade> Adicionar(Cidade cidade)
+        {
+            await _cidadeRepo.Adicionar(cidade);
+            await Comitar();
+            return cidade;
+        }
+
+        public async Task<Cidade> Atualizar(Cidade cidade)
+        {
+            await _cidadeRepo.Atualizar(cidade);
+            await Comitar();
+            return cidade;
+        }
+
+        public async Task Deletar(int cidadeId)
+        {
+            var cidade = _cidadeRepo.BuscarPorID(cidadeId).Result;
+
+            if (cidade == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Cidade não encontrada, verifique o identificador!");
+
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _cidadeRepo.Deletar(cidadeId);
+            await Comitar();
+
+            return;
+        }
     }
 }

@@ -38,76 +38,32 @@ namespace API.Servicos.FormulariosSessoes
             return await _formularioSessaoRepo.BuscarFiltros(x => x.Nome.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(FormularioSessao formularioSessao)
+        public async Task<FormularioSessao> Adicionar(FormularioSessao formularioSessao)
         {
             await _formularioSessaoRepo.Adicionar(formularioSessao);
             await Comitar();
+            return formularioSessao;
         }
 
-        private async Task Atualizar(FormularioSessao formularioSessao)
+        public async Task<FormularioSessao> Atualizar(FormularioSessao formularioSessao)
         {
             await _formularioSessaoRepo.Atualizar(formularioSessao);
             await Comitar();
+            return formularioSessao;
         }
 
-        public async Task<(bool criado, int formularioSessaoId)> CriarOuAtualizar(CriarFormularioSessaoInputModel formularioSessao, bool atualizaSeExistir)
+        public async Task Deletar(int formularioSessaoID)
         {
-            var cFormularioSessao = (await _formularioSessaoRepo.Buscar(
-                x => x.FormularioSessaoId == formularioSessao.FormularioSessaoId
-            )).FirstOrDefault();
+            var formularioSessao = _formularioSessaoRepo.BuscarPorID(formularioSessaoID).Result;
 
-            if (cFormularioSessao == null)
-            {
-                cFormularioSessao = FormularioSessao.CriarParaImportacao(
-                    empresaID: formularioSessao.EmpresaId,
-                    filialID: formularioSessao.FilialId,
-                    servicoID: formularioSessao.ServicoId,                    
-                    nome: formularioSessao.Nome,                    
-                    ativo: formularioSessao.Ativo
-                );
-                await Salvar(cFormularioSessao);
-                return (true, cFormularioSessao.FormularioSessaoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cFormularioSessao.AtualizarPropriedades(
-                    empresaID: formularioSessao.EmpresaId,
-                    filialID: formularioSessao.FilialId,
-                    servicoID: formularioSessao.ServicoId,
-                    nome: formularioSessao.Nome,
-                    ativo: formularioSessao.Ativo
-                );
-                await _formularioSessaoRepo.Atualizar(cFormularioSessao);
-                await Atualizar(cFormularioSessao);
-            }
+            if (formularioSessao == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Sessão do formulário não encontrada, verifique o identificador!");
 
-            return (false, formularioSessao.FormularioSessaoId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _formularioSessaoRepo.Deletar(formularioSessaoID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int formularioSessaoID, Guid empresaID, int filialID, int servicoID, string nome, bool? ativo)
-        {
-            var cFormularioSessao = (await _formularioSessaoRepo.Buscar(
-                            x => x.FormularioSessaoId == formularioSessaoID)
-                            ).FirstOrDefault();
-            if (cFormularioSessao == null)
-            {
-                cFormularioSessao = FormularioSessao.CriarParaImportacao(empresaID, filialID, servicoID, nome, ativo);
-                await Salvar(cFormularioSessao);
-            }
             return;
-        }
-
-        public async Task Validar(int formularioSessaoID)
-        {
-            var cFormularioSessao = (await _formularioSessaoRepo.Buscar(x => x.FormularioSessaoId == formularioSessaoID)).FirstOrDefault();
-            if (cFormularioSessao == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Formulario da sessão com ID {formularioSessaoID} não encontrado."
-                );
-            }
         }
     }
 }

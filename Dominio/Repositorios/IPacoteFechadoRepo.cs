@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.PacotesFechados
 {
-    public interface IPacoteFechadoRepo : IBaseRepositorio<PacoteFechado>
+    public interface IPacoteFechadoRepo : IBaseRepositorio<PacoteFechado, int>
     {
         Task<List<PacoteFechado>> BuscarFiltros(
             Expression<Func<PacoteFechado, bool>> filtro = null,

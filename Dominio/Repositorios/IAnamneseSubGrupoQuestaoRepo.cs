@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.AnamneseSubGrupoQuestoes
 {
-    public interface IAnamneseSubGrupoQuestaoRepo : IBaseRepositorio<AnamneseSubGrupoQuestao>
+    public interface IAnamneseSubGrupoQuestaoRepo : IBaseRepositorio<AnamneseSubGrupoQuestao, int>
     {
         Task<List<AnamneseSubGrupoQuestao>> BuscarFiltros(
             Expression<Func<AnamneseSubGrupoQuestao, bool>> filtro = null,

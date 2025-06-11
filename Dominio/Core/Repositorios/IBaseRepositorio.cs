@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.Core.Repositorios
 {
-    public interface IBaseRepositorio<TEntidade> where TEntidade : class
+    public interface IBaseRepositorio<TEntidade, TChave> where TEntidade : class
     {
         Task<List<TEntidade>> Buscar(
             Expression<Func<TEntidade, bool>> filtro = null,
@@ -17,5 +17,6 @@ namespace Dominio.Core.Repositorios
         Task<IQueryable<TEntidade>> BuscarTodos();
         Task Adicionar(TEntidade entidade);
         Task Atualizar(TEntidade entidade);
+        Task Deletar(TChave id);
     }
 }

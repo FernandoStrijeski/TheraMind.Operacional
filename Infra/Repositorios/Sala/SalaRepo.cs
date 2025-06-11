@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class SalaRepo : BaseRepositorio<Sala>, ISalaRepo
+    public class SalaRepo : BaseRepositorio<Sala, string>, ISalaRepo
     {
         public SalaRepo(ApplicationDbContext contexto) : base(contexto) { }
 

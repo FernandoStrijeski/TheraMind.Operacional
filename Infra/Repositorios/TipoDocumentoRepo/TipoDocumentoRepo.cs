@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class TipoDocumentoRepo : BaseRepositorio<TipoDocumento>, ITipoDocumentoRepo
+    public class TipoDocumentoRepo : BaseRepositorio<TipoDocumento, int>, ITipoDocumentoRepo
     {
         public TipoDocumentoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

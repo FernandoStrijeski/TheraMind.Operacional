@@ -35,78 +35,32 @@ namespace API.Servicos.DocumentosModelosEmpresasOpcoes
             return await _documentoModeloEmpresaOpcaoRepo.BuscarFiltros();
         }
 
-        public async Task Salvar(DocumentoModeloEmpresaOpcao documentoModeloEmpresaOpcao)
+        public async Task<DocumentoModeloEmpresaOpcao> Adicionar(DocumentoModeloEmpresaOpcao documentoModeloEmpresa)
         {
-            await _documentoModeloEmpresaOpcaoRepo.Adicionar(documentoModeloEmpresaOpcao);
+            await _documentoModeloEmpresaOpcaoRepo.Adicionar(documentoModeloEmpresa);
             await Comitar();
+            return documentoModeloEmpresa;
         }
 
-        private async Task Atualizar(DocumentoModeloEmpresaOpcao documentoModeloEmpresaOpcao)
+        public async Task<DocumentoModeloEmpresaOpcao> Atualizar(DocumentoModeloEmpresaOpcao documentoModeloEmpresa)
         {
-            await _documentoModeloEmpresaOpcaoRepo.Atualizar(documentoModeloEmpresaOpcao);
+            await _documentoModeloEmpresaOpcaoRepo.Atualizar(documentoModeloEmpresa);
             await Comitar();
+            return documentoModeloEmpresa;
         }
 
-        public async Task<(bool criado, int documentoModeloEmpresaOpcaoId)> CriarOuAtualizar(CriarDocumentoModeloEmpresaOpcaoInputModel documentoModeloEmpresaOpcao, bool atualizaSeExistir)
+        public async Task Deletar(int documentoModeloEmpresaID)
         {
-            var cDocumentoModeloEmpresaOpcao = (await _documentoModeloEmpresaOpcaoRepo.Buscar(
-                x => x.DocumentoModeloEmpresaOpcaoId == documentoModeloEmpresaOpcao.DocumentoModeloEmpresaOpcaoID
-            )).FirstOrDefault();
+            var documentoModeloEmpresa = _documentoModeloEmpresaOpcaoRepo.BuscarPorID(documentoModeloEmpresaID).Result;
 
-            if (cDocumentoModeloEmpresaOpcao == null)
-            {
-                cDocumentoModeloEmpresaOpcao = DocumentoModeloEmpresaOpcao.CriarParaImportacao(
-                    empresaId: documentoModeloEmpresaOpcao.EmpresaId,
-                    filialId: documentoModeloEmpresaOpcao.FilialId,
-                    tipoOpcao: documentoModeloEmpresaOpcao.TipoOpcao,                    
-                    conteudoBase64: documentoModeloEmpresaOpcao.ConteudoBase64,
-                    transparencia: documentoModeloEmpresaOpcao.Transparencia,
-                    ativo: documentoModeloEmpresaOpcao.Ativo
-                );
-                await Salvar(cDocumentoModeloEmpresaOpcao);
-                return (true, cDocumentoModeloEmpresaOpcao.DocumentoModeloEmpresaOpcaoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cDocumentoModeloEmpresaOpcao.AtualizarPropriedades(
-                    empresaId: documentoModeloEmpresaOpcao.EmpresaId,
-                    filialId: documentoModeloEmpresaOpcao.FilialId,
-                    tipoOpcao: documentoModeloEmpresaOpcao.TipoOpcao,                    
-                    conteudoBase64: documentoModeloEmpresaOpcao.ConteudoBase64,
-                    transparencia: documentoModeloEmpresaOpcao.Transparencia,
-                    ativo: documentoModeloEmpresaOpcao.Ativo
-                );
-                await _documentoModeloEmpresaOpcaoRepo.Atualizar(cDocumentoModeloEmpresaOpcao);
-                await Atualizar(cDocumentoModeloEmpresaOpcao);
-            }
+            if (documentoModeloEmpresa == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Opção do modelo do documento da empresa não encontrada, verifique o identificador!");
 
-            return (false, documentoModeloEmpresaOpcao.DocumentoModeloEmpresaOpcaoID);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _documentoModeloEmpresaOpcaoRepo.Deletar(documentoModeloEmpresaID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int documentoModeloEmpresaOpcaoID, Guid empresaID, int filialID, short tipoOpcao, string conteudoBase64, decimal? transparencia, bool? ativo)
-        {
-            var cDocumentoModeloEmpresa = (await _documentoModeloEmpresaOpcaoRepo.Buscar(
-                            x => x.DocumentoModeloEmpresaOpcaoId == documentoModeloEmpresaOpcaoID)
-                            ).FirstOrDefault();
-            if (cDocumentoModeloEmpresa == null)
-            {
-                cDocumentoModeloEmpresa = DocumentoModeloEmpresaOpcao.CriarParaImportacao(empresaID, filialID, tipoOpcao, conteudoBase64, transparencia, ativo);
-                await Salvar(cDocumentoModeloEmpresa);
-            }
             return;
-        }
-
-        public async Task Validar(int documentoModeloEmpresaOpcaoID)
-        {
-            var cDocumentoModeloEmpresa = (await _documentoModeloEmpresaOpcaoRepo.Buscar(x => x.DocumentoModeloEmpresaOpcaoId == documentoModeloEmpresaOpcaoID)).FirstOrDefault();
-            if (cDocumentoModeloEmpresa == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Opção para o modelo de documento da empresa com ID {documentoModeloEmpresaOpcaoID} não encontrado."
-                );
-            }
         }
     }
 }

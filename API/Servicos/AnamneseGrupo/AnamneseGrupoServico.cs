@@ -1,6 +1,5 @@
 using API.Core.Exceptions;
 using API.modelos;
-using API.modelos.InputModels;
 using Dominio.AnamneseGrupos;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
@@ -26,7 +25,7 @@ namespace API.Servicos.AnamneseGrupos
             _anamneseGrupoRepo = anamneseGrupoRepo;
         }
 
-        public async Task<AnamneseGrupo>? BuscarPorID(int anamneseSubGrupoID) => await _anamneseGrupoRepo.BuscarPorID(anamneseSubGrupoID);
+        public async Task<AnamneseGrupo>? BuscarPorID(int anamneseGrupoID) => await _anamneseGrupoRepo.BuscarPorID(anamneseGrupoID);
 
         public async Task<List<AnamneseGrupo>> BuscarTodos()
         {
@@ -38,80 +37,32 @@ namespace API.Servicos.AnamneseGrupos
             return await _anamneseGrupoRepo.BuscarFiltros(x => x.Titulo.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(AnamneseGrupo anamneseGrupo)
+        public async Task<AnamneseGrupo> Adicionar(AnamneseGrupo anamneseGrupo)
         {
             await _anamneseGrupoRepo.Adicionar(anamneseGrupo);
             await Comitar();
+            return anamneseGrupo;
         }
 
-        private async Task Atualizar(AnamneseGrupo anamneseGrupo)
+        public async Task<AnamneseGrupo> Atualizar(AnamneseGrupo anamneseGrupo)
         {
             await _anamneseGrupoRepo.Atualizar(anamneseGrupo);
             await Comitar();
+            return anamneseGrupo;
         }
 
-        public async Task<(bool criado, int anamneseGrupoId)> CriarOuAtualizar(CriarAnamneseGrupoInputModel anamneseGrupo, bool atualizaSeExistir)
+        public async Task Deletar(int anamneseGrupoID)
         {
-            var cAnamneseGrupo = (await _anamneseGrupoRepo.Buscar(
-                x => x.AnamneseGrupoId == anamneseGrupo.AnamneseGrupoId
-            )).FirstOrDefault();
+            var anamneseGrupo = _anamneseGrupoRepo.BuscarPorID(anamneseGrupoID).Result;
 
-            if (cAnamneseGrupo == null)
-            {
-                cAnamneseGrupo = AnamneseGrupo.CriarParaImportacao(
-                    empresaID: anamneseGrupo.EmpresaId,
-                    filialID: anamneseGrupo.FilialId,
-                    profissionalID: anamneseGrupo.ProfissionalId,
-                    titulo: anamneseGrupo.Titulo,
-                    privado: anamneseGrupo.Privado,
-                    editadoPorTodos: anamneseGrupo.EditadoPorTodos,
-                    ativo: anamneseGrupo.Ativo
-                );
-                await Salvar(cAnamneseGrupo);
-                return (true, cAnamneseGrupo.AnamneseGrupoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cAnamneseGrupo.AtualizarPropriedades(
-                    empresaID: anamneseGrupo.EmpresaId,
-                    filialID: anamneseGrupo.FilialId,
-                    profissionalID: anamneseGrupo.ProfissionalId,
-                    titulo: anamneseGrupo.Titulo,
-                    privado: anamneseGrupo.Privado,
-                    editadoPorTodos: anamneseGrupo.EditadoPorTodos,
-                    ativo: anamneseGrupo.Ativo
-                );
-                await _anamneseGrupoRepo.Atualizar(cAnamneseGrupo);
-                await Atualizar(cAnamneseGrupo);
-            }
+            if (anamneseGrupo == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Grupo de amanmese não encontrado, verifique o identificador!");
 
-            return (false, anamneseGrupo.AnamneseGrupoId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _anamneseGrupoRepo.Deletar(anamneseGrupoID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int anamneseGrupoID, Guid empresaID, int filialID, Guid profissionalID, string titulo, bool? privado, bool editadoPorTodos, bool? ativo)
-        {
-            var cAnamneseGrupo = (await _anamneseGrupoRepo.Buscar(
-                            x => x.AnamneseGrupoId == anamneseGrupoID)
-                            ).FirstOrDefault();
-            if (cAnamneseGrupo == null)
-            {
-                cAnamneseGrupo = AnamneseGrupo.CriarParaImportacao(empresaID, filialID, profissionalID, titulo, privado, editadoPorTodos, ativo);
-                await Salvar(cAnamneseGrupo);
-            }
             return;
-        }
-
-        public async Task Validar(int anamneseGrupoID)
-        {
-            var cModeloAnamneseSg = (await _anamneseGrupoRepo.Buscar(x => x.AnamneseGrupoId == anamneseGrupoID)).FirstOrDefault();
-            if (cModeloAnamneseSg == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Grupo de anamnese com ID {anamneseGrupoID} não encontrado."
-                );
-            }
         }
     }
 }

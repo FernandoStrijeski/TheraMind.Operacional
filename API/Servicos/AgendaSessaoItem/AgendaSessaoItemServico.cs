@@ -41,94 +41,32 @@ namespace API.Servicos.AgendaSessaoItens
             return await _agendaSessaoItemRepo.BuscarFiltros(x => x.Cliente.NomeCompleto.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(AgendaSessaoItem agendaSessao)
+        public async Task<AgendaSessaoItem> Adicionar(AgendaSessaoItem agendaSessaoItem)
         {
-            await _agendaSessaoItemRepo.Adicionar(agendaSessao);
+            await _agendaSessaoItemRepo.Adicionar(agendaSessaoItem);
             await Comitar();
+            return agendaSessaoItem;
         }
 
-        private async Task Atualizar(AgendaSessaoItem agendaSessao)
+        public async Task<AgendaSessaoItem> Atualizar(AgendaSessaoItem agendaSessaoItem)
         {
-            await _agendaSessaoItemRepo.Atualizar(agendaSessao);
+            await _agendaSessaoItemRepo.Atualizar(agendaSessaoItem);
             await Comitar();
+            return agendaSessaoItem;
         }
 
-        public async Task<(bool criado, int agendaSessaoItemId)> CriarOuAtualizar(CriarAgendaSessaoItemInputModel agendaSessaoItem, bool atualizaSeExistir)
+        public async Task Deletar(int agendaSessaoItemID)
         {
-            var cAgendaSessaoItem = (await _agendaSessaoItemRepo.Buscar(
-                x => x.AgendaSessaoItemId == agendaSessaoItem.AgendaSessaoItemId
-            )).FirstOrDefault();
+            var escolaridade = _agendaSessaoItemRepo.BuscarPorID(agendaSessaoItemID).Result;
 
-            if (cAgendaSessaoItem == null)
-            {
-                cAgendaSessaoItem = AgendaSessaoItem.CriarParaImportacao(
-                    empresaId: agendaSessaoItem.EmpresaId,
-                    filialId: agendaSessaoItem.FilialId,
-                    profissionalId: agendaSessaoItem.ProfissionalId,
-                    agendaProfissionalId: agendaSessaoItem.AgendaProfissionalId,
-                    servicoId: agendaSessaoItem.ServicoId,
-                    formularioSessaoId: agendaSessaoItem.FormularioSessaoId,
-                    formularioSessaoCampoId: agendaSessaoItem.FormularioSessaoCampoId,
-                    clienteId: agendaSessaoItem.ClienteId,
-                    agendaSessaoId: agendaSessaoItem.AgendaSessaoId,
-                    campoTipo: agendaSessaoItem.CampoTipo,
-                    conteudoTexto: agendaSessaoItem.ConteudoTexto,
-                    conteudoArquivo: agendaSessaoItem.ConteudoArquivo,
-                    ativo: agendaSessaoItem.Ativo
-                );
-                await Salvar(cAgendaSessaoItem);
-                return (true, cAgendaSessaoItem.AgendaSessaoItemId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cAgendaSessaoItem.AtualizarPropriedades(
-                    empresaId: agendaSessaoItem.EmpresaId,
-                    filialId: agendaSessaoItem.FilialId,
-                    profissionalId: agendaSessaoItem.ProfissionalId,
-                    agendaProfissionalId: agendaSessaoItem.AgendaProfissionalId,
-                    servicoId: agendaSessaoItem.ServicoId,
-                    formularioSessaoId: agendaSessaoItem.FormularioSessaoId,
-                    formularioSessaoCampoId: agendaSessaoItem.FormularioSessaoCampoId,
-                    clienteId: agendaSessaoItem.ClienteId,
-                    agendaSessaoId: agendaSessaoItem.AgendaSessaoId,
-                    campoTipo: agendaSessaoItem.CampoTipo,
-                    conteudoTexto: agendaSessaoItem.ConteudoTexto,
-                    conteudoArquivo: agendaSessaoItem.ConteudoArquivo,
-                    ativo: agendaSessaoItem.Ativo
-                );
-                await _agendaSessaoItemRepo.Atualizar(cAgendaSessaoItem);
-                await Atualizar(cAgendaSessaoItem);
-            }
+            if (escolaridade == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Item da sessão da agenda não encontrada, verifique o identificador!");
 
-            return (false, agendaSessaoItem.AgendaSessaoItemId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _agendaSessaoItemRepo.Deletar(agendaSessaoItemID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int agendaSessaoItemID, Guid empresaId, int filialId, Guid profissionalId, int agendaProfissionalId, int servicoId, int formularioSessaoId, int formularioSessaoCampoId,
-                                                           Guid? clienteId, Guid agendaSessaoId, short campoTipo, string campoNome, string? campoTexto, byte[]? campoArquivo, bool? ativo)
-        {
-            var cAgendaSessaoItem = (await _agendaSessaoItemRepo.Buscar(
-                            x => x.AgendaSessaoItemId == agendaSessaoItemID)
-                            ).FirstOrDefault();
-            if (cAgendaSessaoItem == null)
-            {
-                cAgendaSessaoItem = AgendaSessaoItem.CriarParaImportacao(empresaId, filialId, profissionalId, agendaProfissionalId, servicoId, formularioSessaoId, formularioSessaoCampoId,
-                                                            clienteId, agendaSessaoId, campoTipo, campoTexto, campoArquivo, ativo);
-                await Salvar(cAgendaSessaoItem);
-            }
             return;
-        }
-
-        public async Task Validar(int agendaSessaoItemID)
-        {
-            var cAgendaSessaoItem = (await _agendaSessaoItemRepo.Buscar(x => x.AgendaSessaoItemId == agendaSessaoItemID)).FirstOrDefault();
-            if (cAgendaSessaoItem == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Item da sessão na agenda com ID {agendaSessaoItemID} não encontrado."
-                );
-            }
         }
     }
 }

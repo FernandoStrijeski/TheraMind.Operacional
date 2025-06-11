@@ -76,28 +76,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza uma opção para uso nos modelos de documentos da empresa
-        /// </summary>
-        /// <response code="202">Opção para modelo de documento da empresa criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Õpção para modelo de documento da empresa atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria uma opção para modelo de documento da empresa.
+        /// </summary>         
+        ///<response code="201">Opção para modelo de documento da empresa criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(DocumentoModeloEmpresaOpcaoIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarDocumentoModeloEmpresaOpcaoInputModel body)
+        [ProducesResponseType(typeof(DocumentoModeloEmpresaOpcaoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarDocumentoModeloEmpresaOpcaoInputModel documentoModeloEmpresaOpcao)
         {
-            var (criou, documentoModeloEmpresaOpcaoId) = await _documentoModeloEmpresaOpcaoServico.CriarOuAtualizar(body, true);
+            var retorno = await _documentoModeloEmpresaOpcaoServico.Adicionar(_mapper.Map<DocumentoModeloEmpresaOpcao>(documentoModeloEmpresaOpcao));
+            return Ok(_mapper.Map<DocumentoModeloEmpresaOpcaoViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new DocumentoModeloEmpresaOpcaoIdResponseViewModel(documentoModeloEmpresaOpcaoId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza uma opção para modelo de documento da empresa.
+        /// </summary>         
+        ///<response code="200">Opção para modelo de documento da empresa atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(DocumentoModeloEmpresaOpcaoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] DocumentoModeloEmpresaOpcaoInputModel documentoModeloEmpresaOpcao)
+        {
+            // Busca o registro existente
+            var documentoModeloEmpresaOpcaoExistente = await _documentoModeloEmpresaOpcaoServico.BuscarPorID(documentoModeloEmpresaOpcao.DocumentoModeloEmpresaOpcaoId);
+            if (documentoModeloEmpresaOpcaoExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(documentoModeloEmpresaOpcao, documentoModeloEmpresaOpcaoExistente); // Faz o merge
+
+            var retorno = await _documentoModeloEmpresaOpcaoServico.Atualizar(_mapper.Map<DocumentoModeloEmpresaOpcao>(documentoModeloEmpresaOpcaoExistente));
+            return Ok(_mapper.Map<DocumentoModeloEmpresaOpcaoInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma opção para modelo de documento da empresa.
+        /// </summary>         
+        ///<response code="200">Opção para modelo de documento da empresa excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _documentoModeloEmpresaOpcaoServico.Deletar(id);
+            return Ok();
         }
     }
 }

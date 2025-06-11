@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.FormulariosSessoes
 {
-    public interface IFormularioSessaoRepo : IBaseRepositorio<FormularioSessao>
+    public interface IFormularioSessaoRepo : IBaseRepositorio<FormularioSessao, int>
     {
         Task<List<FormularioSessao>> BuscarFiltros(
             Expression<Func<FormularioSessao, bool>> filtro = null,

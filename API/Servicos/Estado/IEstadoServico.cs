@@ -24,5 +24,27 @@ namespace API.Servicos.Estados
         /// </summary>
         /// <returns></returns>
         Task<List<Estado>> BuscarTodos();
+
+        /// <summary>
+        /// Adicionar um novo estado
+        /// </summary>
+        /// <param name="estado"></param>
+        /// <returns></returns>
+        Task<Estado> Adicionar(Estado estado);
+
+        /// <summary>
+        /// Atualizar o estado
+        /// </summary>
+        /// <param name="estado"></param>
+        /// <returns></returns>
+        Task<Estado> Atualizar(Estado estado);
+
+        /// <summary>
+        /// Remover o estado
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(string id);
+
     }
 }

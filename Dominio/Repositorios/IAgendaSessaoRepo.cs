@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.AgendasSessoes
 {
-    public interface IAgendaSessaoRepo : IBaseRepositorio<AgendaSessao>
+    public interface IAgendaSessaoRepo : IBaseRepositorio<AgendaSessao, Guid>
     {
         Task<List<AgendaSessao>> BuscarFiltros(
             Expression<Func<AgendaSessao, bool>> filtro = null,

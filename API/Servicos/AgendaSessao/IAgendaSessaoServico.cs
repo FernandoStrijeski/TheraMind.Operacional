@@ -21,17 +21,30 @@ namespace API.Servicos.AgendasSessoes
         Task<List<AgendaSessao>> BuscarPorNome(BuscarComNomeParametro parametro);
 
         /// <summary>
-        /// Buscar todos os modelos de documentos da empresa
+        /// Buscar todas sessões da agenda
         /// </summary>
         /// <returns></returns>
         Task<List<AgendaSessao>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza uma sessão na agenda a partir do modelo informado
+        /// Adicionar uma nova sessão na agenda
         /// </summary>
         /// <param name="agendaSessao"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, Guid agendaSessaoId)> CriarOuAtualizar(CriarAgendaSessaoInputModel agendaSessao, bool atualizaSeExistir);
+        Task<AgendaSessao> Adicionar(AgendaSessao agendaSessao);
+
+        /// <summary>
+        /// Atualizar a sessão na agenda
+        /// </summary>
+        /// <param name="agendaSessao"></param>
+        /// <returns></returns>
+        Task<AgendaSessao> Atualizar(AgendaSessao agendaSessao);
+
+        /// <summary>
+        /// Remover a sessão na agenda
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(Guid id);
     }
 }

@@ -27,11 +27,25 @@ namespace API.Servicos.DocumentosVariaveis
         Task<List<DocumentoVariavel>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza uma variável de documento a partir do modelo informado
+        /// Adicionar uma nova variável do documento
         /// </summary>
         /// <param name="documentoVariavel"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int documentoVariavelId)> CriarOuAtualizar(CriarDocumentoVariavelInputModel documentoVariavel, bool atualizaSeExistir);
+        Task<DocumentoVariavel> Adicionar(DocumentoVariavel documentoVariavel);
+
+        /// <summary>
+        /// Atualizar a variável do documento
+        /// </summary>
+        /// <param name="documentoVariavel"></param>
+        /// <returns></returns>
+        Task<DocumentoVariavel> Atualizar(DocumentoVariavel documentoVariavel);
+
+        /// <summary>
+        /// Remover a variável do documento
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

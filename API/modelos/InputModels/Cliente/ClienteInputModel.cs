@@ -58,11 +58,6 @@ namespace API.modelos.InputModels
         public short Situacao { get; set; }
         public string? MotivoDesativacao { get; set; }
         public Guid? UsuarioID { get; set; }
-
-        /// <summary>
-        /// Data de criação do registro
-        /// </summary> 
-        public DateTime DataCriacao { get; set; }
     }
 
     public class ClienteValidator : AbstractValidator<ClienteInputModel>

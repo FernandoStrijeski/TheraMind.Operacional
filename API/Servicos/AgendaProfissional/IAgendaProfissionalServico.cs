@@ -20,11 +20,25 @@ namespace API.Servicos.AgendasProfissionais
         Task<List<AgendaProfissional>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza a agenda profissional a partir do modelo informado
+        /// Adicionar uma nova agenda do profissional
         /// </summary>
         /// <param name="agendaProfissional"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int agendaProfissionalId)> CriarOuAtualizar(CriarAgendaProfissionalInputModel agendaProfissional, bool atualizaSeExistir);
+        Task<AgendaProfissional> Adicionar(AgendaProfissional agendaProfissional);
+
+        /// <summary>
+        /// Atualizar a agenda do profissional
+        /// </summary>
+        /// <param name="agendaProfissional"></param>
+        /// <returns></returns>
+        Task<AgendaProfissional> Atualizar(AgendaProfissional agendaProfissional);
+
+        /// <summary>
+        /// Remover a agenda do profissional
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

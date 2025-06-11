@@ -4,6 +4,7 @@ using API.modelos.InputModels;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using Operacional.Core.Utils.Class;
 using System.Net;
@@ -36,108 +37,32 @@ namespace API.Servicos.Empresas
         public async Task<Dominio.Entidades.Empresa>? BuscarPorID(Guid empresaID) => await _empresaRepo.BuscarPorID(empresaID);
 
 
-        public async Task Salvar(Dominio.Entidades.Empresa empresa)
+        public async Task<Dominio.Entidades.Empresa> Adicionar(Dominio.Entidades.Empresa empresa)
         {
             await _empresaRepo.Adicionar(empresa);
             await Comitar();
+            return empresa;
         }
 
-        private async Task Atualizar(Dominio.Entidades.Empresa empresa)
+        public async Task<Dominio.Entidades.Empresa> Atualizar(Dominio.Entidades.Empresa empresa)
         {
             await _empresaRepo.Atualizar(empresa);
             await Comitar();
+            return empresa;
         }
 
-        public async Task<(bool criado, Guid empresaId)> CriarOuAtualizar(CriarEmpresaInputModel empresa, bool atualizaSeExistir)
+        public async Task Deletar(Guid empresaID)
         {
-            var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
-            
-            InformacoesAudit informacoesAudit = TokenHelper.ObterInformacoesToken(
-                token, _httpContextAccessor.HttpContext,
-                _configuration["SecuritySettings:Token"],
-                _configuration["SecuritySettings:Chave"]
-                );
+            var empresa = _empresaRepo.BuscarPorID(empresaID).Result;
 
-            var cEmpresa = (await _empresaRepo.Buscar(
-                x => x.EmpresaId == empresa.EmpresaID
-            )).FirstOrDefault();
-            if (cEmpresa == null)
-            {
-                cEmpresa = Dominio.Entidades.Empresa.CriarParaImportacao(razaoSocial: empresa.RazaoSocial, nomeFantasia: empresa.NomeFantasia, logotipo: empresa.Logotipo, ativo: empresa.Ativo);
-                await Salvar(cEmpresa);
+            if (empresa == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Emoresa não encontrada, verifique o identificador!");
 
-                Auditoria auditoria = new()
-                {
-                    TipoAcao = eTipoAcao.Inclusao,
-                    AcaoExecutada = $"Empresa adicionada! {cEmpresa.EmpresaId} - {cEmpresa.RazaoSocial}.",
-                    EmpresaId = cEmpresa.EmpresaId,
-                    FilialId = null,
-                    UsuarioID = informacoesAudit.UsuarioId,
-                    PerfilAcesso = informacoesAudit.PerfilAcesso,
-                    IPAcesso = informacoesAudit.IPAcesso
-                };
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _empresaRepo.Deletar(empresaID);
+            await Comitar();
 
-                await _auditoriaRepo.Adicionar(auditoria);
-                await Comitar();
-
-                return (true, cEmpresa.EmpresaId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cEmpresa.RazaoSocial = empresa.RazaoSocial;
-                cEmpresa.NomeFantasia = empresa.NomeFantasia;
-                cEmpresa.Logotipo = empresa.Logotipo;
-                cEmpresa.AtualizarPropriedades(razaoSocial: empresa.RazaoSocial, nomeFantasia: empresa.NomeFantasia, logotipo: empresa.Logotipo, ativo: empresa.Ativo);
-                await _empresaRepo.Atualizar(cEmpresa);
-                await Atualizar(cEmpresa);
-
-                Auditoria auditoria = new()
-                {
-                    TipoAcao = eTipoAcao.Edicao,
-                    AcaoExecutada = $"Empresa atualizada! {cEmpresa.EmpresaId} - {cEmpresa.RazaoSocial} - {cEmpresa.NomeFantasia} - Situação: {(cEmpresa.Ativo == true ? "Ativa" : "Inativa")}.",
-                    EmpresaId = cEmpresa.EmpresaId,
-                    FilialId = null,
-                    UsuarioID = informacoesAudit.UsuarioId,
-                    PerfilAcesso = informacoesAudit.PerfilAcesso,
-                    IPAcesso = informacoesAudit.IPAcesso
-                };
-
-                await _auditoriaRepo.Adicionar(auditoria);
-                await Comitar();
-            }
-            return (false, cEmpresa.EmpresaId);
-        }
-
-        public async Task CriarParaImportacao(Guid empresaID, string razaoSocial, string nomeFantasia, byte[] logotipo, bool ativo)
-        {
-            var cEmpresa = (await _empresaRepo.Buscar(
-                            x => x.EmpresaId == empresaID)
-                            ).FirstOrDefault();
-            if (cEmpresa == null)
-            {
-                cEmpresa = Dominio.Entidades.Empresa.CriarParaImportacao(razaoSocial, nomeFantasia, logotipo, ativo);
-                await Salvar(cEmpresa);
-            }
             return;
         }
-
-        public async Task Validar(Guid empresaID)
-        {
-            var cEmpresa = (await _empresaRepo.Buscar(x => x.EmpresaId == empresaID)).FirstOrDefault();
-            if (cEmpresa == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Empresa com ID {empresaID} não encontrada."
-                );
-            }
-        }
-
-        //public async Task<List<Empresas>> Buscar(BuscarComCodEmpresaParametro parametros)
-        //{
-        //    var query = await _empresasRepo.Buscar(x => x.CodEmpresa == parametros.CodEmpresa);
-        //    return query.ToList();
-        //}
-
     }
 }

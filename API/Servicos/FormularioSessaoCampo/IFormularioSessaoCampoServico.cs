@@ -27,11 +27,25 @@ namespace API.Servicos.FormularioSessaoCampos
         Task<List<FormularioSessaoCampo>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um campo do formulário da sessão a partir do modelo informado
+        /// Adicionar um campo do formulário da sessão
         /// </summary>
         /// <param name="formularioSessaoCampo"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int formularioSessaoCampoId)> CriarOuAtualizar(CriarFormularioSessaoCampoInputModel formularioSessaoCampo, bool atualizaSeExistir);
+        Task<FormularioSessaoCampo> Adicionar(FormularioSessaoCampo formularioSessaoCampo);
+
+        /// <summary>
+        /// Atualizar o campo do formulário da sessão
+        /// </summary>
+        /// <param name="formularioSessaoCampo"></param>
+        /// <returns></returns>
+        Task<FormularioSessaoCampo> Atualizar(FormularioSessaoCampo formularioSessaoCampo);
+
+        /// <summary>
+        /// Remover o campo do formulário da sessão
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

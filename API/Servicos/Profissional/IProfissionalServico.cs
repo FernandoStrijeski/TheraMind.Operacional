@@ -27,11 +27,25 @@ namespace API.Servicos.Profissionais
         Task<List<Profissional>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um profissional a partir do modelo informado
+        /// Adicionar um novo profissional
         /// </summary>
         /// <param name="profissional"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, Guid profissionalId)> CriarOuAtualizar(CriarProfissionalInputModel profissional, bool atualizaSeExistir);
+        Task<Profissional> Adicionar(Profissional profissional);
+
+        /// <summary>
+        /// Atualizar o profissional
+        /// </summary>
+        /// <param name="profissional"></param>
+        /// <returns></returns>
+        Task<Profissional> Atualizar(Profissional profissional);
+
+        /// <summary>
+        /// Remover o profissional
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(Guid id);
+
     }
 }

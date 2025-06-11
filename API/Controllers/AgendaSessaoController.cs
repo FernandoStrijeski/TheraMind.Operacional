@@ -99,28 +99,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza uma sessão da agenda
-        /// </summary>
-        /// <response code="202">Sessão da agenda criada com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Sessão da agenda atualizada com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria uma sessão da agenda.
+        /// </summary>         
+        ///<response code="201">Sessão da agenda criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(AgendaSessaoIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarAgendaSessaoInputModel body)
+        [ProducesResponseType(typeof(AgendaSessaoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarAgendaSessaoInputModel agendaSessao)
         {
-            var (criou, agendaSessaoId) = await _agendaSessaoServico.CriarOuAtualizar(body, true);
+            var retorno = await _agendaSessaoServico.Adicionar(_mapper.Map<AgendaSessao>(agendaSessao));
+            return Ok(_mapper.Map<AgendaSessaoViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new AgendaSessaoIdResponseViewModel(agendaSessaoId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza uma sessão da agenda.
+        /// </summary>         
+        ///<response code="200">Sessão da agenda atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(AgendaSessaoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] AgendaSessaoInputModel agendaSessao)
+        {
+            // Busca o registro existente
+            var agendaSessaoExistente = await _agendaSessaoServico.BuscarPorID(agendaSessao.AgendaSessaoId);
+            if (agendaSessaoExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(agendaSessao, agendaSessaoExistente); // Faz o merge
+
+            var retorno = await _agendaSessaoServico.Atualizar(_mapper.Map<AgendaSessao>(agendaSessaoExistente));
+            return Ok(_mapper.Map<AgendaSessaoInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma sessão da agenda.
+        /// </summary>         
+        ///<response code="200">Sessão da agenda excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] Guid id)
+        {
+            await _agendaSessaoServico.Deletar(id);
+            return Ok();
         }
     }
 }

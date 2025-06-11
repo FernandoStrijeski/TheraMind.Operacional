@@ -27,11 +27,25 @@ namespace API.Servicos.Convenios
         Task<List<Convenio>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um convênio a partir do modelo informado
+        /// Adicionar um novo convênio
         /// </summary>
         /// <param name="convenio"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int convenioId)> CriarOuAtualizar(CriarConvenioInputModel convenio, bool atualizaSeExistir);
+        Task<Convenio> Adicionar(Convenio convenio);
+
+        /// <summary>
+        /// Atualizar o convênio
+        /// </summary>
+        /// <param name="convenio"></param>
+        /// <returns></returns>
+        Task<Convenio> Atualizar(Convenio convenio);
+
+        /// <summary>
+        /// Remover o convênio
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.Repositorios
 {
-    public interface IFilialRepo : IBaseRepositorio<Filial>
+    public interface IFilialRepo : IBaseRepositorio<Filial, int>
     {
         Task<List<Filial>> BuscarFiltros(
             Expression<Func<Filial, bool>> filtro = null,
@@ -17,7 +17,7 @@ namespace Dominio.Repositorios
             int take = 0
             );
 
-        Task<Filial>? BuscarPorID(Guid empresaID, int filialID);
+        Task<Filial>? BuscarPorID(int filialID);
         Task<List<Filial>> BuscarTodasPorEmpresa(Guid empresaID);
     }
 }

@@ -6,6 +6,7 @@ using Dominio.Entidades;
 using Dominio.PacotesFechados;
 using Dominio.Profissionais;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using System.Net;
 
@@ -35,76 +36,32 @@ namespace API.Servicos.PacotesFechados
             return await _pacoteFechadoRepo.BuscarFiltros();
         }
 
-        public async Task Salvar(PacoteFechado pacoteFechado)
+        public async Task<PacoteFechado> Adicionar(PacoteFechado pacoteFechado)
         {
             await _pacoteFechadoRepo.Adicionar(pacoteFechado);
             await Comitar();
+            return pacoteFechado;
         }
 
-        private async Task Atualizar(PacoteFechado pacoteFechado)
+        public async Task<PacoteFechado> Atualizar(PacoteFechado pacoteFechado)
         {
             await _pacoteFechadoRepo.Atualizar(pacoteFechado);
             await Comitar();
+            return pacoteFechado;
         }
 
-        public async Task<(bool criado, int pacoteFechadoId)> CriarOuAtualizar(CriarPacoteFechadoInputModel pacoteFechado, bool atualizaSeExistir)
+        public async Task Deletar(int pacoteFechadoID)
         {
-            var cPacoteFechado = (await _pacoteFechadoRepo.Buscar(
-                x => x.PacoteFechadoId == pacoteFechado.PacoteFechadoId
-            )).FirstOrDefault();
+            var pacoteFechado = _pacoteFechadoRepo.BuscarPorID(pacoteFechadoID).Result;
 
-            if (cPacoteFechado == null)
-            {
-                cPacoteFechado = PacoteFechado.CriarParaImportacao(
-                    empresaID: pacoteFechado.EmpresaId,
-                    filialID: pacoteFechado.FilialId,                    
-                    quantidadeSessoes: pacoteFechado.QuantidadeSessoes,
-                    valorTotal: pacoteFechado.ValorTotal,
-                    ativo: pacoteFechado.Ativo
-                );
-                await Salvar(cPacoteFechado);
-                return (true, cPacoteFechado.PacoteFechadoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cPacoteFechado.AtualizarPropriedades(
-                    empresaID: pacoteFechado.EmpresaId,
-                    filialID: pacoteFechado.FilialId,
-                    quantidadeSessoes: pacoteFechado.QuantidadeSessoes,
-                    valorTotal: pacoteFechado.ValorTotal,
-                    ativo: pacoteFechado.Ativo
-                );
-                await _pacoteFechadoRepo.Atualizar(cPacoteFechado);
-                await Atualizar(cPacoteFechado);
-            }
+            if (pacoteFechado == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Pacote fechado não encontrado, verifique o identificador!");
 
-            return (false, pacoteFechado.PacoteFechadoId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _pacoteFechadoRepo.Deletar(pacoteFechadoID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int pacoteFechadoID, Guid empresaID, int filialID, int quantidadeSessoes, decimal valorTotal, bool? ativo)
-        {
-            var cPacoteFechado = (await _pacoteFechadoRepo.Buscar(
-                            x => x.PacoteFechadoId == pacoteFechadoID)
-                            ).FirstOrDefault();
-            if (cPacoteFechado == null)
-            {
-                cPacoteFechado = PacoteFechado.CriarParaImportacao(empresaID, filialID, quantidadeSessoes, valorTotal, ativo);
-                await Salvar(cPacoteFechado);
-            }
             return;
-        }
-
-        public async Task Validar(int pacoteFechadoID)
-        {
-            var cPacoteFechado = (await _pacoteFechadoRepo.Buscar(x => x.PacoteFechadoId == pacoteFechadoID)).FirstOrDefault();
-            if (cPacoteFechado == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Pacote fechado com ID {pacoteFechadoID} não encontrado."
-                );
-            }
         }
     }
 }

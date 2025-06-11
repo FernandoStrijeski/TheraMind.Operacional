@@ -7,11 +7,10 @@ namespace API.modelos.InputModels
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class CriarDocumentoVariavelInputModel
     {
-        public int DocumentoVariavelId { get; set; }
         public string NomeVariavel { get; set; } = null!;
         public string NomeCampo { get; set; } = null!;
         public string NomeTabela { get; set; } = null!;
-        public bool? Ativo { get; set; }       
+        public bool? Ativo { get; set; }
     }
 
     public class CriarDocumentoVariavelInputModelValidator : AbstractValidator<CriarDocumentoVariavelInputModel>

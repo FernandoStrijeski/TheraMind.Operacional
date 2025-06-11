@@ -27,11 +27,24 @@ namespace API.Servicos.Planos
         Task<List<Plano>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um plano a partir do modelo informado
+        /// Adicionar um plano
         /// </summary>
         /// <param name="plano"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, Guid planoId)> CriarOuAtualizar(CriarPlanoInputModel plano, bool atualizaSeExistir);
+        Task<Plano> Adicionar(Plano plano);
+
+        /// <summary>
+        /// Atualizar o plano
+        /// </summary>
+        /// <param name="plano"></param>
+        /// <returns></returns>
+        Task<Plano> Atualizar(Plano plano);
+
+        /// <summary>
+        /// Remover o plano
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(Guid id);
     }
 }

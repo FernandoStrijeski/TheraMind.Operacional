@@ -39,11 +39,6 @@ namespace API.modelos.InputModels
         /// Ativo Sim ou Não
         /// </summary> 
         public bool Ativo { get; set; }
-
-        /// <summary>
-        /// Data de criação do registro
-        /// </summary> 
-        public DateTime DataCriacao { get; set; }
     }
 
     public class DocumentoModeloEmpresaOpcaoValidator : AbstractValidator<DocumentoModeloEmpresaOpcaoInputModel>

@@ -24,5 +24,27 @@ namespace API.Servicos.IdentidadesGeneros
         /// </summary>
         /// <returns></returns>
         Task<List<IdentidadeGenero>> BuscarTodos();
+
+        /// <summary>
+        /// Adicionar uma nova escolaridade
+        /// </summary>
+        /// <param name="escolaridade"></param>
+        /// <returns></returns>
+        Task<Escolaridade> Adicionar(Escolaridade escolaridade);
+
+        /// <summary>
+        /// Atualizar a escolaridade
+        /// </summary>
+        /// <param name="escolaridade"></param>
+        /// <returns></returns>
+        Task<Escolaridade> Atualizar(Escolaridade escolaridade);
+
+        /// <summary>
+        /// Remover a escolaridade
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

@@ -27,11 +27,25 @@ namespace API.Servicos.FormulariosSessoes
         Task<List<FormularioSessao>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um formulário da sessão a partir do modelo informado
+        /// Adicionar um formulário de sessão
         /// </summary>
         /// <param name="formularioSessao"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int formularioSessaoId)> CriarOuAtualizar(CriarFormularioSessaoInputModel formularioSessao, bool atualizaSeExistir);
+        Task<FormularioSessao> Adicionar(FormularioSessao formularioSessao);
+
+        /// <summary>
+        /// Atualizar o formulário de sessão
+        /// </summary>
+        /// <param name="formularioSessao"></param>
+        /// <returns></returns>
+        Task<FormularioSessao> Atualizar(FormularioSessao formularioSessao);
+
+        /// <summary>
+        /// Remover o formulário de sessão
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

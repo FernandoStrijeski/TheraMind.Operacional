@@ -24,5 +24,27 @@ namespace API.Servicos.Nacionalidades
         /// </summary>
         /// <returns></returns>
         Task<List<Nacionalidade>> BuscarTodos();
+
+        /// <summary>
+        /// Adicionar uma nova nacionalidade
+        /// </summary>
+        /// <param name="nacionalidade"></param>
+        /// <returns></returns>
+        Task<Nacionalidade> Adicionar(Nacionalidade nacionalidade);
+
+        /// <summary>
+        /// Atualizar a nacionalidade
+        /// </summary>
+        /// <param name="nacionalidade"></param>
+        /// <returns></returns>
+        Task<Nacionalidade> Atualizar(Nacionalidade nacionalidade);
+
+        /// <summary>
+        /// Remover a nacionalidade
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

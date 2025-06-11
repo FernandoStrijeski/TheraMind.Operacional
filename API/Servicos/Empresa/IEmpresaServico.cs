@@ -1,4 +1,5 @@
 using API.modelos.InputModels;
+using Dominio.Entidades;
 
 namespace API.Servicos.Empresas
 {
@@ -12,11 +13,24 @@ namespace API.Servicos.Empresas
         Task<Dominio.Entidades.Empresa>? BuscarPorID(Guid empresaID);
 
         /// <summary>
-        /// Cria ou atualiza uma empresa a partir do modelo informado
+        /// Adicionar uma nova empresa
         /// </summary>
         /// <param name="empresa"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, Guid empresaId)> CriarOuAtualizar(CriarEmpresaInputModel empresa, bool atualizaSeExistir);
+        Task<Dominio.Entidades.Empresa> Adicionar(Dominio.Entidades.Empresa empresa);
+
+        /// <summary>
+        /// Atualizar a empresa
+        /// </summary>
+        /// <param name="empresa"></param>
+        /// <returns></returns>
+        Task<Dominio.Entidades.Empresa> Atualizar(Dominio.Entidades.Empresa empresa);
+
+        /// <summary>
+        /// Remover a empresa
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(Guid id);
     }
 }

@@ -38,74 +38,32 @@ namespace API.Servicos.ModelosAnamneseSG
             return await _modeloAnamneseSgGRepo.BuscarFiltros(x => x.Titulo.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(ModeloAnamneseSg modeloAnamneseSg)
+        public async Task<ModeloAnamneseSg> Adicionar(ModeloAnamneseSg modeloAnamneseSg)
         {
             await _modeloAnamneseSgGRepo.Adicionar(modeloAnamneseSg);
             await Comitar();
+            return modeloAnamneseSg;
         }
 
-        private async Task Atualizar(ModeloAnamneseSg modeloAnamneseSg)
+        public async Task<ModeloAnamneseSg> Atualizar(ModeloAnamneseSg modeloAnamneseSg)
         {
             await _modeloAnamneseSgGRepo.Atualizar(modeloAnamneseSg);
             await Comitar();
+            return modeloAnamneseSg;
         }
 
-        public async Task<(bool criado, int modeloAnamneseSgId)> CriarOuAtualizar(CriarModeloAnamneseSgInputModel modeloAnamneseSg, bool atualizaSeExistir)
+        public async Task Deletar(int modeloAnamneseSgID)
         {
-            var cModeloAnamneseSg = (await _modeloAnamneseSgGRepo.Buscar(
-                x => x.ModeloAnamneseSgid == modeloAnamneseSg.ModeloAnamneseSgid
-            )).FirstOrDefault();
+            var modeloAnamneseSg = _modeloAnamneseSgGRepo.BuscarPorID(modeloAnamneseSgID).Result;
 
-            if (cModeloAnamneseSg == null)
-            {
-                cModeloAnamneseSg = ModeloAnamneseSg.CriarParaImportacao(
-                    modeloanamneseGID: modeloAnamneseSg.ModeloAnamneseGid,
-                    titulo: modeloAnamneseSg.Titulo,
-                    ordem: modeloAnamneseSg.Ordem,
-                    ativo: modeloAnamneseSg.Ativo
-                );
-                await Salvar(cModeloAnamneseSg);
-                return (true, cModeloAnamneseSg.ModeloAnamneseSgid); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cModeloAnamneseSg.AtualizarPropriedades(
-                    modeloanamneseGID: modeloAnamneseSg.ModeloAnamneseGid,
-                    titulo: modeloAnamneseSg.Titulo,
-                    ordem: modeloAnamneseSg.Ordem,
-                    ativo: modeloAnamneseSg.Ativo
-                );
-                await _modeloAnamneseSgGRepo.Atualizar(cModeloAnamneseSg);
-                await Atualizar(cModeloAnamneseSg);
-            }
+            if (modeloAnamneseSg == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Subgrupo do modelo de amanmese não encontrado, verifique o identificador!");
 
-            return (false, modeloAnamneseSg.ModeloAnamneseSgid);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _modeloAnamneseSgGRepo.Deletar(modeloAnamneseSgID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int modeloAnamneseSgID, int modeloAnamneseGID, string titulo, short ordem, bool? ativo)
-        {
-            var cModeloAnamneseSg = (await _modeloAnamneseSgGRepo.Buscar(
-                            x => x.ModeloAnamneseGid == modeloAnamneseSgID)
-                            ).FirstOrDefault();
-            if (cModeloAnamneseSg == null)
-            {
-                cModeloAnamneseSg = ModeloAnamneseSg.CriarParaImportacao(modeloAnamneseGID, titulo, ordem, ativo);
-                await Salvar(cModeloAnamneseSg);
-            }
             return;
-        }
-
-        public async Task Validar(int modeloAnamneseSgID)
-        {
-            var cModeloAnamneseSg = (await _modeloAnamneseSgGRepo.Buscar(x => x.ModeloAnamneseSgid == modeloAnamneseSgID)).FirstOrDefault();
-            if (cModeloAnamneseSg == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Sub grupo do modelo de anamnese com ID {modeloAnamneseSgID} não encontrado."
-                );
-            }
         }
     }
 }

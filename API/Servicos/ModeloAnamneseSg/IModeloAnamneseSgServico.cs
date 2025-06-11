@@ -27,11 +27,25 @@ namespace API.Servicos.ModelosAnamneseSG
         Task<List<ModeloAnamneseSg>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um grupo do modelo de anamnese a partir do modelo informado
+        /// Adicionar um subgrupo dos modelos de anamnese
         /// </summary>
         /// <param name="modeloAnamneseSg"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int modeloAnamneseSgId)> CriarOuAtualizar(CriarModeloAnamneseSgInputModel modeloAnamneseSg, bool atualizaSeExistir);
+        Task<ModeloAnamneseSg> Adicionar(ModeloAnamneseSg modeloAnamneseSg);
+
+        /// <summary>
+        /// Atualizar o subgrupo dos modelos de anamnese
+        /// </summary>
+        /// <param name="modeloAnamneseSg"></param>
+        /// <returns></returns>
+        Task<ModeloAnamneseSg> Atualizar(ModeloAnamneseSg modeloAnamneseSg);
+
+        /// <summary>
+        /// Remover o subgrupo dos modelos de anamnese
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

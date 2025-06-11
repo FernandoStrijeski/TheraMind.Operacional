@@ -27,11 +27,25 @@ namespace API.Servicos.AnamneseGrupos
         Task<List<AnamneseGrupo>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um grupo de anamnese a partir do modelo informado
+        /// Adicionar um novo grupo de anamnese
         /// </summary>
         /// <param name="anamneseGrupo"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int anamneseGrupoId)> CriarOuAtualizar(CriarAnamneseGrupoInputModel anamneseGrupo, bool atualizaSeExistir);
+        Task<AnamneseGrupo> Adicionar(AnamneseGrupo anamneseGrupo);
+
+        /// <summary>
+        /// Atualizar o grupo de anamnese
+        /// </summary>
+        /// <param name="anamneseGrupo"></param>
+        /// <returns></returns>
+        Task<AnamneseGrupo> Atualizar(AnamneseGrupo anamneseGrupo);
+
+        /// <summary>
+        /// Remover o grupo de anamnese
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

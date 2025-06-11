@@ -38,80 +38,32 @@ namespace API.Servicos.AnamneseSubGrupos
             return await _anamneseSubGrupoRepo.BuscarFiltros(x => x.Titulo.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(AnamneseSubGrupo anamneseSubGrupo)
+        public async Task<AnamneseSubGrupo> Adicionar(AnamneseSubGrupo anamneseSubGrupo)
         {
             await _anamneseSubGrupoRepo.Adicionar(anamneseSubGrupo);
             await Comitar();
+            return anamneseSubGrupo;
         }
 
-        private async Task Atualizar(AnamneseSubGrupo anamneseSubGrupo)
+        public async Task<AnamneseSubGrupo> Atualizar(AnamneseSubGrupo anamneseSubGrupo)
         {
             await _anamneseSubGrupoRepo.Atualizar(anamneseSubGrupo);
             await Comitar();
+            return anamneseSubGrupo;
         }
 
-        public async Task<(bool criado, int anamneseSubGrupoId)> CriarOuAtualizar(CriarAnamneseSubGrupoInputModel anamneseSubGrupo, bool atualizaSeExistir)
+        public async Task Deletar(int anamneseSubGrupoID)
         {
-            var cAnamneseSubGrupo = (await _anamneseSubGrupoRepo.Buscar(
-                x => x.AnamneseSubGrupoId == anamneseSubGrupo.AnamneseSubGrupoId
-            )).FirstOrDefault();
+            var anamneseSubGrupo = _anamneseSubGrupoRepo.BuscarPorID(anamneseSubGrupoID).Result;
 
-            if (cAnamneseSubGrupo == null)
-            {
-                cAnamneseSubGrupo = AnamneseSubGrupo.CriarParaImportacao(
-                    empresaID: anamneseSubGrupo.EmpresaId,
-                    filialID: anamneseSubGrupo.FilialId,
-                    profissionalID: anamneseSubGrupo.ProfissionalId,
-                    anamneseGrupoId: anamneseSubGrupo.AnamneseGrupoId,
-                    titulo: anamneseSubGrupo.Titulo,
-                    ordem: anamneseSubGrupo.Ordem,
-                    ativo: anamneseSubGrupo.Ativo
-                );
-                await Salvar(cAnamneseSubGrupo);
-                return (true, cAnamneseSubGrupo.AnamneseSubGrupoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cAnamneseSubGrupo.AtualizarPropriedades(
-                    empresaID: anamneseSubGrupo.EmpresaId,
-                    filialID: anamneseSubGrupo.FilialId,
-                    profissionalID: anamneseSubGrupo.ProfissionalId,
-                    anamneseGrupoId: anamneseSubGrupo.AnamneseGrupoId,
-                    titulo: anamneseSubGrupo.Titulo,
-                    ordem: anamneseSubGrupo.Ordem,
-                    ativo: anamneseSubGrupo.Ativo
-                );
-                await _anamneseSubGrupoRepo.Atualizar(cAnamneseSubGrupo);
-                await Atualizar(cAnamneseSubGrupo);
-            }
+            if (anamneseSubGrupo == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Subgrupo de amanmnese não encontrado, verifique o identificador!");
 
-            return (false, anamneseSubGrupo.AnamneseSubGrupoId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _anamneseSubGrupoRepo.Deletar(anamneseSubGrupoID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int anamneseGrupoID, Guid empresaID, int filialID, Guid profissionalID, int anamneseGrupoId, string titulo, short ordem, bool? ativo)
-        {
-            var cAnamneseSubGrupo = (await _anamneseSubGrupoRepo.Buscar(
-                            x => x.AnamneseGrupoId == anamneseGrupoID)
-                            ).FirstOrDefault();
-            if (cAnamneseSubGrupo == null)
-            {
-                cAnamneseSubGrupo = AnamneseSubGrupo.CriarParaImportacao(empresaID, filialID, profissionalID, anamneseGrupoId, titulo, ordem, ativo);
-                await Salvar(cAnamneseSubGrupo);
-            }
             return;
-        }
-
-        public async Task Validar(int anamneseSubGrupoID)
-        {
-            var cAnamneseSubGrupo = (await _anamneseSubGrupoRepo.Buscar(x => x.AnamneseSubGrupoId == anamneseSubGrupoID)).FirstOrDefault();
-            if (cAnamneseSubGrupo == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Subgrupo de anamnese com ID {anamneseSubGrupoID} não encontrado."
-                );
-            }
         }
     }
 }

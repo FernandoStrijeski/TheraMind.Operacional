@@ -28,10 +28,6 @@ namespace API.modelos.InputModels
         /// </summary>
         public short AcessoTipo { get; set; }
 
-        /// <summary>
-        /// Data de criação do registro
-        /// </summary> 
-        public DateTime DataCriacao { get; set; }
     }
 
     public class ProfissionalAcessoValidator : AbstractValidator<ProfissionalAcessoInputModel>

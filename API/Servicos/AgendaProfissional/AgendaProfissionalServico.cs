@@ -6,6 +6,7 @@ using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Profissionais;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using System.Net;
 
@@ -35,94 +36,32 @@ namespace API.Servicos.AgendasProfissionais
             return await _agendaProfissionalRepo.BuscarFiltros();
         }
 
-        public async Task Salvar(AgendaProfissional agendaProfissional)
+        public async Task<AgendaProfissional> Adicionar(AgendaProfissional agendaProfissional)
         {
             await _agendaProfissionalRepo.Adicionar(agendaProfissional);
             await Comitar();
+            return agendaProfissional;
         }
 
-        private async Task Atualizar(AgendaProfissional agendaProfissional)
+        public async Task<AgendaProfissional> Atualizar(AgendaProfissional agendaProfissional)
         {
             await _agendaProfissionalRepo.Atualizar(agendaProfissional);
             await Comitar();
+            return agendaProfissional;
         }
 
-        public async Task<(bool criado, int agendaProfissionalId)> CriarOuAtualizar(CriarAgendaProfissionalInputModel agendaProfissional, bool atualizaSeExistir)
+        public async Task Deletar(int agendaProfissionalID)
         {
-            var cAgendaProfissional = (await _agendaProfissionalRepo.Buscar(
-                x => x.AgendaProfissionalId == agendaProfissional.AgendaProfissionalId
-            )).FirstOrDefault();
+            var agendaProfissional = _agendaProfissionalRepo.BuscarPorID(agendaProfissionalID).Result;
 
-            if (cAgendaProfissional == null)
-            {
-                cAgendaProfissional = AgendaProfissional.CriarParaImportacao(
-                empresaID: agendaProfissional.EmpresaId,
-                filialID: agendaProfissional.FilialId,
-                profissionalID: agendaProfissional.ProfissionalId,
-                exibicaoEmMinutos: agendaProfissional.ExibicaoEmMinutos,
-                duracaoSessaoMinutos: agendaProfissional.DuracaoSessaoMinutos,
-                horaInicio: agendaProfissional.HoraInicio,
-                horaFim: agendaProfissional.HoraFim,
-                diasOcultados: agendaProfissional.DiasOcultados,
-                exibeSessoesAusentesCanc: agendaProfissional.ExibeSessoesAusentesCanc,
-                exibeComparecimento: agendaProfissional.ExibeComparecimento,
-                exibePagamento: agendaProfissional.ExibePagamento,
-                exibeFeriadosNacionais: agendaProfissional.ExibeFeriadosNacionais,
-                tipoVisualizacao: agendaProfissional.TipoVisualizacao
-                );
-                await Salvar(cAgendaProfissional);
-                return (true, cAgendaProfissional.AgendaProfissionalId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cAgendaProfissional.AtualizarPropriedades(
-                    empresaID: agendaProfissional.EmpresaId,
-                    filialID: agendaProfissional.FilialId,
-                    profissionalID: agendaProfissional.ProfissionalId,
-                    exibicaoEmMinutos: agendaProfissional.ExibicaoEmMinutos,
-                    duracaoSessaoMinutos: agendaProfissional.DuracaoSessaoMinutos,
-                    horaInicio: agendaProfissional.HoraInicio,
-                    horaFim: agendaProfissional.HoraFim,
-                    diasOcultados: agendaProfissional.DiasOcultados,
-                    exibeSessoesAusentesCanc: agendaProfissional.ExibeSessoesAusentesCanc,
-                    exibeComparecimento: agendaProfissional.ExibeComparecimento,
-                    exibePagamento: agendaProfissional.ExibePagamento,
-                    exibeFeriadosNacionais: agendaProfissional.ExibeFeriadosNacionais,
-                    tipoVisualizacao: agendaProfissional.TipoVisualizacao
-                );
-                await _agendaProfissionalRepo.Atualizar(cAgendaProfissional);
-                await Atualizar(cAgendaProfissional);
-            }
+            if (agendaProfissional == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Agenda profissional não encontrada, verifique o identificador!");
 
-            return (false, agendaProfissional.AgendaProfissionalId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _agendaProfissionalRepo.Deletar(agendaProfissionalID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int agendaProfissionalId, Guid empresaID, int filialID, Guid profissionalID, int exibicaoEmMinutos, int duracaoSessaoMinutos, TimeSpan horaInicio, TimeSpan horaFim,
-                                              string? diasOcultados, bool? exibeSessoesAusentesCanc, bool? exibeComparecimento, bool? exibePagamento, bool? exibeFeriadosNacionais, short tipoVisualizacao)
-        {
-            var cAgendaProfissional = (await _agendaProfissionalRepo.Buscar(
-                            x => x.AgendaProfissionalId == agendaProfissionalId)
-                            ).FirstOrDefault();
-            if (cAgendaProfissional == null)
-            {
-                cAgendaProfissional = AgendaProfissional.CriarParaImportacao(empresaID, filialID, profissionalID, exibicaoEmMinutos, duracaoSessaoMinutos, horaInicio, horaFim,
-                                                            diasOcultados, exibeSessoesAusentesCanc, exibeComparecimento, exibePagamento, exibeFeriadosNacionais, tipoVisualizacao);
-                await Salvar(cAgendaProfissional);
-            }
             return;
-        }
-
-        public async Task Validar(int agendaProfissionalID)
-        {
-            var cAgendaProfissional = (await _agendaProfissionalRepo.Buscar(x => x.AgendaProfissionalId == agendaProfissionalID)).FirstOrDefault();
-            if (cAgendaProfissional == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Agenda profissional com ID {agendaProfissionalID} não encontrado."
-                );
-            }
         }
     }
 }

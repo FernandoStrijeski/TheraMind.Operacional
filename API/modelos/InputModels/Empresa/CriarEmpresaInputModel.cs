@@ -9,12 +9,10 @@ namespace API.modelos.InputModels
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class CriarEmpresaInputModel
     {
-        public Guid EmpresaID { get; set; }
         public string RazaoSocial { get; set; }
         public string NomeFantasia { get; set; }
         public byte[]? Logotipo { get; set; }
         public bool Ativo { get; set; }
-        public DateTime DataCriacao { get; set; }
     }
 
     public class CriarEmpresaInputModelValidator : AbstractValidator<CriarEmpresaInputModel>

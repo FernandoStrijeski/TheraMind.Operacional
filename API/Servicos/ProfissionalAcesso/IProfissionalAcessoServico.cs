@@ -27,12 +27,25 @@ namespace API.Servicos.ProfissionaisAcessos
         Task<List<ProfissionalAcesso>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um acesso do profissional a partir do modelo informado
+        /// Adicionar um novo acesso do profissional
         /// </summary>
         /// <param name="profissionalAcesso"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int profissionalAcessoId)> CriarOuAtualizar(CriarProfissionalAcessoInputModel profissionalAcesso, bool atualizaSeExistir);
+        Task<ProfissionalAcesso> Adicionar(ProfissionalAcesso profissionalAcesso);
+
+        /// <summary>
+        /// Atualizar o acesso do profissional
+        /// </summary>
+        /// <param name="profissionalAcesso"></param>
+        /// <returns></returns>
+        Task<ProfissionalAcesso> Atualizar(ProfissionalAcesso profissionalAcesso);
+
+        /// <summary>
+        /// Remover o acesso do profissional
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
         
     }
 }

@@ -7,7 +7,6 @@ namespace API.modelos.InputModels
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class CriarProfissionalInputModel
     {
-        public Guid ProfissionalId { get; set; }
         public string TipoProfissional { get; set; } = null!;
         public string TipoPessoa { get; set; } = null!;
         public string NomeCompleto { get; set; } = null!;

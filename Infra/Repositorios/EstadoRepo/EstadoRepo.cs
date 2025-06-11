@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class EstadoRepo : BaseRepositorio<Estado>, IEstadoRepo
+    public class EstadoRepo : BaseRepositorio<Estado, string>, IEstadoRepo
     {
         public EstadoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

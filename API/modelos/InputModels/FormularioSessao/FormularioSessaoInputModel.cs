@@ -30,7 +30,6 @@ namespace API.modelos.InputModels
         /// Situação ativo ou não
         /// </summary>
         public bool? Ativo { get; set; }
-        public DateTime? DataCriacao { get; set; }
     }
 
     public class FormularioSessaoValidator : AbstractValidator<FormularioSessaoInputModel>

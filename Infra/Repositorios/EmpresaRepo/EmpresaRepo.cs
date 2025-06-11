@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infra.Repositorios
 {
-    public class EmpresaRepo : BaseRepositorio<Empresa>, IEmpresaRepo
+    public class EmpresaRepo : BaseRepositorio<Empresa, Guid>, IEmpresaRepo
     {
         public EmpresaRepo(ApplicationDbContext contexto) : base(contexto) { }
 

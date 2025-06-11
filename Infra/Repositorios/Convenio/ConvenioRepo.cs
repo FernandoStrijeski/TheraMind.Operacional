@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Convenios
 {
-    public class ConvenioRepo : BaseRepositorio<Convenio>, IConvenioRepo
+    public class ConvenioRepo : BaseRepositorio<Convenio, int>, IConvenioRepo
     {
         public ConvenioRepo(ApplicationDbContext contexto) : base(contexto) { }
 

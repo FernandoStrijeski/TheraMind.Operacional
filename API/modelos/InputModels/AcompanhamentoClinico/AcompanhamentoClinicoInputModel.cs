@@ -49,11 +49,6 @@ namespace API.modelos.InputModels
         /// Registro de encerramento
         /// </summary>
         public string? RegistroEncerramento { get; set; }
-
-        /// <summary>
-        /// Data de criação do registro
-        /// </summary> 
-        public DateTime DataCriacao { get; set; }
     }
 
     public class AcompanhamentoClinicoValidator : AbstractValidator<AcompanhamentoClinicoInputModel>

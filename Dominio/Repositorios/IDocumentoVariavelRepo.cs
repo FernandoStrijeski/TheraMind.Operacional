@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.DocumentosVariaveis
 {
-    public interface IDocumentoVariavelRepo : IBaseRepositorio<DocumentoVariavel>
+    public interface IDocumentoVariavelRepo : IBaseRepositorio<DocumentoVariavel, int>
     {
         Task<List<DocumentoVariavel>> BuscarFiltros(
             Expression<Func<DocumentoVariavel, bool>> filtro = null,

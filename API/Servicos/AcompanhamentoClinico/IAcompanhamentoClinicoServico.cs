@@ -28,11 +28,25 @@ namespace API.Servicos.AcompanhamentosClinicos
         Task<List<AcompanhamentoClinico>> BuscarTodosPorProfissionalCliente(Guid profissionalID, Guid clienteID);
 
         /// <summary>
-        /// Cria ou atualiza um acompanhamento clínico a partir do modelo informado
+        /// Adicionar um novo acompanhamento clínico
         /// </summary>
         /// <param name="acompanhamentoClinico"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, Guid acompanhamentoClinicoId)> CriarOuAtualizar(CriarAcompanhamentoClinicoInputModel acompanhamentoClinico, bool atualizaSeExistir);
+        Task<AcompanhamentoClinico> Adicionar(AcompanhamentoClinico acompanhamentoClinico);
+
+        /// <summary>
+        /// Atualizar o acompanhamento clínico
+        /// </summary>
+        /// <param name="acompanhamentoClinico"></param>
+        /// <returns></returns>
+        Task<AcompanhamentoClinico> Atualizar(AcompanhamentoClinico acompanhamentoClinico);
+
+        /// <summary>
+        /// Remover o acompanhamento clínico
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(Guid id);
+
     }
 }

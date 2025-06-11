@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.DocumentosModelosEmpresasOpcoes
 {
-    public interface IDocumentoModeloEmpresaOpcaoRepo : IBaseRepositorio<DocumentoModeloEmpresaOpcao>
+    public interface IDocumentoModeloEmpresaOpcaoRepo : IBaseRepositorio<DocumentoModeloEmpresaOpcao, int>
     {
         Task<List<DocumentoModeloEmpresaOpcao>> BuscarFiltros(
             Expression<Func<DocumentoModeloEmpresaOpcao, bool>> filtro = null,

@@ -32,5 +32,26 @@ namespace API.Servicos.Cidades
         /// <returns></returns>
         Task<List<Cidade>> BuscarTodos();
 
+        /// <summary>
+        /// Adicionar uma nova cidade
+        /// </summary>
+        /// <param name="cidade"></param>
+        /// <returns></returns>
+        Task<Cidade> Adicionar(Cidade cidade);
+
+        /// <summary>
+        /// Atualizar a cidade
+        /// </summary>
+        /// <param name="cidade"></param>
+        /// <returns></returns>
+        Task<Cidade> Atualizar(Cidade cidade);
+
+        /// <summary>
+        /// Remover a cidade
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

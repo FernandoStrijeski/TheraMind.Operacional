@@ -7,7 +7,6 @@ namespace API.modelos.InputModels
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class CriarAgendaSessaoItemInputModel
     {
-        public int AgendaSessaoItemId { get; set; }
         public Guid EmpresaId { get; set; }
         public int FilialId { get; set; }
         public Guid ProfissionalId { get; set; }

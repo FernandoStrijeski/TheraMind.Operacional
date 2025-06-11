@@ -24,5 +24,27 @@ namespace API.Servicos.EstadosCivis
         /// </summary>
         /// <returns></returns>
         Task<List<EstadoCivil>> BuscarTodos();
+
+        /// <summary>
+        /// Adicionar um novo estado civil
+        /// </summary>
+        /// <param name="estadoCivil"></param>
+        /// <returns></returns>
+        Task<EstadoCivil> Adicionar(EstadoCivil estadoCivil);
+
+        /// <summary>
+        /// Atualizar o estado civil
+        /// </summary>
+        /// <param name="estadoCivil"></param>
+        /// <returns></returns>
+        Task<EstadoCivil> Atualizar(EstadoCivil estadoCivil);
+
+        /// <summary>
+        /// Remover o estado civil
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(string id);
+
     }
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class CidadeRepo : BaseRepositorio<Cidade>, ICidadeRepo
+    public class CidadeRepo : BaseRepositorio<Cidade, int>, ICidadeRepo
     {
         public CidadeRepo(ApplicationDbContext contexto) : base(contexto) { }
 

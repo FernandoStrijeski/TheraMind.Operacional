@@ -40,10 +40,6 @@ namespace API.modelos.InputModels
         /// </summary> 
         public bool Ativo { get; set; }
 
-        /// <summary>
-        /// Data de criação do registro
-        /// </summary> 
-        public DateTime DataCriacao { get; set; }
     }
 
     public class ModeloAnamneseSgQuestaoValidator : AbstractValidator<ModeloAnamneseSgQuestaoInputModel>

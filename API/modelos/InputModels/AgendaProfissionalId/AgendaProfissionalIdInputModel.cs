@@ -76,10 +76,6 @@ namespace API.modelos.InputModels
         /// </summary>
         public short TipoVisualizacao { get; set; }
 
-        /// <summary>
-        /// Data de criação do registro
-        /// </summary> 
-        public DateTime DataCriacao { get; set; }
     }
 
     public class AgendaProfissionalValidator : AbstractValidator<AgendaProfissionalInputModel>

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.ProfissionaisAcessos
 {
-    public class ProfissionalAcessoRepo : BaseRepositorio<ProfissionalAcesso>, IProfissionalAcessoRepo
+    public class ProfissionalAcessoRepo : BaseRepositorio<ProfissionalAcesso, int>, IProfissionalAcessoRepo
     {
         public ProfissionalAcessoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.ModelosAnamneseSGQuestoes
 {
-    public interface IModeloAnamneseSgQuestaoRepo : IBaseRepositorio<ModeloAnamneseSgQuestao>
+    public interface IModeloAnamneseSgQuestaoRepo : IBaseRepositorio<ModeloAnamneseSgQuestao, int>
     {
         Task<List<ModeloAnamneseSgQuestao>> BuscarFiltros(
             Expression<Func<ModeloAnamneseSgQuestao, bool>> filtro = null,

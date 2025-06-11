@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class OrientacaoSexualRepo : BaseRepositorio<OrientacaoSexual>, IOrientacaoSexualRepo
+    public class OrientacaoSexualRepo : BaseRepositorio<OrientacaoSexual, int>, IOrientacaoSexualRepo
     {
         public OrientacaoSexualRepo(ApplicationDbContext contexto) : base(contexto) { }
 

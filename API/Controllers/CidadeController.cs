@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.Cidades;
 using Asp.Versioning;
@@ -97,6 +98,57 @@ namespace API.Controllers
 
             var resultado = _mapper.Map<CidadeViewModel>(cidade);
             return Ok(resultado);
+        }
+
+
+        /// <summary>
+        /// Cria uma cidade.
+        /// </summary>         
+        ///<response code="201">Cidade criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(CidadeViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarCidadeInputModel cidade)
+        {
+            var retorno = await _cidadeServico.Adicionar(_mapper.Map<Cidade>(cidade));
+            return Ok(_mapper.Map<CidadeViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza uma cidade.
+        /// </summary>         
+        ///<response code="200">Cidade atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(CidadeViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] CidadeInputModel cidade)
+        {
+            // Busca o registro existente
+            var cidadeExistente = await _cidadeServico.BuscarPorID(cidade.CidadeId);
+            if (cidadeExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(cidade, cidadeExistente); // Faz o merge
+
+            var retorno = await _cidadeServico.Atualizar(_mapper.Map<Cidade>(cidadeExistente));
+            return Ok(_mapper.Map<CidadeInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma cidade.
+        /// </summary>         
+        ///<response code="200">Cidade excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _cidadeServico.Deletar(id);
+            return Ok();
         }
     }
 }

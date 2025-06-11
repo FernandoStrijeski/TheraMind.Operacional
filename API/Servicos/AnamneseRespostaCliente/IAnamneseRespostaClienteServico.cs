@@ -27,11 +27,25 @@ namespace API.Servicos.AnamneseRespostaClientes
         Task<List<AnamneseRespostaCliente>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza uma resposta para a questão do subgrupo de anamnese a partir do modelo informado
+        /// Adicionar uma nova resposta da questão do subgrupo de anamnese
         /// </summary>
         /// <param name="anamneseRespostaCliente"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int anamneseSubGrupoQuestaoId)> CriarOuAtualizar(CriarAnamneseRespostaClienteInputModel anamneseRespostaCliente, bool atualizaSeExistir);
+        Task<AnamneseRespostaCliente> Adicionar(AnamneseRespostaCliente anamneseRespostaCliente);
+
+        /// <summary>
+        /// Atualizar a resposta da questão do subgrupo de anamnese
+        /// </summary>
+        /// <param name="anamneseRespostaCliente"></param>
+        /// <returns></returns>
+        Task<AnamneseRespostaCliente> Atualizar(AnamneseRespostaCliente anamneseRespostaCliente);
+
+        /// <summary>
+        /// Remover a resposta da questão do subgrupo de anamnese
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

@@ -99,28 +99,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza um modelo de documento da empresa
-        /// </summary>
-        /// <response code="202">Modelo de documento da empresa criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Modelo de documento da empresa atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um modelo de documento da empresa.
+        /// </summary>         
+        ///<response code="201">Modelo de documento da empresa criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(DocumentoModeloEmpresaIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarDocumentoModeloEmpresaInputModel body)
+        [ProducesResponseType(typeof(DocumentoModeloEmpresaViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarDocumentoModeloEmpresaInputModel documentoModeloEmpresa)
         {
-            var (criou, documentoModeloEmpresaId) = await _documentoModeloEmpresaServico.CriarOuAtualizar(body, true);
+            var retorno = await _documentoModeloEmpresaServico.Adicionar(_mapper.Map<DocumentoModeloEmpresa>(documentoModeloEmpresa));
+            return Ok(_mapper.Map<DocumentoModeloEmpresaViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new DocumentoModeloEmpresaIdResponseViewModel(documentoModeloEmpresaId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um modelo de documento da empresa.
+        /// </summary>         
+        ///<response code="200">Modelo de documento da empresa atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(DocumentoModeloEmpresaViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] DocumentoModeloEmpresaInputModel documentoModeloEmpresa)
+        {
+            // Busca o registro existente
+            var documentoModeloEmpresaExistente = await _documentoModeloEmpresaServico.BuscarPorID(documentoModeloEmpresa.DocumentoModeloEmpresaId);
+            if (documentoModeloEmpresaExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(documentoModeloEmpresa, documentoModeloEmpresaExistente); // Faz o merge
+
+            var retorno = await _documentoModeloEmpresaServico.Atualizar(_mapper.Map<DocumentoModeloEmpresa>(documentoModeloEmpresaExistente));
+            return Ok(_mapper.Map<DocumentoModeloEmpresaInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um modelo de documento da empresa.
+        /// </summary>         
+        ///<response code="200">Modelo de documento da empresa excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _documentoModeloEmpresaServico.Deletar(id);
+            return Ok();
         }
     }
 }

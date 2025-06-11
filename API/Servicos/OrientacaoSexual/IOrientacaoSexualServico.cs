@@ -24,5 +24,27 @@ namespace API.Servicos.OrientacoesSexuais
         /// </summary>
         /// <returns></returns>
         Task<List<OrientacaoSexual>> BuscarTodos();
+
+        /// <summary>
+        /// Adicionar uma orientação sexual
+        /// </summary>
+        /// <param name="orientacaoSexual"></param>
+        /// <returns></returns>
+        Task<OrientacaoSexual> Adicionar(OrientacaoSexual orientacaoSexual);
+
+        /// <summary>
+        /// Atualizar a orientação sexual
+        /// </summary>
+        /// <param name="orientacaoSexual"></param>
+        /// <returns></returns>
+        Task<OrientacaoSexual> Atualizar(OrientacaoSexual orientacaoSexual);
+
+        /// <summary>
+        /// Remover a orientação sexual
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

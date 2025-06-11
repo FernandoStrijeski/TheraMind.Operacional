@@ -27,11 +27,25 @@ namespace API.Servicos.AnamneseSubGrupoQuestaoOpcoes
         Task<List<AnamneseSubGrupoQuestaoOpcao>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza uma opção da questão do subgrupo de anamnese a partir do modelo informado
+        /// Adicionar uma nova opção da questão do subgrupo de anamnese
         /// </summary>
         /// <param name="anamneseSubGrupoQuestaoOpcao"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int anamneseSubGrupoQuestaoOpcaoId)> CriarOuAtualizar(CriarAnamneseSubGrupoQuestaoOpcaoInputModel anamneseSubGrupoQuestaoOpcao, bool atualizaSeExistir);
+        Task<AnamneseSubGrupoQuestaoOpcao> Adicionar(AnamneseSubGrupoQuestaoOpcao anamneseSubGrupoQuestaoOpcao);
+
+        /// <summary>
+        /// Atualizar a opção da questão do subgrupo de anamnese
+        /// </summary>
+        /// <param name="anamneseSubGrupoQuestaoOpcao"></param>
+        /// <returns></returns>
+        Task<AnamneseSubGrupoQuestaoOpcao> Atualizar(AnamneseSubGrupoQuestaoOpcao anamneseSubGrupoQuestaoOpcao);
+
+        /// <summary>
+        /// Remover a opção da questão do subgrupo de anamnese
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

@@ -27,11 +27,24 @@ namespace API.Servicos.Servicos
         Task<List<Servico>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um serviço a partir do modelo informado
+        /// Adicionar um novo serviço
         /// </summary>
         /// <param name="servico"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int servicoId)> CriarOuAtualizar(CriarServicoInputModel servico, bool atualizaSeExistir);
+        Task<Servico> Adicionar(Servico servico);
+
+        /// <summary>
+        /// Atualizar o serviço
+        /// </summary>
+        /// <param name="servico"></param>
+        /// <returns></returns>
+        Task<Servico> Atualizar(Servico servico);
+
+        /// <summary>
+        /// Remover o serviço
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
     }
 }

@@ -35,82 +35,32 @@ namespace API.Servicos.EmpresasAssinaturas
         public async Task<List<EmpresaAssinatura>> BuscarPorIdEmpresa(Guid empresaID) => await _empresaAssinaturaRepo.BuscarPorIdEmpresa(empresaID);
 
 
-        public async Task Salvar(EmpresaAssinatura empresaAssinatura)
+        public async Task<EmpresaAssinatura> Adicionar(EmpresaAssinatura empresaAssinatura)
         {
             await _empresaAssinaturaRepo.Adicionar(empresaAssinatura);
             await Comitar();
+            return empresaAssinatura;
         }
 
-        private async Task Atualizar(EmpresaAssinatura empresaAssinatura)
+        public async Task<EmpresaAssinatura> Atualizar(EmpresaAssinatura empresaAssinatura)
         {
             await _empresaAssinaturaRepo.Atualizar(empresaAssinatura);
             await Comitar();
+            return empresaAssinatura;
         }
 
-        public async Task<(bool criado, Guid empresaAssinaturaId)> CriarOuAtualizar(CriarEmpresaAssinaturaInputModel empresaAssinatura, bool atualizaSeExistir)
+        public async Task Deletar(Guid empresaAssinaturaID)
         {
-            var cEmpresaAssinatura = (await _empresaAssinaturaRepo.Buscar(
-                x => x.EmpresaAssinaturaId == empresaAssinatura.EmpresaAssinaturaId
-            )).FirstOrDefault();
+            var empresaAssinatura = _empresaAssinaturaRepo.BuscarPorID(empresaAssinaturaID).Result;
 
-            if (cEmpresaAssinatura == null)
-            {
-                cEmpresaAssinatura = EmpresaAssinatura.CriarParaImportacao(
-                    empresaID: empresaAssinatura.EmpresaId,
-                    planoID: empresaAssinatura.PlanoId,
-                    tipoPlano: empresaAssinatura.TipoPlano,
-                    valorAtual: empresaAssinatura.ValorAtual,
-                    descontoPromocional: empresaAssinatura.DescontoPromocional,
-                    descontoMeses: empresaAssinatura.DescontoMeses,
-                    dataExpiracao: empresaAssinatura.DataExpiracao,                
-                    ativo: empresaAssinatura.Ativo
-                );
-                await Salvar(cEmpresaAssinatura);
-                return (true, cEmpresaAssinatura.EmpresaAssinaturaId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cEmpresaAssinatura.AtualizarPropriedades(
-                    empresaID: empresaAssinatura.EmpresaId,
-                    planoID: empresaAssinatura.PlanoId,
-                    tipoPlano: empresaAssinatura.TipoPlano,
-                    valorAtual: empresaAssinatura.ValorAtual,
-                    descontoPromocional: empresaAssinatura.DescontoPromocional,
-                    descontoMeses: empresaAssinatura.DescontoMeses,
-                    dataExpiracao: empresaAssinatura.DataExpiracao,
-                    ativo: empresaAssinatura.Ativo
-                );
-                await _empresaAssinaturaRepo.Atualizar(cEmpresaAssinatura);
-                await Atualizar(cEmpresaAssinatura);
-            }
+            if (empresaAssinatura == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Assinatura da empresa não encontrada, verifique o identificador!");
 
-            return (false, empresaAssinatura.EmpresaAssinaturaId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _empresaAssinaturaRepo.Deletar(empresaAssinaturaID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(Guid empresaAssinaturaID, Guid empresaID, Guid planoID, short tipoPlano, decimal valorAtual, decimal? descontoPromocional, short? descontoMeses, DateTime? dataExpiracao, bool? ativo)
-        {
-            var cEmpresaAssinatura = (await _empresaAssinaturaRepo.Buscar(
-                            x => x.EmpresaAssinaturaId == empresaAssinaturaID)
-                            ).FirstOrDefault();
-            if (cEmpresaAssinatura == null)
-            {
-                cEmpresaAssinatura = EmpresaAssinatura.CriarParaImportacao(empresaID, planoID, tipoPlano, valorAtual, descontoPromocional, descontoMeses, dataExpiracao, ativo);
-                await Salvar(cEmpresaAssinatura);
-            }
             return;
-        }
-
-        public async Task Validar(Guid empresaAssinaturaID)
-        {
-            var cEmpresaAssinatura = (await _empresaAssinaturaRepo.Buscar(x => x.EmpresaAssinaturaId == empresaAssinaturaID)).FirstOrDefault();
-            if (cEmpresaAssinatura == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Assinatura de empresa com ID {empresaAssinaturaID} não encontrado."
-                );
-            }
         }
     }
 }

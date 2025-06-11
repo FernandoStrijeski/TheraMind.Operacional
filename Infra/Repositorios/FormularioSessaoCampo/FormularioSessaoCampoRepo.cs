@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infra.FormularioSessaoCampos
 {
-    public class FormularioSessaoCampoRepo : BaseRepositorio<FormularioSessaoCampo>, IFormularioSessaoCampoRepo
+    public class FormularioSessaoCampoRepo : BaseRepositorio<FormularioSessaoCampo, int>, IFormularioSessaoCampoRepo
     {
         public FormularioSessaoCampoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

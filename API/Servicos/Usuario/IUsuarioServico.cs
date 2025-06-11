@@ -27,11 +27,25 @@ namespace API.Servicos.Usuarios
         Task<List<Usuario>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um usuário a partir do modelo informado
+        /// Adicionar um novo usuário
         /// </summary>
         /// <param name="usuario"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, Guid usuarioId)> CriarOuAtualizar(CriarUsuarioInputModel usuario, bool atualizaSeExistir);
+        Task<Usuario> Adicionar(Usuario usuario);
+
+        /// <summary>
+        /// Atualizar o usuário
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <returns></returns>
+        Task<Usuario> Atualizar(Usuario usuario);
+
+        /// <summary>
+        /// Remover o usuário
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(Guid id);
+
     }
 }

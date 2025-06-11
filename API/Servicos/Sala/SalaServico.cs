@@ -4,6 +4,7 @@ using API.modelos.InputModels;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using System.Net;
 
@@ -38,72 +39,32 @@ namespace API.Servicos.Salas
             return await _salaRepo.BuscarFiltros(x => x.Nome.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(Sala sala)
+        public async Task<Sala> Adicionar(Sala sala)
         {
             await _salaRepo.Adicionar(sala);
             await Comitar();
+            return sala;
         }
 
-        private async Task Atualizar(Sala sala)
+        public async Task<Sala> Atualizar(Sala sala)
         {
             await _salaRepo.Atualizar(sala);
             await Comitar();
+            return sala;
         }
 
-        public async Task<(bool criado, string salaId)> CriarOuAtualizar(CriarSalaInputModel sala, bool atualizaSeExistir)
+        public async Task Deletar(string salaID)
         {
-            var cSala = (await _salaRepo.Buscar(
-                x => x.SalaId == sala.SalaId
-            )).FirstOrDefault();
-            if (cSala == null)
-            {
-                cSala = Sala.CriarParaImportacao(
-                    empresaID: sala.EmpresaId,
-                    filialID: sala.FilialId,
-                    nome: sala.Nome,
-                    ativo: sala.Ativo
-                    );
-                await Salvar(cSala);
-                return (true, cSala.SalaId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cSala.Nome = sala.Nome;
-                cSala.AtualizarPropriedades(
-                    empresaID: sala.EmpresaId,
-                    filialID: sala.FilialId,
-                    nome: sala.Nome,
-                    ativo: sala.Ativo
-                    );
-                await _salaRepo.Atualizar(cSala);
-                await Atualizar(cSala);
-            }
-            return (false, cSala.SalaId); // <-- retorno com o novo ID
-        }
+            var sala = _salaRepo.BuscarPorID(salaID).Result;
 
-        public async Task CriarParaImportacao(string salaID, Guid empresaID, int filialID, string nome, bool? ativo)
-        {
-            var cSala = (await _salaRepo.Buscar(
-                            x => x.SalaId == salaID)
-                            ).FirstOrDefault();
-            if (cSala == null)
-            {
-                cSala = Sala.CriarParaImportacao(empresaID, filialID, nome, ativo);
-                await Salvar(cSala);
-            }
+            if (sala == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Sala não encontrada, verifique o identificador!");
+
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _salaRepo.Deletar(salaID);
+            await Comitar();
+
             return;
-        }
-
-        public async Task Validar(string salaID)
-        {
-            var cSala = (await _salaRepo.Buscar(x => x.SalaId== salaID)).FirstOrDefault();
-            if (cSala == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Sala com ID {salaID} não encontrado."
-                );
-            }
         }
     }
 }

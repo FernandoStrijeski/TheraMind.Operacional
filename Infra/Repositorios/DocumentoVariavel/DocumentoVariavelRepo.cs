@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.DocumentosVariaveis
 {
-    public class DocumentoVariavelRepo : BaseRepositorio<DocumentoVariavel>, IDocumentoVariavelRepo
+    public class DocumentoVariavelRepo : BaseRepositorio<DocumentoVariavel, int>, IDocumentoVariavelRepo
     {
         public DocumentoVariavelRepo(ApplicationDbContext contexto) : base(contexto) { }
 

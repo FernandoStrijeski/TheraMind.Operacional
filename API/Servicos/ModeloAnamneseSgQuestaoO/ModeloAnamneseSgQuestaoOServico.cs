@@ -26,7 +26,7 @@ namespace API.Servicos.ModelosAnamneseSGQuestaoOpcoes
             _modeloAnamneseSgQuestaoORepo = modeloAnamneseSgQuestaoORepo;
         }
 
-        public async Task<ModeloAnamneseSgQuestaoO>? BuscarPorID(int modeloAnamneseSgOID) => await _modeloAnamneseSgQuestaoORepo.BuscarPorID(modeloAnamneseSgOID);
+        public async Task<ModeloAnamneseSgQuestaoO>? BuscarPorID(int modeloAnamneseSgQuestaoOID) => await _modeloAnamneseSgQuestaoORepo.BuscarPorID(modeloAnamneseSgQuestaoOID);
 
         public async Task<List<ModeloAnamneseSgQuestaoO>> BuscarTodos()
         {
@@ -38,77 +38,32 @@ namespace API.Servicos.ModelosAnamneseSGQuestaoOpcoes
             return await _modeloAnamneseSgQuestaoORepo.BuscarFiltros(x => x.Texto.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(ModeloAnamneseSgQuestaoO modeloAnamneseSgO)
+        public async Task<ModeloAnamneseSgQuestaoO> Adicionar(ModeloAnamneseSgQuestaoO modeloAnamneseSgQuestaoO)
         {
-            await _modeloAnamneseSgQuestaoORepo.Adicionar(modeloAnamneseSgO);
+            await _modeloAnamneseSgQuestaoORepo.Adicionar(modeloAnamneseSgQuestaoO);
             await Comitar();
+            return modeloAnamneseSgQuestaoO;
         }
 
-        private async Task Atualizar(ModeloAnamneseSgQuestaoO modeloAnamneseSgO)
+        public async Task<ModeloAnamneseSgQuestaoO> Atualizar(ModeloAnamneseSgQuestaoO modeloAnamneseSgQuestaoO)
         {
-            await _modeloAnamneseSgQuestaoORepo.Atualizar(modeloAnamneseSgO);
+            await _modeloAnamneseSgQuestaoORepo.Atualizar(modeloAnamneseSgQuestaoO);
             await Comitar();
+            return modeloAnamneseSgQuestaoO;
         }
 
-        public async Task<(bool criado, int modeloAnamneseSgQuestaoOId)> CriarOuAtualizar(CriarModeloAnamneseSgQuestaoOInputModel modeloAnamneseSgQuestaoO, bool atualizaSeExistir)
+        public async Task Deletar(int modeloAnamneseSgQuestaoOID)
         {
-            var cModeloAnamneseSgQuestaoO = (await _modeloAnamneseSgQuestaoORepo.Buscar(
-                x => x.ModeloAnamneseSgQuestaoOid == modeloAnamneseSgQuestaoO.ModeloAnamneseSgQuestaoOid
-            )).FirstOrDefault();
+            var modeloAnamneseSgQuestaoO = _modeloAnamneseSgQuestaoORepo.BuscarPorID(modeloAnamneseSgQuestaoOID).Result;
 
-            if (cModeloAnamneseSgQuestaoO == null)
-            {
-                cModeloAnamneseSgQuestaoO = ModeloAnamneseSgQuestaoO.CriarParaImportacao(
-                    modeloAnamneseGID: modeloAnamneseSgQuestaoO.ModeloAnamneseGid,
-                    modeloAnamneseSgID: modeloAnamneseSgQuestaoO.ModeloAnamneseSgid,
-                    modeloAnamneseSgQuestaoID: modeloAnamneseSgQuestaoO.ModeloAnamneseSgQuestaoId,
-                    texto: modeloAnamneseSgQuestaoO.Texto,
-                    ordem: modeloAnamneseSgQuestaoO.Ordem,
-                    ativo: modeloAnamneseSgQuestaoO.Ativo
-                );
-                await Salvar(cModeloAnamneseSgQuestaoO);
-                return (true, cModeloAnamneseSgQuestaoO.ModeloAnamneseSgQuestaoOid); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cModeloAnamneseSgQuestaoO.AtualizarPropriedades(
-                    modeloAnamneseGID: modeloAnamneseSgQuestaoO.ModeloAnamneseGid,
-                    modeloAnamneseSgID: modeloAnamneseSgQuestaoO.ModeloAnamneseSgid,
-                    modeloAnamneseSgQuestaoID: modeloAnamneseSgQuestaoO.ModeloAnamneseSgQuestaoId,
-                    texto: modeloAnamneseSgQuestaoO.Texto,
-                    ordem: modeloAnamneseSgQuestaoO.Ordem,
-                    ativo: modeloAnamneseSgQuestaoO.Ativo
-                );
-                await _modeloAnamneseSgQuestaoORepo.Atualizar(cModeloAnamneseSgQuestaoO);
-                await Atualizar(cModeloAnamneseSgQuestaoO);
-            }
+            if (modeloAnamneseSgQuestaoO == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Opção da questão do subgrupo de anamnese não encontrada, verifique o identificador!");
 
-            return (false, modeloAnamneseSgQuestaoO.ModeloAnamneseSgQuestaoOid);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _modeloAnamneseSgQuestaoORepo.Deletar(modeloAnamneseSgQuestaoOID);
+            await Comitar();
 
-        public async Task CriarParaImportacao(int modeloAnamneseSgQuestaoOID, int modeloAnamneseGID, int modeloAnamneseSgID, int modeloAnamneseSqQuestaoID, string texto, short ordem, bool? ativo)
-        {
-            var cModeloAnamneseSgQuestaoO = (await _modeloAnamneseSgQuestaoORepo.Buscar(
-                            x => x.ModeloAnamneseSgQuestaoOid == modeloAnamneseSgQuestaoOID)
-                            ).FirstOrDefault();
-            if (cModeloAnamneseSgQuestaoO == null)
-            {
-                cModeloAnamneseSgQuestaoO = ModeloAnamneseSgQuestaoO.CriarParaImportacao(modeloAnamneseGID, modeloAnamneseSgID, modeloAnamneseSqQuestaoID, texto, ordem, ativo);
-                await Salvar(cModeloAnamneseSgQuestaoO);
-            }
             return;
-        }
-
-        public async Task Validar(int modeloAnamneseSgQuestaoOID)
-        {
-            var cModeloAnamneseSgQuestaoO = (await _modeloAnamneseSgQuestaoORepo.Buscar(x => x.ModeloAnamneseSgQuestaoOid == modeloAnamneseSgQuestaoOID)).FirstOrDefault();
-            if (cModeloAnamneseSgQuestaoO == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Opção da questão do sub grupo do modelo de anamnese com ID {modeloAnamneseSgQuestaoOID} não encontrado."
-                );
-            }
         }
     }
 }

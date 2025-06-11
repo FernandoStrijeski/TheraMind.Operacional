@@ -20,11 +20,25 @@ namespace API.Servicos.PacotesFechados
         Task<List<PacoteFechado>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um pacote fechado a partir do modelo informado
+        /// Adicionar um pacote fechado
         /// </summary>
         /// <param name="pacoteFechado"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int pacoteFechadoId)> CriarOuAtualizar(CriarPacoteFechadoInputModel pacoteFechado, bool atualizaSeExistir);
+        Task<PacoteFechado> Adicionar(PacoteFechado pacoteFechado);
+
+        /// <summary>
+        /// Atualizar o pacote fechado
+        /// </summary>
+        /// <param name="pacoteFechado"></param>
+        /// <returns></returns>
+        Task<PacoteFechado> Atualizar(PacoteFechado pacoteFechado);
+
+        /// <summary>
+        /// Remover o pacote fechado
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

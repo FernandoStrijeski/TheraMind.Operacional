@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infra.AgendasSessaoItens
 {
-    public class AgendaSessaoItemRepo : BaseRepositorio<AgendaSessaoItem>, IAgendaSessaoItemRepo
+    public class AgendaSessaoItemRepo : BaseRepositorio<AgendaSessaoItem, int>, IAgendaSessaoItemRepo
     {
         public AgendaSessaoItemRepo(ApplicationDbContext contexto) : base(contexto) { }
 

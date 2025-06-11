@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.Convenios
 {
-    public interface IConvenioRepo : IBaseRepositorio<Convenio>
+    public interface IConvenioRepo : IBaseRepositorio<Convenio, int>
     {
         Task<List<Convenio>> BuscarFiltros(
             Expression<Func<Convenio, bool>> filtro = null,

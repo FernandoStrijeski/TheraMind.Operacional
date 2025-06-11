@@ -100,28 +100,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza um subgrupo de anamnese
-        /// </summary>
-        /// <response code="202">Subgrupo de anamnese criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Subgrupo de anamnese atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria um subgrupo de anamnese.
+        /// </summary>         
+        ///<response code="201">Subgrupo de anamnese criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(AnamneseSubGrupoIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarAnamneseSubGrupoInputModel body)
+        [ProducesResponseType(typeof(AnamneseSubGrupoViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarAnamneseSubGrupoInputModel anamneseSubGrupo)
         {
-            var (criou, anamneseSubGrupoId) = await _anamneseSubGrupoServico.CriarOuAtualizar(body, true);
+            var retorno = await _anamneseSubGrupoServico.Adicionar(_mapper.Map<AnamneseSubGrupo>(anamneseSubGrupo));
+            return Ok(_mapper.Map<AnamneseSubGrupoViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new AnamneseSubGrupoIdResponseViewModel(anamneseSubGrupoId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um subgrupo de anamnese.
+        /// </summary>         
+        ///<response code="200">Subgrupo de anamnese atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(AnamneseSubGrupoViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] AnamneseSubGrupoInputModel anamneseSubGrupo)
+        {
+            // Busca o registro existente
+            var anamneseSubGrupoExistente = await _anamneseSubGrupoServico.BuscarPorID(anamneseSubGrupo.AnamneseSubGrupoId);
+            if (anamneseSubGrupoExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(anamneseSubGrupo, anamneseSubGrupoExistente); // Faz o merge
+
+            var retorno = await _anamneseSubGrupoServico.Atualizar(_mapper.Map<AnamneseSubGrupo>(anamneseSubGrupoExistente));
+            return Ok(_mapper.Map<AnamneseSubGrupoInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um subgrupo de anamnese.
+        /// </summary>         
+        ///<response code="200">Subgrupo de anamnese excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _anamneseSubGrupoServico.Deletar(id);
+            return Ok();
         }
     }
 }

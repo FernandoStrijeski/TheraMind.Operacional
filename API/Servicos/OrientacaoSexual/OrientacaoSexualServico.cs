@@ -1,8 +1,11 @@
+using API.Core.Exceptions;
 using API.modelos;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
+using System.Net;
 
 namespace API.Servicos.OrientacoesSexuais
 {
@@ -33,6 +36,34 @@ namespace API.Servicos.OrientacoesSexuais
         public async Task<List<OrientacaoSexual>> BuscarPorNome(BuscarComNomeParametro parametros)
         {
             return await _orientacaoSexualRepo.BuscarFiltros(x => x.Descricao.ToUpper().Contains(parametros.Nome.ToUpper()));
+        }
+
+        public async Task<OrientacaoSexual> Adicionar(OrientacaoSexual orientacaoSexual)
+        {
+            await _orientacaoSexualRepo.Adicionar(orientacaoSexual);
+            await Comitar();
+            return orientacaoSexual;
+        }
+
+        public async Task<OrientacaoSexual> Atualizar(OrientacaoSexual orientacaoSexual)
+        {
+            await _orientacaoSexualRepo.Atualizar(orientacaoSexual);
+            await Comitar();
+            return orientacaoSexual;
+        }
+
+        public async Task Deletar(int orientacaoSexualID)
+        {
+            var orientacaoSexual = _orientacaoSexualRepo.BuscarPorID(orientacaoSexualID).Result;
+
+            if (orientacaoSexual == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Orientação sexual não encontrada, verifique o identificador!");
+
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _orientacaoSexualRepo.Deletar(orientacaoSexualID);
+            await Comitar();
+
+            return;
         }
     }
 }

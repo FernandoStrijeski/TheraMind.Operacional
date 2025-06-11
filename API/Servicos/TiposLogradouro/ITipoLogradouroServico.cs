@@ -24,5 +24,27 @@ namespace API.Servicos.TiposLogradouros
         /// </summary>
         /// <returns></returns>
         Task<List<TipoLogradouro>> BuscarTodos();
+
+        /// <summary>
+        /// Adicionar uma novo tipo de logradouro
+        /// </summary>
+        /// <param name="tipoLogradouro"></param>
+        /// <returns></returns>
+        Task<TipoLogradouro> Adicionar(TipoLogradouro tipoLogradouro);
+
+        /// <summary>
+        /// Atualizar o tipo de logradouro
+        /// </summary>
+        /// <param name="tipoLogradouro"></param>
+        /// <returns></returns>
+        Task<TipoLogradouro> Atualizar(TipoLogradouro tipoLogradouro);
+
+        /// <summary>
+        /// Remover o tipo de logradouro
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(string id);
+
     }
 }

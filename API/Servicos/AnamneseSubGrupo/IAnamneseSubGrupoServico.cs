@@ -27,11 +27,25 @@ namespace API.Servicos.AnamneseSubGrupos
         Task<List<AnamneseSubGrupo>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um subgrupo de anamnese a partir do modelo informado
+        /// Adicionar um novo subgrupo de anamnese
         /// </summary>
         /// <param name="anamneseSubGrupo"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int anamneseSubGrupoId)> CriarOuAtualizar(CriarAnamneseSubGrupoInputModel anamneseSubGrupo, bool atualizaSeExistir);
+        Task<AnamneseSubGrupo> Adicionar(AnamneseSubGrupo anamneseSubGrupo);
+
+        /// <summary>
+        /// Atualizar o subgrupo de anamnese
+        /// </summary>
+        /// <param name="anamneseSubGrupo"></param>
+        /// <returns></returns>
+        Task<AnamneseSubGrupo> Atualizar(AnamneseSubGrupo anamneseSubGrupo);
+
+        /// <summary>
+        /// Remover o subgrupo de anamnese
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

@@ -1,5 +1,6 @@
 using API.Core.Filtros;
 using API.modelos;
+using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.EstadosCivis;
 using Asp.Versioning;
@@ -97,6 +98,57 @@ namespace API.Controllers
 
             var resultado = _mapper.Map<List<EstadoCivilViewModel>>(estadoCivil);
             return Ok(resultado);
+        }
+
+
+        /// <summary>
+        /// Cria um estado civil.
+        /// </summary>         
+        ///<response code="201">Estado civil criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(EstadoCivilViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarEstadoCivilInputModel estadoCivil)
+        {
+            var retorno = await _estadoCivilServico.Adicionar(_mapper.Map<EstadoCivil>(estadoCivil));
+            return Ok(_mapper.Map<EstadoCivilViewModel>(retorno));
+        }
+
+        /// <summary>
+        /// Atualiza um estado civil.
+        /// </summary>         
+        ///<response code="200">Estado civil atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(EstadoCivilViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] EstadoCivilInputModel estadoCivil)
+        {
+            // Busca o registro existente
+            var estadoCivilExistente = await _estadoCivilServico.BuscarPorID(estadoCivil.EstadoCivilId);
+            if (estadoCivilExistente == null)
+                return NotFound();
+
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(estadoCivil, estadoCivilExistente); // Faz o merge
+
+            var retorno = await _estadoCivilServico.Atualizar(_mapper.Map<EstadoCivil>(estadoCivilExistente));
+            return Ok(_mapper.Map<EstadoCivilInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um estado civil.
+        /// </summary>         
+        ///<response code="200">Estado civil excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] string id)
+        {
+            await _estadoCivilServico.Deletar(id);
+            return Ok();
         }
     }
 }

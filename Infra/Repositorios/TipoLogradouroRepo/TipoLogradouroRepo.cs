@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class TipoLogradouroRepo : BaseRepositorio<TipoLogradouro>, ITipoLogradouroRepo
+    public class TipoLogradouroRepo : BaseRepositorio<TipoLogradouro, string>, ITipoLogradouroRepo
     {
         public TipoLogradouroRepo(ApplicationDbContext contexto) : base(contexto) { }
 

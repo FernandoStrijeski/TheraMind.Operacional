@@ -7,7 +7,6 @@ namespace API.modelos.InputModels
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class CriarPlanoInputModel
     {
-        public Guid PlanoId { get; set; }
         public string NomePlano { get; set; } = null!;
         public decimal ValorPlanoMensal { get; set; }
         public decimal ValorPlanoAnual { get; set; }

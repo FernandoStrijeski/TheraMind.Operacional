@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class FilialRepo : BaseRepositorio<Filial>, IFilialRepo
+    public class FilialRepo : BaseRepositorio<Filial, int>, IFilialRepo
     {
         public FilialRepo(ApplicationDbContext contexto) : base(contexto) { }
 
@@ -40,10 +40,10 @@ namespace Infra.Repositorios
         }
 
 
-        public async Task<Filial>? BuscarPorID(Guid empresaID, int filialID)
+        public async Task<Filial>? BuscarPorID(int filialID)
         {
             var query = _dbSet.AsQueryable().Include(filial => filial.Empresa);
-            var retorno = await query.FirstOrDefaultAsync(where => where.EmpresaId == empresaID && where.FilialId == filialID);
+            var retorno = await query.FirstOrDefaultAsync(where => where.FilialId == filialID);
             return retorno;
         }
 

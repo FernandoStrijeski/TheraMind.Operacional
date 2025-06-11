@@ -27,11 +27,25 @@ namespace API.Servicos.TiposDocumentos
         Task<List<TipoDocumento>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um tipo de documento a partir do modelo informado
+        /// Adicionar uma nova escolaridade
         /// </summary>
-        /// <param name="tipoDocumento"></param>
-        /// <param name="atualizaSeExistir"></param>
+        /// <param name="escolaridade"></param>
         /// <returns></returns>
-        Task<(bool criado, int tipoDocumentoId)> CriarOuAtualizar(CriarTipoDocumentoInputModel tipoDocumento, bool atualizaSeExistir);
+        Task<TipoDocumento> Adicionar(TipoDocumento escolaridade);
+
+        /// <summary>
+        /// Atualizar a escolaridade
+        /// </summary>
+        /// <param name="escolaridade"></param>
+        /// <returns></returns>
+        Task<TipoDocumento> Atualizar(TipoDocumento escolaridade);
+
+        /// <summary>
+        /// Remover a escolaridade
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

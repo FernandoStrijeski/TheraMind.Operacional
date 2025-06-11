@@ -7,7 +7,6 @@ namespace API.modelos.InputModels
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class CriarSalaInputModel
     {
-        public string SalaId { get; set; } = null!;
         public Guid EmpresaId { get; set; }
         public int FilialId { get; set; }
         public string Nome { get; set; } = null!;

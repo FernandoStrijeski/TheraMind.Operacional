@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class IdentidadeGeneroRepo : BaseRepositorio<IdentidadeGenero>, IIdentidadeGeneroRepo
+    public class IdentidadeGeneroRepo : BaseRepositorio<IdentidadeGenero, int>, IIdentidadeGeneroRepo
     {
         public IdentidadeGeneroRepo(ApplicationDbContext contexto) : base(contexto) { }
 

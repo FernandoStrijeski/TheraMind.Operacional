@@ -1,8 +1,11 @@
+using API.Core.Exceptions;
 using API.modelos;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
+using System.Net;
 
 namespace API.Servicos.IdentidadesGeneros
 {
@@ -33,6 +36,34 @@ namespace API.Servicos.IdentidadesGeneros
         public async Task<List<IdentidadeGenero>> BuscarPorNome(BuscarComNomeParametro parametros)
         {
             return await _identidadeGeneroRepo.BuscarFiltros(x => x.Descricao.ToUpper().Contains(parametros.Nome.ToUpper()));
+        }
+
+        public async Task<IdentidadeGenero> Adicionar(IdentidadeGenero identidadeGenero)
+        {
+            await _identidadeGeneroRepo.Adicionar(identidadeGenero);
+            await Comitar();
+            return identidadeGenero;
+        }
+
+        public async Task<IdentidadeGenero> Atualizar(IdentidadeGenero identidadeGenero)
+        {
+            await _identidadeGeneroRepo.Atualizar(identidadeGenero);
+            await Comitar();
+            return identidadeGenero;
+        }
+
+        public async Task Deletar(int identidadeGeneroID)
+        {
+            var identidadeGenero = _identidadeGeneroRepo.BuscarPorID(identidadeGeneroID).Result;
+
+            if (identidadeGenero == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Identidade de gênero não encontrada, verifique o identificador!");
+
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _identidadeGeneroRepo.Deletar(identidadeGeneroID);
+            await Comitar();
+
+            return;
         }
     }
 }

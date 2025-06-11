@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class NacionalidadeRepo : BaseRepositorio<Nacionalidade>, INacionalidadeRepo
+    public class NacionalidadeRepo : BaseRepositorio<Nacionalidade, int>, INacionalidadeRepo
     {
         public NacionalidadeRepo(ApplicationDbContext contexto) : base(contexto) { }
 

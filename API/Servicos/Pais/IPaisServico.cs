@@ -20,6 +20,27 @@ namespace API.Servicos.Paises
         Task<List<Pais>> BuscarPorNome(BuscarComNomeParametro parametro);
 
         /// <summary>
+        /// Adicionar um país
+        /// </summary>
+        /// <param name="pais"></param>
+        /// <returns></returns>
+        Task<Pais> Adicionar(Pais pais);
+
+        /// <summary>
+        /// Atualizar o país
+        /// </summary>
+        /// <param name="pais"></param>
+        /// <returns></returns>
+        Task<Pais> Atualizar(Pais pais);
+
+        /// <summary>
+        /// Remover o país
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
+        /// <summary>
         /// Buscar todos os países
         /// </summary>
         /// <returns></returns>

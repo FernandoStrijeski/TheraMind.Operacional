@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infra.FormulariosSessoes
 {
-    public class FormularioSessaoRepo : BaseRepositorio<FormularioSessao>, IFormularioSessaoRepo
+    public class FormularioSessaoRepo : BaseRepositorio<FormularioSessao, int>, IFormularioSessaoRepo
     {
         public FormularioSessaoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

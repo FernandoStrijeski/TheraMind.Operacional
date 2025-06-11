@@ -99,28 +99,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza um cliente
-        /// </summary>
-        /// <response code="202">Cliente criado com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Cliente atualizado com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
-        [Authorize(Roles = "ADMIN, GESTOR, PROFISSIONAL")]
-        [ProducesResponseType(typeof(ClienteIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarClienteInputModel body)
+        /// Cria um cliente.
+        /// </summary>         
+        ///<response code="201">Cliente criado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(ClienteViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarClienteInputModel cliente)
         {
-            var (criou, clienteId) = await _clienteServico.CriarOuAtualizar(body, true);
+            var retorno = await _clienteServico.Adicionar(_mapper.Map<Cliente>(cliente));
+            return Ok(_mapper.Map<ClienteViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new ClienteIdResponseViewModel(clienteId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza um cliente.
+        /// </summary>         
+        ///<response code="200">Cliente atualizado com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(ClienteViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] ClienteInputModel cliente)
+        {
+            // Busca o registro existente
+            var clienteExistente = await _clienteServico.BuscarPorID(cliente.ClienteId);
+            if (clienteExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(cliente, clienteExistente); // Faz o merge
+
+            var retorno = await _clienteServico.Atualizar(_mapper.Map<Cliente>(clienteExistente));
+            return Ok(_mapper.Map<ClienteInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui um cliente.
+        /// </summary>         
+        ///<response code="200">Cliente excluído com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] Guid id)
+        {
+            await _clienteServico.Deletar(id);
+            return Ok();
         }
     }
 }

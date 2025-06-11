@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.EmpresaFaturas
 {
-    public class EmpresaFaturaRepo : BaseRepositorio<EmpresaFatura>, IEmpresaFaturaRepo
+    public class EmpresaFaturaRepo : BaseRepositorio<EmpresaFatura, int>, IEmpresaFaturaRepo
     {
         public EmpresaFaturaRepo(ApplicationDbContext contexto) : base(contexto) { }
 

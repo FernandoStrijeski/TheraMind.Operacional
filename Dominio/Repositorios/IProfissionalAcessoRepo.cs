@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.ProfissionaisAcessos
 {
-    public interface IProfissionalAcessoRepo : IBaseRepositorio<ProfissionalAcesso>
+    public interface IProfissionalAcessoRepo : IBaseRepositorio<ProfissionalAcesso, int>
     {
         Task<List<ProfissionalAcesso>> BuscarFiltros(
             Expression<Func<ProfissionalAcesso, bool>> filtro = null,

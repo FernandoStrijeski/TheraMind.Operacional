@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infra.ModelosAnamneseSGQuestoes
 {
-    public class ModeloAnamneseSgQuestaoRepo : BaseRepositorio<ModeloAnamneseSgQuestao>, IModeloAnamneseSgQuestaoRepo
+    public class ModeloAnamneseSgQuestaoRepo : BaseRepositorio<ModeloAnamneseSgQuestao, int>, IModeloAnamneseSgQuestaoRepo
     {
         public ModeloAnamneseSgQuestaoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

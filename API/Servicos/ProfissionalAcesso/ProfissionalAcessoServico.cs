@@ -6,6 +6,7 @@ using Dominio.Entidades;
 using Dominio.Profissionais;
 using Dominio.ProfissionaisAcessos;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using System.Net;
 
@@ -37,74 +38,33 @@ namespace API.Servicos.ProfissionaisAcessos
 
         public async Task<List<ProfissionalAcesso>> BuscarPorIDProfissional(Guid profissionalID) => await _profissionalAcessoRepo.BuscarPorIDProfissional(profissionalID);
 
-        public async Task Salvar(ProfissionalAcesso profissionalAcesso)
+
+        public async Task<ProfissionalAcesso> Adicionar(ProfissionalAcesso profissionalAcesso)
         {
             await _profissionalAcessoRepo.Adicionar(profissionalAcesso);
             await Comitar();
+            return profissionalAcesso;
         }
 
-        private async Task Atualizar(ProfissionalAcesso profissionalAcesso)
+        public async Task<ProfissionalAcesso> Atualizar(ProfissionalAcesso profissionalAcesso)
         {
             await _profissionalAcessoRepo.Atualizar(profissionalAcesso);
             await Comitar();
+            return profissionalAcesso;
         }
 
-        public async Task<(bool criado, int profissionalAcessoId)> CriarOuAtualizar(CriarProfissionalAcessoInputModel profissionalAcesso, bool atualizaSeExistir)
+        public async Task Deletar(int profissionalAcessoID)
         {
-            var cProfissionalAcesso = (await _profissionalAcessoRepo.Buscar(
-                x => x.ProfissionalId == profissionalAcesso.ProfissionalId
-            )).FirstOrDefault();
+            var profissionalAcesso = _profissionalAcessoRepo.BuscarPorID(profissionalAcessoID).Result;
 
-            if (cProfissionalAcesso == null)
-            {
-                cProfissionalAcesso = ProfissionalAcesso.CriarParaImportacao(
-                    profissionalID: profissionalAcesso.ProfissionalId,                    
-                    empresaID: profissionalAcesso.EmpresaId,
-                    filialID: profissionalAcesso.FilialId,
-                    acessoTipo: profissionalAcesso.AcessoTipo
-                );
-                await Salvar(cProfissionalAcesso);
-                return (true, cProfissionalAcesso.ProfissionalAcessoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cProfissionalAcesso.AtualizarPropriedades(
-                    profissionalID: profissionalAcesso.ProfissionalId,
-                    empresaID: profissionalAcesso.EmpresaId,
-                    filialID: profissionalAcesso.FilialId,
-                    acessoTipo: profissionalAcesso.AcessoTipo
-                );
-                await _profissionalAcessoRepo.Atualizar(cProfissionalAcesso);
-                await Atualizar(cProfissionalAcesso);
-            }
+            if (profissionalAcesso == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Acesso do profissional não encontrado, verifique o identificador!");
 
-            return (false, profissionalAcesso.ProfissionalAcessoId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _profissionalAcessoRepo.Deletar(profissionalAcessoID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int profissionalAcessoID, Guid profissionalID, Guid empresaID, int filialID, short acessoTipo)
-        {
-            var cProfissionalAcesso = (await _profissionalAcessoRepo.Buscar(
-                            x => x.ProfissionalAcessoId == profissionalAcessoID)
-                            ).FirstOrDefault();
-            if (cProfissionalAcesso == null)
-            {
-                cProfissionalAcesso = ProfissionalAcesso.CriarParaImportacao(profissionalID, empresaID, filialID, acessoTipo);
-                await Salvar(cProfissionalAcesso);
-            }
             return;
-        }
-
-        public async Task Validar(int profissionalAcessoID)
-        {
-            var cProfissionalAcesso = (await _profissionalAcessoRepo.Buscar(x => x.ProfissionalAcessoId == profissionalAcessoID)).FirstOrDefault();
-            if (cProfissionalAcesso == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Acesso do Profissional com ID {profissionalAcessoID} não encontrado."
-                );
-            }
         }
     }
 }

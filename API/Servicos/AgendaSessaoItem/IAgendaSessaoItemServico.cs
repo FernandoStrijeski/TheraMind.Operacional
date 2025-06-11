@@ -27,11 +27,25 @@ namespace API.Servicos.AgendasSessaoItens
         Task<List<AgendaSessaoItem>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza um item da sessão na agenda a partir do modelo informado
+        /// Adicionar um novo item da sessão na agenda
         /// </summary>
         /// <param name="agendaSessaoItem"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int agendaSessaoItemId)> CriarOuAtualizar(CriarAgendaSessaoItemInputModel agendaSessaoItem, bool atualizaSeExistir);
+        Task<AgendaSessaoItem> Adicionar(AgendaSessaoItem agendaSessaoItem);
+
+        /// <summary>
+        /// Atualizar o item da sessão na agenda
+        /// </summary>
+        /// <param name="agendaSessaoItem"></param>
+        /// <returns></returns>
+        Task<AgendaSessaoItem> Atualizar(AgendaSessaoItem agendaSessaoItem);
+
+        /// <summary>
+        /// Remover o item da sessão na agenda
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

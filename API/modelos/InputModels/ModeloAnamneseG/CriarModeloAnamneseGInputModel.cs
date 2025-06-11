@@ -7,7 +7,6 @@ namespace API.modelos.InputModels
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class CriarModeloAnamneseGInputModel
     {
-        public int ModeloAnamneseGid { get; set; }
         public string Titulo { get; set; } = null!;
         public bool? Privado { get; set; }
         public bool EditadoPorTodos { get; set; }

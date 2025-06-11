@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class EscolaridadeRepo : BaseRepositorio<Escolaridade>, IEscolaridadeRepo
+    public class EscolaridadeRepo : BaseRepositorio<Escolaridade, int>, IEscolaridadeRepo
     {
         public EscolaridadeRepo(ApplicationDbContext contexto) : base(contexto) { }
 

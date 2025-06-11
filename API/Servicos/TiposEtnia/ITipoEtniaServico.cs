@@ -24,5 +24,27 @@ namespace API.Servicos.TiposEtnias
         /// </summary>
         /// <returns></returns>
         Task<List<TipoEtnia>> BuscarTodos();
+
+        /// <summary>
+        /// Adicionar um tipo de etnia
+        /// </summary>
+        /// <param name="tipoEtnia"></param>
+        /// <returns></returns>
+        Task<TipoEtnia> Adicionar(TipoEtnia tipoEtnia);
+
+        /// <summary>
+        /// Atualizar o tipo de etnia
+        /// </summary>
+        /// <param name="tipoEtnia"></param>
+        /// <returns></returns>
+        Task<TipoEtnia> Atualizar(TipoEtnia tipoEtnia);
+
+        /// <summary>
+        /// Remover o tipo de etnia
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

@@ -40,82 +40,32 @@ namespace API.Servicos.AnamneseRespostaClientes
             return await _anamneseRespostaClienteRepo.BuscarFiltros(x => x.Resposta.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(AnamneseRespostaCliente anamneseRespostaCliente)
+        public async Task<AnamneseRespostaCliente> Adicionar(AnamneseRespostaCliente anamneseRespostaCliente)
         {
             await _anamneseRespostaClienteRepo.Adicionar(anamneseRespostaCliente);
             await Comitar();
+            return anamneseRespostaCliente;
         }
 
-        private async Task Atualizar(AnamneseRespostaCliente anamneseRespostaCliente)
+        public async Task<AnamneseRespostaCliente> Atualizar(AnamneseRespostaCliente anamneseRespostaCliente)
         {
             await _anamneseRespostaClienteRepo.Atualizar(anamneseRespostaCliente);
             await Comitar();
+            return anamneseRespostaCliente;
         }
 
-        public async Task<(bool criado, int anamneseSubGrupoQuestaoId)> CriarOuAtualizar(CriarAnamneseRespostaClienteInputModel anamneseRespostaCliente, bool atualizaSeExistir)
+        public async Task Deletar(int anamneseSubGrupoQuestaoID)
         {
-            var cAnamneseRespostaCliente = (await _anamneseRespostaClienteRepo.Buscar(
-                x => x.AnamneseSubGrupoQuestaoId == anamneseRespostaCliente.AnamneseSubGrupoQuestaoId
-            )).FirstOrDefault();
+            var anamneseRespostaCliente = _anamneseRespostaClienteRepo.BuscarPorID(anamneseSubGrupoQuestaoID).Result;
 
-            if (cAnamneseRespostaCliente == null)
-            {
-                cAnamneseRespostaCliente = AnamneseRespostaCliente.CriarParaImportacao(
-                    empresaID: anamneseRespostaCliente.EmpresaId,
-                    filialID: anamneseRespostaCliente.FilialId,
-                    profissionalID: anamneseRespostaCliente.ProfissionalId,
-                    anamneseGrupoID: anamneseRespostaCliente.AnamneseGrupoId,
-                    anamneseSubGrupoID: anamneseRespostaCliente.AnamneseSubGrupoId,
-                    anamneseSubGrupoQuestaoID: anamneseRespostaCliente.AnamneseSubGrupoQuestaoId,
-                    clienteID: anamneseRespostaCliente.ClienteID,
-                    resposta: anamneseRespostaCliente.Resposta
-                );
-                await Salvar(cAnamneseRespostaCliente);
-                return (true, cAnamneseRespostaCliente.AnamneseSubGrupoQuestaoId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cAnamneseRespostaCliente.AtualizarPropriedades(
-                    empresaID: anamneseRespostaCliente.EmpresaId,
-                    filialID: anamneseRespostaCliente.FilialId,
-                    profissionalID: anamneseRespostaCliente.ProfissionalId,
-                    anamneseGrupoID: anamneseRespostaCliente.AnamneseGrupoId,
-                    anamneseSubGrupoID: anamneseRespostaCliente.AnamneseSubGrupoId,
-                    anamneseSubGrupoQuestaoID: anamneseRespostaCliente.AnamneseSubGrupoQuestaoId,
-                    clienteID: anamneseRespostaCliente.ClienteID,
-                    resposta: anamneseRespostaCliente.Resposta                    
-                );
-                await _anamneseRespostaClienteRepo.Atualizar(cAnamneseRespostaCliente);
-                await Atualizar(cAnamneseRespostaCliente);
-            }
+            if (anamneseRespostaCliente == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Resposta do cliente não encontrada, verifique o identificador!");
 
-            return (false, anamneseRespostaCliente.AnamneseSubGrupoQuestaoId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _anamneseRespostaClienteRepo.Deletar(anamneseSubGrupoQuestaoID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(Guid empresaID, int filialID, Guid profissionalID, int anamneseGrupoID, int anamneseSubGrupoID, int anamneseSubGrupoQuestaoID, Guid clienteID, string? resposta)
-        {
-            var cAnamneseSubGrupoQuestao = (await _anamneseRespostaClienteRepo.Buscar(
-                            x => x.AnamneseSubGrupoQuestaoId == anamneseSubGrupoQuestaoID)
-                            ).FirstOrDefault();
-            if (cAnamneseSubGrupoQuestao == null)
-            {
-                cAnamneseSubGrupoQuestao = AnamneseRespostaCliente.CriarParaImportacao(empresaID, filialID, profissionalID, anamneseGrupoID, anamneseSubGrupoID, anamneseSubGrupoQuestaoID, clienteID, resposta);
-                await Salvar(cAnamneseSubGrupoQuestao);
-            }
             return;
-        }
-
-        public async Task Validar(int anamneseSubGrupoQuestaoID)
-        {
-            var cAnamneseSubGrupoQuestao = (await _anamneseRespostaClienteRepo.Buscar(x => x.AnamneseSubGrupoQuestaoId == anamneseSubGrupoQuestaoID)).FirstOrDefault();
-            if (cAnamneseSubGrupoQuestao == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Resposta da questão do subgrupo de anamnese com ID {anamneseSubGrupoQuestaoID} não encontrada."
-                );
-            }
         }
     }
 }

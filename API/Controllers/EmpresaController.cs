@@ -53,27 +53,55 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+
         /// <summary>
-        /// Cria ou atualiza uma empresa
-        /// </summary>
-        /// <response code="202">Empresa criada com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Empresa atualizada com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria uma empresa.
+        /// </summary>         
+        ///<response code="201">Empresa criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(EmpresaIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarEmpresaInputModel body)
+        [ProducesResponseType(typeof(EmpresaViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarEmpresaInputModel empresa)
         {
-            var (criou, empresaId) = await _empresaServico.CriarOuAtualizar(body, true);
+            var retorno = await _empresaServico.Adicionar(_mapper.Map<Empresa>(empresa));
+            return Ok(_mapper.Map<EmpresaViewModel>(retorno));
+        }
 
-            if (criou)
-                return Accepted(new EmpresaIdResponseViewModel(empresaId));
+        /// <summary>
+        /// Atualiza uma empresa.
+        /// </summary>         
+        ///<response code="200">Empresa atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(EmpresaViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] EmpresaInputModel empresa)
+        {
+            // Busca o registro existente
+            var empresaExistente = await _empresaServico.BuscarPorID(empresa.EmpresaId);
+            if (empresaExistente == null)
+                return NotFound();
 
-            return NoContent(); // Atualizado com sucesso, sem corpo    
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(empresa, empresaExistente); // Faz o merge
+
+            var retorno = await _empresaServico.Atualizar(_mapper.Map<Empresa>(empresaExistente));
+            return Ok(_mapper.Map<EmpresaInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma empresa.
+        /// </summary>         
+        ///<response code="200">Empresa excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] Guid id)
+        {
+            await _empresaServico.Deletar(id);
+            return Ok();
         }
     }
 }

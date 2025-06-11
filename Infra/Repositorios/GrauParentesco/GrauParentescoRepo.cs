@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositorios
 {
-    public class GrauParentescoRepo : BaseRepositorio<GrauParentesco>, IGrauParentescoRepo
+    public class GrauParentescoRepo : BaseRepositorio<GrauParentesco, int>, IGrauParentescoRepo
     {
         public GrauParentescoRepo(ApplicationDbContext contexto) : base(contexto) { }
 

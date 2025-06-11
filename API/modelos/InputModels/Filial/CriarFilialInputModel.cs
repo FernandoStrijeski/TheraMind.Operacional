@@ -9,7 +9,6 @@ namespace API.modelos.InputModels
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class CriarFilialInputModel
     {
-        public int FilialId { get; set; }
         public Guid EmpresaId { get; set; }
         public string CodigoUnico { get; set; }
         public string? Cpf { get; set; }
@@ -26,7 +25,6 @@ namespace API.modelos.InputModels
         public int CidadeId { get; set; }
         public string? Telefone { get; set; }
         public bool Ativo { get; set; }
-        public DateTime DataCriacao { get; set; }
     }
 
     public class CriarFilialInputModelValidator : AbstractValidator<CriarFilialInputModel>

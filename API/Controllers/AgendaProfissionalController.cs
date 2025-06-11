@@ -77,27 +77,53 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Cria ou atualiza uma agenda do profissional
-        /// </summary>
-        /// <response code="202">Agenda do profissional criada com sucesso. O corpo da resposta contém o ID gerado.</response>
-        /// <response code="204">Agenda do profissional atualizada com sucesso</response>
-        /// <response code="401">Um token Bearer válido é necessário para autenticar a chamada</response>
-        /// <response code="403">Token não é válido para esta requisição ou não possui credenciais necessárias</response>
-        [HttpPut("")]
+        /// Cria uma agenda profissional.
+        /// </summary>         
+        ///<response code="201">Agenda profissional criada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPost("Criar")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(AgendaProfissionalIdResponseViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult> Put([FromBody] CriarAgendaProfissionalInputModel body)
+        [ProducesResponseType(typeof(AgendaProfissionalViewModel), StatusCodes.Status201Created)]
+        public async Task<ActionResult> Post([FromBody] CriarAgendaProfissionalInputModel agendaProfissional)
         {
-            var (criou, agendaProfissionalId) = await _agendaProfissionalServico.CriarOuAtualizar(body, true);
+            var retorno = await _agendaProfissionalServico.Adicionar(_mapper.Map<AgendaProfissional>(agendaProfissional));
+            return Ok(_mapper.Map<AgendaProfissionalViewModel>(retorno));
+        }
 
-            if (criou)            
-                return Accepted(new AgendaProfissionalIdResponseViewModel(agendaProfissionalId));
-            
-            return NoContent(); // Atualizado com sucesso, sem corpo
+        /// <summary>
+        /// Atualiza uma agenda profissional.
+        /// </summary>         
+        ///<response code="200">Agenda profissional atualizada com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpPut("Atualizar")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(AgendaProfissionalViewModel), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Put([FromBody] AgendaProfissionalInputModel agendaProfissional)
+        {
+            // Busca o registro existente
+            var agendaProfissionalExistente = await _agendaProfissionalServico.BuscarPorID(agendaProfissional.AgendaProfissionalId);
+            if (agendaProfissionalExistente == null)
+                return NotFound();
 
+            // Atualiza apenas os campos do InputModel, preservando o restante
+            _mapper.Map(agendaProfissional, agendaProfissionalExistente); // Faz o merge
+
+            var retorno = await _agendaProfissionalServico.Atualizar(_mapper.Map<AgendaProfissional>(agendaProfissionalExistente));
+            return Ok(_mapper.Map<AgendaProfissionalInputModel>(retorno));
+        }
+
+        /// <summary>
+        /// Exclui uma agenda profissional.
+        /// </summary>         
+        ///<response code="200">Agenda profissional excluída com sucesso.</response>
+        ///<response code="401">Usuário não autorizado.</response>
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            await _agendaProfissionalServico.Deletar(id);
+            return Ok();
         }
     }
 }

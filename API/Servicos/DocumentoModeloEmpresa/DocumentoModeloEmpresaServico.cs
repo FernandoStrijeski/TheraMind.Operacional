@@ -39,80 +39,32 @@ namespace API.Servicos.DocumentosModelosEmpresas
             return await _documentoModeloEmpresaRepo.BuscarFiltros(x => x.Titulo.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(DocumentoModeloEmpresa documentoModeloEmpresa)
+        public async Task<DocumentoModeloEmpresa> Adicionar(DocumentoModeloEmpresa documentoModeloEmpresa)
         {
             await _documentoModeloEmpresaRepo.Adicionar(documentoModeloEmpresa);
             await Comitar();
+            return documentoModeloEmpresa;
         }
 
-        private async Task Atualizar(DocumentoModeloEmpresa documentoModeloEmpresa)
+        public async Task<DocumentoModeloEmpresa> Atualizar(DocumentoModeloEmpresa documentoModeloEmpresa)
         {
             await _documentoModeloEmpresaRepo.Atualizar(documentoModeloEmpresa);
             await Comitar();
+            return documentoModeloEmpresa;
         }
 
-        public async Task<(bool criado, int documentoModeloEmpresaId)> CriarOuAtualizar(CriarDocumentoModeloEmpresaInputModel documentoModeloEmpresa, bool atualizaSeExistir)
+        public async Task Deletar(int documentoModeloEmpresaID)
         {
-            var cDocumentoModeloEmpresa = (await _documentoModeloEmpresaRepo.Buscar(
-                x => x.DocumentoModeloEmpresaID == documentoModeloEmpresa.DocumentoModeloEmpresaID
-            )).FirstOrDefault();
+            var documentoModeloEmpresa = _documentoModeloEmpresaRepo.BuscarPorID(documentoModeloEmpresaID).Result;
 
-            if (cDocumentoModeloEmpresa == null)
-            {
-                cDocumentoModeloEmpresa = DocumentoModeloEmpresa.CriarParaImportacao(
-                    empresaId: documentoModeloEmpresa.EmpresaId,
-                    filialId: documentoModeloEmpresa.FilialId,
-                    tipoDocumentoId: documentoModeloEmpresa.TipoDocumentoId,
-                    titulo: documentoModeloEmpresa.Titulo,
-                    conteudoTipo: documentoModeloEmpresa.ConteudoTipo,
-                    conteudo: documentoModeloEmpresa.Conteudo,
-                    ativo: documentoModeloEmpresa.Ativo
-                );
-                await Salvar(cDocumentoModeloEmpresa);
-                return (true, cDocumentoModeloEmpresa.DocumentoModeloEmpresaID); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cDocumentoModeloEmpresa.AtualizarPropriedades(
-                    empresaId: documentoModeloEmpresa.EmpresaId,
-                    filialId: documentoModeloEmpresa.FilialId,
-                    tipoDocumentoId: documentoModeloEmpresa.TipoDocumentoId,
-                    titulo: documentoModeloEmpresa.Titulo,
-                    conteudoTipo: documentoModeloEmpresa.ConteudoTipo,
-                    conteudo: documentoModeloEmpresa.Conteudo,
-                    ativo: documentoModeloEmpresa.Ativo
-                );
-                await _documentoModeloEmpresaRepo.Atualizar(cDocumentoModeloEmpresa);
-                await Atualizar(cDocumentoModeloEmpresa);
-            }
+            if (documentoModeloEmpresa == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Modelo de documento da empresa não encontrado, verifique o identificador!");
 
-            return (false, documentoModeloEmpresa.DocumentoModeloEmpresaID);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _documentoModeloEmpresaRepo.Deletar(documentoModeloEmpresaID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(int documentoModeloEmpresaID, Guid empresaID, int filialID, int tipoDocumentoId, string titulo, short conteudoTipo, string conteudo, bool? ativo)
-        {
-            var cDocumentoModeloEmpresa = (await _documentoModeloEmpresaRepo.Buscar(
-                            x => x.DocumentoModeloEmpresaID == documentoModeloEmpresaID)
-                            ).FirstOrDefault();
-            if (cDocumentoModeloEmpresa == null)
-            {
-                cDocumentoModeloEmpresa = DocumentoModeloEmpresa.CriarParaImportacao(empresaID, filialID, tipoDocumentoId, titulo, conteudoTipo, conteudo, ativo);
-                await Salvar(cDocumentoModeloEmpresa);
-            }
             return;
-        }
-
-        public async Task Validar(int documentoModeloEmpresaID)
-        {
-            var cDocumentoModeloEmpresa = (await _documentoModeloEmpresaRepo.Buscar(x => x.DocumentoModeloEmpresaID == documentoModeloEmpresaID)).FirstOrDefault();
-            if (cDocumentoModeloEmpresa == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Modelo de documento da empresa com ID {documentoModeloEmpresaID} não encontrado."
-                );
-            }
         }
     }
 }

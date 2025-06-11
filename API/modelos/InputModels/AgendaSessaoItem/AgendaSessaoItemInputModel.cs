@@ -75,10 +75,6 @@ namespace API.modelos.InputModels
         /// </summary>
         public bool? Ativo { get; set; }
 
-        /// <summary>
-        /// Data de criação do registro no sistema
-        /// </summary>
-        public DateTime? DataCriacao { get; set; }
     }
 
     public class AgendaSessaoItemValidator : AbstractValidator<AgendaSessaoItemInputModel>

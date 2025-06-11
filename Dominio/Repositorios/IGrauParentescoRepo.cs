@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dominio.Repositorios
 {
-    public interface IGrauParentescoRepo : IBaseRepositorio<GrauParentesco>
+    public interface IGrauParentescoRepo : IBaseRepositorio<GrauParentesco, int>
     {
         Task<List<GrauParentesco>> BuscarFiltros(
             Expression<Func<GrauParentesco, bool>> filtro = null,

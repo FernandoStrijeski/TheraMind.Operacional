@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Profissionais
 {
-    public class ProfissionalRepo : BaseRepositorio<Profissional>, IProfissionalRepo
+    public class ProfissionalRepo : BaseRepositorio<Profissional, Guid>, IProfissionalRepo
     {
         public ProfissionalRepo(ApplicationDbContext contexto) : base(contexto) { }
 

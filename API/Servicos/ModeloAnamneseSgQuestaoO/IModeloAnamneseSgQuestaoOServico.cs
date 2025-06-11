@@ -27,11 +27,25 @@ namespace API.Servicos.ModelosAnamneseSGQuestaoOpcoes
         Task<List<ModeloAnamneseSgQuestaoO>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza a opção da questão de um grupo do modelo de anamnese a partir do modelo informado
+        /// Adicionar uma opção da questão do subgrupo do modelo de anamnese
         /// </summary>
         /// <param name="modeloAnamneseSgQuestaoO"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int modeloAnamneseSgQuestaoOId)> CriarOuAtualizar(CriarModeloAnamneseSgQuestaoOInputModel modeloAnamneseSgQuestaoO, bool atualizaSeExistir);
+        Task<ModeloAnamneseSgQuestaoO> Adicionar(ModeloAnamneseSgQuestaoO modeloAnamneseSgQuestaoO);
+
+        /// <summary>
+        /// Atualizar a opção da questão do subgrupo do modelo de anamnese
+        /// </summary>
+        /// <param name="modeloAnamneseSgQuestaoO"></param>
+        /// <returns></returns>
+        Task<ModeloAnamneseSgQuestaoO> Atualizar(ModeloAnamneseSgQuestaoO modeloAnamneseSgQuestaoO);
+
+        /// <summary>
+        /// Remover a opção da questão do subgrupo do modelo de anamnese
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

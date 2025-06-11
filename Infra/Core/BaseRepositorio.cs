@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Infra.Core.Repositorios
 {
-    public class BaseRepositorio<TDbEntidade> : IBaseRepositorio<TDbEntidade>
+    public class BaseRepositorio<TDbEntidade, TChave> : IBaseRepositorio<TDbEntidade, TChave>
         where TDbEntidade : class
     {
         protected internal readonly ApplicationDbContext _contexto;
@@ -56,8 +56,6 @@ namespace Infra.Core.Repositorios
             return await query.ToListAsync();
         }
 
-
-
         public virtual async Task<IQueryable<TDbEntidade>> BuscarTodos()
         {
             IQueryable<TDbEntidade> query = _dbSet.AsQueryable().AsNoTracking();
@@ -76,23 +74,32 @@ namespace Infra.Core.Repositorios
             return Task.CompletedTask;
         }
 
-        private IQueryable<TDbEntidade> IncluirRelacionamentos(IQueryable<TDbEntidade> query)
+        public async Task Deletar(TChave id)
         {
-            var propriedadesDeNavegacao = _contexto.Model
-                .FindEntityType(typeof(TDbEntidade))?
-                .GetNavigations()
-                .Select(n => n.Name);
-
-            if (propriedadesDeNavegacao != null)
+            var entidade = await _dbSet.FindAsync(id);
+            if (entidade != null)
             {
-                foreach (var propriedade in propriedadesDeNavegacao)
-                {
-                    query = query.Include(propriedade);
-                }
+                _dbSet.Remove(entidade);
             }
-
-            return query;
         }
+
+        //private IQueryable<TDbEntidade> IncluirRelacionamentos(IQueryable<TDbEntidade> query)
+        //{
+        //    var propriedadesDeNavegacao = _contexto.Model
+        //        .FindEntityType(typeof(TDbEntidade))?
+        //        .GetNavigations()
+        //        .Select(n => n.Name);
+
+        //    if (propriedadesDeNavegacao != null)
+        //    {
+        //        foreach (var propriedade in propriedadesDeNavegacao)
+        //        {
+        //            query = query.Include(propriedade);
+        //        }
+        //    }
+
+        //    return query;
+        //}
 
     }
 }

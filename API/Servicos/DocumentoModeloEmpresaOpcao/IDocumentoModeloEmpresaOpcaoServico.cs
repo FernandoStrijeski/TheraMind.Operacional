@@ -20,11 +20,25 @@ namespace API.Servicos.DocumentosModelosEmpresasOpcoes
         Task<List<DocumentoModeloEmpresaOpcao>> BuscarTodos();
 
         /// <summary>
-        /// Cria ou atualiza uma opção para o modelo de documento da empresa a partir do modelo informado
+        /// Adicionar uma opção do modelo de documento da empresa
         /// </summary>
         /// <param name="documentoModeloEmpresaOpcao"></param>
-        /// <param name="atualizaSeExistir"></param>
         /// <returns></returns>
-        Task<(bool criado, int documentoModeloEmpresaOpcaoId)> CriarOuAtualizar(CriarDocumentoModeloEmpresaOpcaoInputModel documentoModeloEmpresaOpcao, bool atualizaSeExistir);
+        Task<DocumentoModeloEmpresaOpcao> Adicionar(DocumentoModeloEmpresaOpcao documentoModeloEmpresaOpcao);
+
+        /// <summary>
+        /// Atualizar a opção do modelo de documento da empresa
+        /// </summary>
+        /// <param name="documentoModeloEmpresaOpcao"></param>
+        /// <returns></returns>
+        Task<DocumentoModeloEmpresaOpcao> Atualizar(DocumentoModeloEmpresaOpcao documentoModeloEmpresaOpcao);
+
+        /// <summary>
+        /// Remover a opção do modelo de documento da empresa
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Deletar(int id);
+
     }
 }

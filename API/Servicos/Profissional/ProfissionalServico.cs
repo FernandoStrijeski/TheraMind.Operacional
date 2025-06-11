@@ -5,6 +5,7 @@ using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Profissionais;
 using Dominio.Repositorios;
+using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using System.Net;
 
@@ -39,101 +40,32 @@ namespace API.Servicos.Profissionais
             return await _profissionalRepo.BuscarFiltros(x => x.NomeCompleto.ToUpper().Contains(parametros.Nome.ToUpper()));
         }
 
-        public async Task Salvar(Profissional profissional)
+        public async Task<Profissional> Adicionar(Profissional profissional)
         {
             await _profissionalRepo.Adicionar(profissional);
             await Comitar();
+            return profissional;
         }
 
-        private async Task Atualizar(Profissional profissional)
+        public async Task<Profissional> Atualizar(Profissional profissional)
         {
             await _profissionalRepo.Atualizar(profissional);
             await Comitar();
+            return profissional;
         }
 
-        public async Task<(bool criado, Guid profissionalId)> CriarOuAtualizar(CriarProfissionalInputModel profissional, bool atualizaSeExistir)
+        public async Task Deletar(Guid profissionalID)
         {
-            var cProfissional = (await _profissionalRepo.Buscar(
-                x => x.ProfissionalId == profissional.ProfissionalId
-            )).FirstOrDefault();
+            var profissional = _profissionalRepo.BuscarPorID(profissionalID).Result;
 
-            if (cProfissional == null)
-            {
-                cProfissional = Profissional.CriarParaImportacao(
-                    tipoProfissional: profissional.TipoProfissional,
-                    tipoPessoa: profissional.TipoPessoa,
-                    nomeCompleto: profissional.NomeCompleto,
-                    areaAtuacao: profissional.AreaAtuacao,
-                    cpf: profissional.Cpf,
-                    cnpj: profissional.Cnpj,
-                    crp: profissional.Crp,
-                    crfa: profissional.Crfa,
-                    crefito: profissional.Crefito,
-                    crm: profissional.Crm,
-                    crn: profissional.Crn,
-                    coffito: profissional.Coffito,
-                    sexo: profissional.Sexo,
-                    email: profissional.Email,
-                    celular: profissional.Celular,
-                    usuarioID: profissional.UsuarioID,
-                    ativo: profissional.Ativo
-                );
-                await Salvar(cProfissional);
-                return (true, cProfissional.ProfissionalId); // <-- retorno com o novo ID
-            }
-            else if (atualizaSeExistir)
-            {
-                cProfissional.AtualizarPropriedades(
-                    tipoProfissional: profissional.TipoProfissional,
-                    tipoPessoa: profissional.TipoPessoa,
-                    nomeCompleto: profissional.NomeCompleto,
-                    areaAtuacao: profissional.AreaAtuacao,
-                    cpf: profissional.Cpf,
-                    cnpj: profissional.Cnpj,
-                    crp: profissional.Crp,
-                    crfa: profissional.Crfa,
-                    crefito: profissional.Crefito,
-                    crm: profissional.Crm,
-                    crn: profissional.Crn,
-                    coffito: profissional.Coffito,
-                    sexo: profissional.Sexo,
-                    email: profissional.Email,
-                    celular: profissional.Celular,
-                    usuarioID: profissional.UsuarioID,
-                    ativo: profissional.Ativo
-                );
-                await _profissionalRepo.Atualizar(cProfissional);
-                await Atualizar(cProfissional);
-            }
+            if (profissional == null)
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Profissional não encontrado, verifique o identificador!");
 
-            return (false, profissional.ProfissionalId);
-        }
+            //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
+            await _profissionalRepo.Deletar(profissionalID);
+            await Comitar();
 
-
-        public async Task CriarParaImportacao(Guid profissionalID, string tipoProfissional, string tipoPessoa, string nomeCompleto, string? areaAtuacao, string? cpf, string? cnpj,
-                            string? crp, string? crfa, string? crefito, string? crm, string? crn, string? coffito, string sexo, string email, string celular, Guid? usuarioID, bool? ativo)
-        {
-            var cProfissional = (await _profissionalRepo.Buscar(
-                            x => x.ProfissionalId == profissionalID)
-                            ).FirstOrDefault();
-            if (cProfissional == null)
-            {
-                cProfissional = Profissional.CriarParaImportacao(tipoProfissional, tipoPessoa, nomeCompleto, areaAtuacao, cpf, cnpj, crp, crfa, crefito, crm, crn, coffito, sexo, email, celular, usuarioID, ativo);
-                await Salvar(cProfissional);
-            }
             return;
-        }
-
-        public async Task Validar(Guid profissionalID)
-        {
-            var cProfissional = (await _profissionalRepo.Buscar(x => x.ProfissionalId == profissionalID)).FirstOrDefault();
-            if (cProfissional == null)
-            {
-                throw new HttpErroDeUsuario(
-                    HttpStatusCode.NotFound,
-                    $"Profissional com ID {profissionalID} não encontrado."
-                );
-            }
         }
     }
 }

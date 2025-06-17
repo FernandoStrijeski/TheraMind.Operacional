@@ -120,9 +120,9 @@ namespace API.Controllers
         [HttpDelete("Excluir")]
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        public async Task<ActionResult> Delete([FromQuery] int id)
+        public async Task<ActionResult> Delete([FromQuery] int agendaProfissionalID)
         {
-            await _agendaProfissionalServico.Deletar(id);
+            await _agendaProfissionalServico.Deletar(agendaProfissionalID);
             return Ok();
         }
     }

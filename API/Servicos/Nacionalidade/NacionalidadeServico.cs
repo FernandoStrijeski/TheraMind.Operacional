@@ -52,15 +52,15 @@ namespace API.Servicos.Nacionalidades
             return nacionalidade;
         }
 
-        public async Task Deletar(int nacionalidadeID)
+        public async Task Deletar(int id)
         {
-            var nacionalidade = _nacionalidadeRepo.BuscarPorID(nacionalidadeID).Result;
+            var nacionalidade = _nacionalidadeRepo.BuscarPorID(id).Result;
 
             if (nacionalidade == null)
                 throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Nacionalidade não encontrada, verifique o identificador!");
 
             //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
-            await _nacionalidadeRepo.Deletar(nacionalidadeID);
+            await _nacionalidadeRepo.Deletar(id);
             await Comitar();
 
             return;

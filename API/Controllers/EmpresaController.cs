@@ -98,9 +98,9 @@ namespace API.Controllers
         [HttpDelete("Excluir")]
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
-        public async Task<ActionResult> Delete([FromQuery] Guid id)
+        public async Task<ActionResult> Delete([FromQuery] Guid empresaID)
         {
-            await _empresaServico.Deletar(id);
+            await _empresaServico.Deletar(empresaID);
             return Ok();
         }
     }

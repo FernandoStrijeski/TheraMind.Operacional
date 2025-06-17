@@ -121,9 +121,9 @@ namespace API.Controllers
         [HttpDelete("Excluir")]
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        public async Task<ActionResult> Delete([FromQuery] int id)
+        public async Task<ActionResult> Delete([FromQuery] int pacoteFechadoID)
         {
-            await _pacoteFechadoServico.Deletar(id);
+            await _pacoteFechadoServico.Deletar(pacoteFechadoID);
             return Ok();
         }
     }

@@ -144,9 +144,9 @@ namespace API.Controllers
         [HttpDelete("Excluir")]
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
-        public async Task<ActionResult> Delete([FromQuery] Guid id)
+        public async Task<ActionResult> Delete([FromQuery] Guid agendaSessaoID)
         {
-            await _agendaSessaoServico.Deletar(id);
+            await _agendaSessaoServico.Deletar(agendaSessaoID);
             return Ok();
         }
     }

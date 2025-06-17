@@ -143,9 +143,9 @@ namespace API.Controllers
         [HttpDelete("Excluir")]
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        public async Task<ActionResult> Delete([FromQuery] int id)
+        public async Task<ActionResult> Delete([FromQuery] int nacionalidadeID)
         {
-            await _nacionalidadeServico.Deletar(id);
+            await _nacionalidadeServico.Deletar(nacionalidadeID);
             return Ok();
         }
     }

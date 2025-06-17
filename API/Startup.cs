@@ -169,15 +169,15 @@ namespace API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    foreach (var description in versionDescriptionProvider.ApiVersionDescriptions)
-                    {
-                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
-                            $"Web API - {description.GroupName.ToUpper()}");
-                    }
-                });
+                //app.UseSwagger();
+                //app.UseSwaggerUI(options =>
+                //{
+                //    foreach (var description in versionDescriptionProvider.ApiVersionDescriptions)
+                //    {
+                //        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                //            $"Web API - {description.GroupName.ToUpper()}");
+                //    }
+                //});
             }
 
             app.UseSwagger();
@@ -186,7 +186,7 @@ namespace API
                 foreach (var description in versionDescriptionProvider.ApiVersionDescriptions)
                 {
                     c.SwaggerEndpoint($"./{description.GroupName}/swagger.json",
-                        $"Web APi - {description.GroupName.ToUpper()}");
+                        $"API Operacional - {description.GroupName.ToUpper()}");
                 }
 
                 //c.SwaggerEndpoint("./v1/swagger.json", "API v1");

@@ -143,10 +143,10 @@ namespace API.Controllers
         ///<response code="401">Usuário não autorizado.</response>
         [HttpDelete("Excluir")]
         [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
-        public async Task<ActionResult> Delete([FromQuery] int id)
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromQuery] int escolaridadeID)
         {
-            await _escolaridadeServico.Deletar(id);
+            await _escolaridadeServico.Deletar(escolaridadeID);
             return Ok();
         }
     }

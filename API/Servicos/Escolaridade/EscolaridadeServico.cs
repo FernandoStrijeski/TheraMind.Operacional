@@ -51,15 +51,15 @@ namespace API.Servicos.Escolaridades
             return escolaridade;
         }
 
-        public async Task Deletar(int escolaridadeID)
+        public async Task Deletar(int id)
         {
-            var escolaridade = _escolaridadeRepo.BuscarPorID(escolaridadeID).Result;
+            var escolaridade = _escolaridadeRepo.BuscarPorID(id).Result;
 
             if (escolaridade == null)
                 throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Escolaridade não encontrada, verifique o identificador!");
 
             //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
-            await _escolaridadeRepo.Deletar(escolaridadeID);
+            await _escolaridadeRepo.Deletar(id);
             await Comitar();
 
             return;

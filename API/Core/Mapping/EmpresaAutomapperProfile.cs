@@ -13,6 +13,7 @@ namespace API.Core.Mapping
             CreateMap<EmpresaDTO, Empresa>();
             CreateMap<CriarEmpresaInputModel, Empresa>();
             CreateMap<EmpresaDTO, CriarEmpresaInputModel>();
+            CreateMap<EmpresaInputModel, Empresa>().ReverseMap();
 
             CreateMap<Empresa, EmpresaViewModel>()
                 .ForMember(dest => dest.Logotipo, opt => opt.MapFrom(src => src.Logotipo));

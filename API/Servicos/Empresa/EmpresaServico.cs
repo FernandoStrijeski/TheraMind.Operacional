@@ -36,6 +36,10 @@ namespace API.Servicos.Empresas
 
         public async Task<Dominio.Entidades.Empresa>? BuscarPorID(Guid empresaID) => await _empresaRepo.BuscarPorID(empresaID);
 
+        public async Task<List<Dominio.Entidades.Empresa>> BuscarTodos()
+        {
+            return await _empresaRepo.BuscarFiltros();
+        }
 
         public async Task<Dominio.Entidades.Empresa> Adicionar(Dominio.Entidades.Empresa empresa)
         {

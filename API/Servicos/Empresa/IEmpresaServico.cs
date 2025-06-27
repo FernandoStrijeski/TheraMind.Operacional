@@ -27,6 +27,12 @@ namespace API.Servicos.Empresas
         Task<Dominio.Entidades.Empresa> Atualizar(Dominio.Entidades.Empresa empresa);
 
         /// <summary>
+        /// Buscar todas as empresas
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Dominio.Entidades.Empresa>> BuscarTodos();
+
+        /// <summary>
         /// Remover a empresa
         /// </summary>
         /// <param name="id"></param>

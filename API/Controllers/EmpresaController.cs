@@ -55,6 +55,29 @@ namespace API.Controllers
 
 
         /// <summary>
+        /// Busca todas as empresas
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("ObterTodos")]
+        [ProducesResponseType(
+            typeof(List<EmpresaViewModel>),
+            StatusCodes.Status200OK
+        )]
+        [Authorize(Roles = "ADMIN,GESTOR")]
+        public async Task<ActionResult> BuscarTodos()
+        {
+            var empresa = await _empresaServico.BuscarTodos();
+
+            if (empresa == null || empresa.Count == 0)
+                return NotFound("Nenhuma empresa encontrada");
+
+
+            var resultado = _mapper.Map<List<EmpresaViewModel>>(empresa);
+            return Ok(resultado);
+        }
+
+
+        /// <summary>
         /// Cria uma empresa.
         /// </summary>         
         ///<response code="201">Empresa criada com sucesso.</response>

@@ -100,6 +100,27 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+        /// <summary>
+        /// Busca todas as cidades do Estado
+        /// </summary>
+        /// <param name="UF"></param>
+        /// <returns></returns>
+        [HttpGet("ObterPorEstado")]
+        [ProducesResponseType(
+            typeof(List<CidadeViewModel>),
+            StatusCodes.Status200OK
+        )]
+        [Authorize(Roles = "ADMIN,GESTOR")]
+        public async Task<ActionResult> BuscarTodasPorEstado([FromQuery] string UF)
+        {
+            var cidades = await _cidadeServico.BuscarTodasPorEstado(UF);
+
+            if (cidades == null || cidades.Count == 0)
+                return NotFound("Nenhuma cidade encontrada");
+
+            var resultado = _mapper.Map<List<CidadeViewModel>>(cidades);
+            return Ok(resultado);
+        }
 
         /// <summary>
         /// Cria uma cidade.

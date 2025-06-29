@@ -33,6 +33,11 @@ namespace API.Servicos.Estados
             return await _estadoRepo.BuscarFiltros();
         }
 
+        public async Task<List<Estado>> BuscarTodosPorPais(int paisID)
+        {
+            return await _estadoRepo.BuscarFiltros(x => x.PaisId == paisID);
+        }
+
         public async Task<List<Estado>> BuscarPorNome(BuscarComNomeParametro parametros)
         {
             return await _estadoRepo.BuscarFiltros(x => x.Descricao.ToUpper().Contains(parametros.Nome.ToUpper()));

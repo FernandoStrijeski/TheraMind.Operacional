@@ -99,7 +99,6 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-
         /// <summary>
         /// Cria uma filial.
         /// </summary>         

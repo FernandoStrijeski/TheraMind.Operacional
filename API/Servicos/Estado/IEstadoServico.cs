@@ -26,6 +26,12 @@ namespace API.Servicos.Estados
         Task<List<Estado>> BuscarTodos();
 
         /// <summary>
+        /// Buscar todos os estados pelo código do país
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Estado>> BuscarTodosPorPais(int paisID);
+
+        /// <summary>
         /// Adicionar um novo estado
         /// </summary>
         /// <param name="estado"></param>

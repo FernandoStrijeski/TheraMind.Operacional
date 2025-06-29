@@ -33,6 +33,11 @@ namespace API.Servicos.Cidades
             return await _cidadeRepo.BuscarFiltros();
         }
 
+        public async Task<List<Cidade>> BuscarTodasPorEstado(string UF)
+        {
+            return await _cidadeRepo.BuscarFiltros(x => x.Uf.Contains(UF.ToUpper()));
+        }
+
         public async Task<List<Cidade>> BuscarPorNome(BuscarComNomeParametro parametros)
         {
             return await _cidadeRepo.BuscarFiltros(x => x.Nome.ToUpper().Contains(parametros.Nome.ToUpper()));

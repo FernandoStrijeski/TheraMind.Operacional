@@ -77,6 +77,27 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
+        /// <summary>
+        /// Busca todos os estados do país
+        /// </summary>
+        /// <param name="paisID"></param>
+        /// <returns></returns>
+        [HttpGet("ObterPorPais")]
+        [ProducesResponseType(
+            typeof(List<EstadoViewModel>),
+            StatusCodes.Status200OK
+        )]
+        [Authorize(Roles = "ADMIN,GESTOR")]
+        public async Task<ActionResult> BuscarTodosPorPais([FromQuery] int paisID)
+        {
+            var estados = await _estadoServico.BuscarTodosPorPais(paisID);
+
+            if (estados == null || estados.Count == 0)
+                return NotFound("Nenhum estado encontrado");
+
+            var resultado = _mapper.Map<List<EstadoViewModel>>(estados);
+            return Ok(resultado);
+        }
 
         /// <summary>
         /// Cria um estado.

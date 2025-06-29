@@ -33,6 +33,12 @@ namespace API.Servicos.Cidades
         Task<List<Cidade>> BuscarTodos();
 
         /// <summary>
+        /// Buscar todas as cidades do estado
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Cidade>> BuscarTodasPorEstado(string UF);
+
+        /// <summary>
         /// Adicionar uma nova cidade
         /// </summary>
         /// <param name="cidade"></param>

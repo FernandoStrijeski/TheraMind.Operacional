@@ -15,7 +15,9 @@ namespace API.Core.Mapping
             CreateMap<CriarFilialInputModel, Filial>();
             CreateMap<FilialDTO, CriarFilialInputModel>();
 
-            CreateMap<Filial, FilialViewModel>();
+            CreateMap<FilialInputModel, FilialViewModel>().ReverseMap();
+            CreateMap<Filial, FilialInputModel>().ReverseMap();
+            CreateMap<Filial, FilialViewModel>().ReverseMap();
         }
     }
 }

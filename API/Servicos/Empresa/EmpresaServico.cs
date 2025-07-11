@@ -60,7 +60,7 @@ namespace API.Servicos.Empresas
             var empresa = _empresaRepo.BuscarPorID(empresaID).Result;
 
             if (empresa == null)
-                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Emoresa não encontrada, verifique o identificador!");
+                throw new HttpErroDeUsuario(HttpStatusCode.NoContent, "Empresa não encontrada, verifique o identificador!");
 
             //escolaridade.MarcarComoDeletado((int)_usuarioContexto.UsuarioId);
             await _empresaRepo.Deletar(empresaID);

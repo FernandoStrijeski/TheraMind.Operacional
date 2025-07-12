@@ -22,7 +22,9 @@ namespace Infra.EmpresasAssinaturas
             int take = 0
             )
         {
-            IQueryable<EmpresaAssinatura> query = _dbSet.AsNoTracking();
+            IQueryable<EmpresaAssinatura> query = _dbSet.AsNoTracking()
+                .Include(empresaAssinatura => empresaAssinatura.Empresa)
+                .Include(empresaAssinatura => empresaAssinatura.Plano);
 
             if (filtro != null)
                 query = query.Where(filtro);

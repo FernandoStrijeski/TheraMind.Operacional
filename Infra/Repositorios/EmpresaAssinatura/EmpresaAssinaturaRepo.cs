@@ -43,14 +43,14 @@ namespace Infra.EmpresasAssinaturas
 
         public async Task<EmpresaAssinatura>? BuscarPorID(Guid empresaAssinaturaID)
         {
-            var query = _dbSet.AsQueryable();
+            var query = _dbSet.AsQueryable().Include(empresaAssinatura => empresaAssinatura.Plano);
             var plano = await query.FirstOrDefaultAsync(where => where.EmpresaAssinaturaId == empresaAssinaturaID);
             return plano;
         }
 
         public async Task<List<EmpresaAssinatura>> BuscarPorIdEmpresa(Guid empresaID)
         {
-            IQueryable<EmpresaAssinatura> query = _dbSet.AsNoTracking();
+            IQueryable<EmpresaAssinatura> query = _dbSet.AsNoTracking().Include(empresaAssinatura => empresaAssinatura.Plano); ;
             query = query.Where(where => where.EmpresaId == empresaID);
             return await query.ToListAsync();
         }

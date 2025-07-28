@@ -21,5 +21,8 @@ namespace API.Operacional.modelos.ViewModels
         public Guid? UsuarioID { get; set; } = null!;
         public bool? Ativo { get; set; }
         public DateTime? DataCriacao { get; set; }
+
+        public virtual UsuarioViewModel? Usuario { get; set; }
+        public virtual List<ProfissionalAcessoViewModel>? ProfissionalAcessos { get; set; }
     }
 }

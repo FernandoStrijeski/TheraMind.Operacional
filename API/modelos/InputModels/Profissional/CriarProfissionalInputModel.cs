@@ -23,7 +23,9 @@ namespace API.modelos.InputModels
         public string Email { get; set; } = null!;
         public string Celular { get; set; } = null!;
         public Guid? UsuarioID { get; set; } = null!;
-        public bool? Ativo { get; set; }        
+        public bool? Ativo { get; set; } 
+        public CriarUsuarioInputModel UsuarioInputModel { get; set; } = new CriarUsuarioInputModel();
+        public List<CriarProfissionalAcessoInputModel> ProfissionalAcessos { get; set; } = [];
     }
 
     public class CriarProfissionalInputModelValidator : AbstractValidator<CriarProfissionalInputModel>

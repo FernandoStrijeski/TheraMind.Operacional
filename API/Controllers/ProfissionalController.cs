@@ -3,6 +3,8 @@ using API.modelos;
 using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.Profissionais;
+using API.Servicos.ProfissionaisAcessos;
+using API.Servicos.Usuarios;
 using Asp.Versioning;
 using AutoMapper;
 using Dominio.Entidades;
@@ -19,16 +21,22 @@ namespace API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IProfissionalServico _profissionalServico;
+        private readonly IProfissionalAcessoServico _profissionalAcessoServico;
+        private readonly IUsuarioServico _usuarioServico;
         private readonly IHttpContextAccessor _httpContext;
 
         public ProfissionalController(
             IMapper mapper,
             IProfissionalServico profissionalServico,
+            IProfissionalAcessoServico profissionalAcessoServico,
+            IUsuarioServico usuarioServico,
             IHttpContextAccessor httpContext
         )
         {
             _mapper = mapper;
             _profissionalServico = profissionalServico;
+            _profissionalAcessoServico = profissionalAcessoServico;
+            _usuarioServico = usuarioServico;
             _httpContext = httpContext;
         }
 
@@ -112,7 +120,16 @@ namespace API.Controllers
         public async Task<ActionResult> Post([FromBody] CriarProfissionalInputModel profissional)
         {
             var retorno = await _profissionalServico.Adicionar(_mapper.Map<Profissional>(profissional));
-            return Ok(_mapper.Map<ProfissionalViewModel>(retorno));
+            
+            foreach (CriarProfissionalAcessoInputModel profissionalAcesso in profissional.ProfissionalAcessos)
+            {
+                var retornoProfissionalAcesso = await _profissionalAcessoServico.Adicionar(_mapper.Map<ProfissionalAcesso>(profissionalAcesso));
+            }
+
+            var retornoUsuario = await _usuarioServico.Adicionar(_mapper.Map<Usuario>(profissional.UsuarioInputModel));
+
+            return Ok(_mapper.Map<ProfissionalViewModel>(retorno));            
+            
         }
 
         /// <summary>
@@ -134,6 +151,14 @@ namespace API.Controllers
             _mapper.Map(profissional, profissionalExistente); // Faz o merge
 
             var retorno = await _profissionalServico.Atualizar(_mapper.Map<Profissional>(profissionalExistente));
+
+            foreach (ProfissionalAcessoInputModel profissionalAcesso in profissional.ProfissionalAcessos)
+            {
+                var retornoProfisionalAcesso = await _profissionalAcessoServico.Atualizar(_mapper.Map<ProfissionalAcesso>(profissionalAcesso));
+            }
+
+            var retornoUsuario = await _usuarioServico.Atualizar(_mapper.Map<Usuario>(profissional.UsuarioInputModel));
+
             return Ok(_mapper.Map<ProfissionalViewModel>(retorno));
         }
 

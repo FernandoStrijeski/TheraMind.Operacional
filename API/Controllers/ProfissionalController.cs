@@ -126,7 +126,7 @@ namespace API.Controllers
                 var retornoProfissionalAcesso = await _profissionalAcessoServico.Adicionar(_mapper.Map<ProfissionalAcesso>(profissionalAcesso));
             }
 
-            var retornoUsuario = await _usuarioServico.Adicionar(_mapper.Map<Usuario>(profissional.UsuarioInputModel));
+            //var retornoUsuario = await _usuarioServico.Adicionar(_mapper.Map<Usuario>(profissional.UsuarioInputModel));
 
             return Ok(_mapper.Map<ProfissionalViewModel>(retorno));            
             
@@ -152,12 +152,12 @@ namespace API.Controllers
 
             var retorno = await _profissionalServico.Atualizar(_mapper.Map<Profissional>(profissionalExistente));
 
-            foreach (ProfissionalAcessoInputModel profissionalAcesso in profissional.ProfissionalAcessos)
-            {
-                var retornoProfisionalAcesso = await _profissionalAcessoServico.Atualizar(_mapper.Map<ProfissionalAcesso>(profissionalAcesso));
-            }
+            //foreach (ProfissionalAcessoInputModel profissionalAcesso in profissional.ProfissionalAcessos)
+            //{
+            //    var retornoProfisionalAcesso = await _profissionalAcessoServico.Atualizar(_mapper.Map<ProfissionalAcesso>(profissionalAcesso));
+            //}
 
-            var retornoUsuario = await _usuarioServico.Atualizar(_mapper.Map<Usuario>(profissional.UsuarioInputModel));
+            //var retornoUsuario = await _usuarioServico.Atualizar(_mapper.Map<Usuario>(profissional.UsuarioInputModel));
 
             return Ok(_mapper.Map<ProfissionalViewModel>(retorno));
         }

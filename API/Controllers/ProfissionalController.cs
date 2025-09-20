@@ -115,7 +115,7 @@ namespace API.Controllers
         ///<response code="201">Profissional criado com sucesso.</response>
         ///<response code="401">Usuário não autorizado.</response>
         [HttpPost("Criar")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN,GESTOR")]
         [ProducesResponseType(typeof(ProfissionalViewModel), StatusCodes.Status201Created)]
         public async Task<ActionResult> Post([FromBody] CriarProfissionalInputModel profissional)
         {
@@ -138,7 +138,7 @@ namespace API.Controllers
         ///<response code="200">Profissional atualizado com sucesso.</response>
         ///<response code="401">Usuário não autorizado.</response>
         [HttpPut("Atualizar")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN,GESTOR")]
         [ProducesResponseType(typeof(ProfissionalViewModel), StatusCodes.Status200OK)]
         public async Task<ActionResult> Put([FromBody] ProfissionalInputModel profissional)
         {
@@ -168,7 +168,7 @@ namespace API.Controllers
         ///<response code="200">Profissional excluído com sucesso.</response>
         ///<response code="401">Usuário não autorizado.</response>
         [HttpDelete("Excluir")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN,GESTOR")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         public async Task<ActionResult> Delete([FromQuery] Guid profissionalID)
         {

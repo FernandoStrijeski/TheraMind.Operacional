@@ -121,10 +121,10 @@ namespace API.Controllers
         {
             var retorno = await _profissionalServico.Adicionar(_mapper.Map<Profissional>(profissional));
             
-            foreach (CriarProfissionalAcessoInputModel profissionalAcesso in profissional.ProfissionalAcessos)
-            {
-                var retornoProfissionalAcesso = await _profissionalAcessoServico.Adicionar(_mapper.Map<ProfissionalAcesso>(profissionalAcesso));
-            }
+            //foreach (CriarProfissionalAcessoInputModel profissionalAcesso in profissional.ProfissionalAcessos)
+            //{
+            //    var retornoProfissionalAcesso = await _profissionalAcessoServico.Adicionar(_mapper.Map<ProfissionalAcesso>(profissionalAcesso));
+            //}
 
             //var retornoUsuario = await _usuarioServico.Adicionar(_mapper.Map<Usuario>(profissional.UsuarioInputModel));
 

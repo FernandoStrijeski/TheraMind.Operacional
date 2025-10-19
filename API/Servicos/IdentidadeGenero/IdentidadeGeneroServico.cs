@@ -5,6 +5,7 @@ using Dominio.Entidades;
 using Dominio.Repositorios;
 using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 
 namespace API.Servicos.IdentidadesGeneros

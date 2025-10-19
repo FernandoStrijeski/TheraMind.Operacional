@@ -4,6 +4,7 @@ using API.Operacional.modelos.ViewModels;
 using Dominio.Core.Repositorios;
 using Infra.Servicos.MultiTenant;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace API.Servicos.Boletos
 {

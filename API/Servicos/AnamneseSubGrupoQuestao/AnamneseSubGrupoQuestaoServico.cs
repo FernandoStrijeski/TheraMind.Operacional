@@ -5,6 +5,7 @@ using Dominio.AnamneseSubGrupoQuestoes;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Infra.Servicos.MultiTenant;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 
 namespace API.Servicos.AnamneseSubGrupoQuestoes

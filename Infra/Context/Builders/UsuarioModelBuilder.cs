@@ -12,8 +12,7 @@ namespace Infra.Context.Builders
             builder.ToTable("Usuario");
 
             builder.Property(e => e.UsuarioId)
-                .HasColumnName("UsuarioID")
-                .HasDefaultValueSql("(newid())");
+                .HasColumnName("UsuarioID");
 
             builder.Property(e => e.Ativo)
                 .IsRequired()

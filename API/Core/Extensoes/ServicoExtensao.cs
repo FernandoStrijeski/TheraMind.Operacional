@@ -109,6 +109,9 @@ using Infra.ProfissionaisAcessos;
 using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
 using Infra.Servicos.Tabela;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Core.Extensoes
 {

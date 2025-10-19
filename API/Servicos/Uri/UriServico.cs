@@ -1,4 +1,5 @@
 using API.modelos;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace API.Servicos

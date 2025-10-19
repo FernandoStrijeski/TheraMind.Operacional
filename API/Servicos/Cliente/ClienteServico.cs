@@ -6,6 +6,7 @@ using Dominio.Clientes;
 using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Infra.Servicos.MultiTenant;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Runtime.ConstrainedExecution;
 

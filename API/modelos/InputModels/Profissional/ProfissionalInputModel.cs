@@ -102,7 +102,6 @@ namespace API.modelos.InputModels
         public bool Ativo { get; set; }
 
         public UsuarioInputModel UsuarioInputModel { get; set; } = new UsuarioInputModel();
-        public List<ProfissionalAcessoInputModel> ProfissionalAcessos { get; set; } = [];
 
     }
 

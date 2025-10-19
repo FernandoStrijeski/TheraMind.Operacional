@@ -9,6 +9,7 @@ using Dominio.Profissionais;
 using Dominio.Repositorios;
 using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Net;
 

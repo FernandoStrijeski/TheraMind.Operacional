@@ -10,7 +10,8 @@ namespace API.Operacional.modelos.ViewModels
         public virtual TipoDocumentoViewModel TipoDocumento { get; set; } = null!;
         public string Titulo { get; set; } = null!;
         public short ConteudoTipo { get; set; }
-        public string Conteudo { get; set; } = null!;
+        public string ConteudoTexto { get; set; } = null!;
+        public byte[] ConteudoArquivo { get; set; } = null!;
         public bool? Ativo { get; set; }
     }
 }

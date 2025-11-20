@@ -13,7 +13,8 @@ namespace Dominio.Entidades
         public int TipoDocumentoId { get; set; }
         public string Titulo { get; set; } = null!;
         public short ConteudoTipo { get; set; }
-        public string Conteudo { get; set; } = null!;
+        public string ConteudoTexto { get; set; } = null!;
+        public byte[] ConteudoArquivo { get; set; } = null!;
         public bool? Ativo { get; set; }
         public DateTime? DataCriacao { get; set; }
 
@@ -21,7 +22,7 @@ namespace Dominio.Entidades
         public virtual Filial Filial { get; set; } = null!;
         public virtual TipoDocumento TipoDocumento { get; set; } = null!;
 
-        public static DocumentoModeloEmpresa CriarParaImportacao(Guid empresaId, int filialId, int tipoDocumentoId, string titulo, short conteudoTipo, string conteudo, bool? ativo)
+        public static DocumentoModeloEmpresa CriarParaImportacao(Guid empresaId, int filialId, int tipoDocumentoId, string titulo, short conteudoTipo, string conteudoTexto, byte[] conteudoArquivo, bool? ativo)
         {
             var convenio = new DocumentoModeloEmpresa
             {
@@ -30,20 +31,22 @@ namespace Dominio.Entidades
                 TipoDocumentoId = tipoDocumentoId,
                 Titulo = titulo,
                 ConteudoTipo = conteudoTipo,
-                Conteudo = conteudo,
+                ConteudoTexto = conteudoTexto,
+                ConteudoArquivo = conteudoArquivo,
                 Ativo = ativo
             };
             return convenio;
         }
 
-        public DocumentoModeloEmpresa AtualizarPropriedades(Guid empresaId, int filialId, int tipoDocumentoId, string titulo, short conteudoTipo, string conteudo, bool? ativo)
+        public DocumentoModeloEmpresa AtualizarPropriedades(Guid empresaId, int filialId, int tipoDocumentoId, string titulo, short conteudoTipo, string conteudoTexto,byte[] conteudoArquivo, bool? ativo)
         {
             EmpresaId = empresaId;
             FilialId = filialId;
             TipoDocumentoId = tipoDocumentoId;
             Titulo = titulo;
             ConteudoTipo = conteudoTipo;
-            Conteudo = conteudo;
+            ConteudoTexto = conteudoTexto;
+            ConteudoArquivo = conteudoArquivo;
 
             if (ativo != null)
                 Ativo = ativo;

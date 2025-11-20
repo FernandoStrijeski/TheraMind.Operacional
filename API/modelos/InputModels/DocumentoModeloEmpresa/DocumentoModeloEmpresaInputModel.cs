@@ -36,9 +36,14 @@ namespace API.modelos.InputModels
         public short ConteudoTipo { get; set; }
 
         /// <summary>
-        /// Conteúdo do documento, pode ser um texto editável ou o base64 de um arquivo
+        /// Conteúdo do documento texto editável
         /// </summary>
-        public string Conteudo { get; set; }
+        public string ConteudoTexto { get; set; }
+
+        /// <summary>
+        /// Conteúdo do documento base64 de um arquivo
+        /// </summary>
+        public string ConteudoArquivo { get; set; }
 
         /// <summary>
         /// Ativo Sim ou Não

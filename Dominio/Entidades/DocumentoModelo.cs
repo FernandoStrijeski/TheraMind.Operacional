@@ -11,30 +11,33 @@ namespace Dominio.Entidades
         public int TipoDocumentoId { get; set; }
         public string Titulo { get; set; } = null!;
         public short ConteudoTipo { get; set; }
-        public string Conteudo { get; set; } = null!;
+        public string ConteudoTexto { get; set; } = null!;
+        public byte[] ConteudoArquivo { get; set; } = null!;
         public bool? Ativo { get; set; }
         public DateTime? DataCriacao { get; set; }
 
         public virtual TipoDocumento TipoDocumento { get; set; } = null!;
-        public static DocumentoModelo CriarParaImportacao(int tipoDocumentoId, string titulo, short conteudoTipo, string conteudo, bool? ativo)
+        public static DocumentoModelo CriarParaImportacao(int tipoDocumentoId, string titulo, short conteudoTipo, string conteudoTexto, byte[] conteudoArquivo, bool? ativo)
         {
             var convenio = new DocumentoModelo
             {
                 TipoDocumentoId = tipoDocumentoId,
                 Titulo = titulo,
                 ConteudoTipo = conteudoTipo,
-                Conteudo = conteudo,
+                ConteudoTexto = conteudoTexto,
+                ConteudoArquivo = conteudoArquivo,
                 Ativo = ativo
             };
             return convenio;
         }
 
-        public DocumentoModelo AtualizarPropriedades(int tipoDocumentoId, string titulo, short conteudoTipo, string conteudo, bool? ativo)
+        public DocumentoModelo AtualizarPropriedades(int tipoDocumentoId, string titulo, short conteudoTipo, string conteudoTexto, byte[] conteudoArquivo, bool? ativo)
         {
             TipoDocumentoId = tipoDocumentoId;
             Titulo = titulo;
             ConteudoTipo = conteudoTipo;
-            Conteudo = conteudo;
+            ConteudoTexto = conteudoTexto;
+            ConteudoArquivo = conteudoArquivo;
 
             if (ativo != null)
                 Ativo = ativo;

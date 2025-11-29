@@ -34,7 +34,7 @@ namespace API.modelos.InputModels
         /// <summary>
         /// Conteúdo do documento base64 de um arquivo
         /// </summary>
-        public byte[] ConteudoArquivo { get; set; }
+        public byte[]? ConteudoArquivo { get; set; }
 
         /// <summary>
         /// Ativo Sim ou Não
@@ -47,7 +47,7 @@ namespace API.modelos.InputModels
     {
         public DocumentoModeloValidator()
         {
-            RuleFor(x => x.Titulo).MaximumLength(100);            
+            RuleFor(x => x.Titulo).MaximumLength(200);            
         }
     }
 }

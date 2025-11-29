@@ -19,7 +19,7 @@ namespace API.modelos.InputModels
     {
         public CriarDocumentoModeloInputModelValidator()
         {
-            RuleFor(x => x.Titulo).NotEmpty().MaximumLength(100).WithMessage("Por favor, informe o título do documento!");
+            RuleFor(x => x.Titulo).NotEmpty().MaximumLength(200).WithMessage("Por favor, informe o título do documento até 100 caracteres!");
         }
     }
 }

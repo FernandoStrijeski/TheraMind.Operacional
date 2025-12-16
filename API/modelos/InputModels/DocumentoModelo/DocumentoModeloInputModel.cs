@@ -5,49 +5,47 @@ namespace API.modelos.InputModels
 {
     public class DocumentoModeloInputModel
     {
-        /// <summary>
-        /// Id do modelo de documento
-        /// </summary>
         public int DocumentoModeloId { get; set; }
-
-        /// <summary>
-        /// Id do tipo de documento
-        /// </summary>
         public int TipoDocumentoId { get; set; }
-
-        /// <summary>
-        /// Título do documento
-        /// </summary>
-        public string Titulo { get; set; }
-
-        /// <summary>
-        /// Tipo do conteúdo do documento. Ex.: 0-Editável 1-Arquivo
-        /// </summary>
+        public string Titulo { get; set; } = null!;
         public short ConteudoTipo { get; set; }
-
-        /// <summary>
-        /// Conteúdo do documento texto editável
-        /// </summary>
-        public string ConteudoTexto { get; set; }
-
-
-        /// <summary>
-        /// Conteúdo do documento base64 de um arquivo
-        /// </summary>
+        public string? ConteudoTexto { get; set; }
         public byte[]? ConteudoArquivo { get; set; }
-
-        /// <summary>
-        /// Ativo Sim ou Não
-        /// </summary> 
-        public bool Ativo { get; set; }
-
+        public bool? Ativo { get; set; }
     }
 
-    public class DocumentoModeloValidator : AbstractValidator<DocumentoModeloInputModel>
+    public class AtualizaDocumentoModeloInputModelValidator : AbstractValidator<DocumentoModeloInputModel>
     {
-        public DocumentoModeloValidator()
+        public AtualizaDocumentoModeloInputModelValidator()
         {
-            RuleFor(x => x.Titulo).MaximumLength(200);            
+            RuleFor(x => x.TipoDocumentoId)
+            .GreaterThan(0)
+            .WithMessage("O tipo de documento é obrigatório.");
+
+            RuleFor(x => x.Titulo)
+                .NotEmpty()
+                .MaximumLength(100)
+                .WithMessage("Informe o título do documento.");
+
+            RuleFor(x => x.ConteudoTipo)
+                .InclusiveBetween((short)0, (short)1)
+                .WithMessage("O tipo de conteúdo é inválido.");
+
+            When(x => x.ConteudoTipo == 0, () =>
+            {
+                RuleFor(x => x.ConteudoTexto)
+                    .NotEmpty()
+                    .WithMessage("O conteúdo do documento é obrigatório.");
+            });
+
+            When(x => x.ConteudoTipo == 1, () =>
+            {
+                RuleFor(x => x.ConteudoArquivo)
+                    .NotNull()
+                    .Must(x => x.Length > 0)
+                    .WithMessage("O arquivo PDF é obrigatório.");
+            });
+
         }
     }
 }

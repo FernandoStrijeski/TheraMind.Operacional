@@ -41,7 +41,7 @@ namespace Infra.Profissionais
 
         public async Task<Profissional>? BuscarPorID(Guid profissionalID)
         {
-            var query = _dbSet.AsQueryable();
+            var query = _dbSet.AsQueryable().Include(profissional => profissional.Usuario);
             var plano = await query.FirstOrDefaultAsync(where => where.ProfissionalId == profissionalID);
             return plano;
         }

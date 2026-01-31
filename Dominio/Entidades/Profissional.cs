@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dominio.Entidades
 {
@@ -39,6 +40,9 @@ namespace Dominio.Entidades
         public Guid? UsuarioID { get; set; } = null!;
         public bool? Ativo { get; set; }
         public DateTime? DataCriacao { get; set; }
+
+        [ForeignKey(nameof(UsuarioID))]
+        public virtual Usuario? Usuario { get; set; }
 
         public virtual ICollection<AcompanhamentoClinico> AcompanhamentoClinicos { get; set; }
         public virtual ICollection<AgendaProfissional> AgendaProfissionals { get; set; }

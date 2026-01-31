@@ -23,6 +23,7 @@ namespace Dominio.Entidades
 
         public virtual Empresa? Empresa { get; set; }
         public virtual Filial? Filial { get; set; }
+        public virtual Profissional? Profissional { get; set; }
         public static Usuario CriarParaImportacao(Guid? empresaID, int? filialID, string email, string senhaHash, bool trocaSenhaProximoAcesso, string perfilAcesso, bool? ativo)
         {
             var usuario = new Usuario

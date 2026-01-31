@@ -70,6 +70,13 @@ namespace Infra.Context.Builders
             builder.Property(e => e.TipoProfissional).HasMaxLength(50);
 
             builder.Property(e => e.UsuarioID).HasColumnName("UsuarioID");
-        }        
+
+            builder
+                .HasOne(p => p.Usuario)
+                .WithOne(u => u.Profissional)
+                .HasForeignKey<Profissional>(p => p.UsuarioID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+        }
     }
 }

@@ -5,6 +5,7 @@ using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.ModelosAnamneseSGQuestaoOpcoes;
 using Infra.Servicos.MultiTenant;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 
 namespace API.Servicos.ModelosAnamneseSGQuestaoOpcoes

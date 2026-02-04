@@ -14,6 +14,11 @@ using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using API.Core.Utils;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 
 namespace API
 {

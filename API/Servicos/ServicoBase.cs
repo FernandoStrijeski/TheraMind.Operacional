@@ -1,6 +1,7 @@
 using Dominio.Core.Repositorios;
 using Infra.Servicos.MultiTenant;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 
 namespace API.Servicos
 {

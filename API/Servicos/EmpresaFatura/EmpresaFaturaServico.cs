@@ -4,6 +4,7 @@ using Dominio.Core.Repositorios;
 using Dominio.EmpresaFaturas;
 using Dominio.Entidades;
 using Infra.Servicos.MultiTenant;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 
 namespace API.Servicos.EmpresaFaturas

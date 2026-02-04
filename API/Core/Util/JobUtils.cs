@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace API.Core.Utils
 {
     public static class JobUtils

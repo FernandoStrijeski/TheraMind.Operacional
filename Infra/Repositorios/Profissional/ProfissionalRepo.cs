@@ -22,7 +22,9 @@ namespace Infra.Profissionais
             int take = 0
             )
         {
-            IQueryable<Profissional> query = _dbSet.AsNoTracking();
+            IQueryable<Profissional> query = _dbSet.AsNoTracking()
+                                                    .Include(profissional => profissional.Usuario)
+                                                    .Include(profissional => profissional.ProfissionalAcessos);
 
             if (filtro != null)
                 query = query.Where(filtro);
@@ -41,7 +43,10 @@ namespace Infra.Profissionais
 
         public async Task<Profissional>? BuscarPorID(Guid profissionalID)
         {
-            var query = _dbSet.AsQueryable().Include(profissional => profissional.Usuario);
+            var query = _dbSet.AsQueryable()
+                                .Include(profissional => profissional.Usuario)
+                                .Include(profissional => profissional.ProfissionalAcessos);
+
             var plano = await query.FirstOrDefaultAsync(where => where.ProfissionalId == profissionalID);
             return plano;
         }

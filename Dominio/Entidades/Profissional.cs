@@ -53,6 +53,7 @@ namespace Dominio.Entidades
         public virtual ICollection<AnamneseSubGrupoQuestao> AnamneseSubGrupoQuestoes { get; set; }
         public virtual ICollection<AnamneseSubGrupo> AnamneseSubGrupos { get; set; }
         public virtual ICollection<ProfissionalAcesso> ProfissionalAcessos { get; set; }
+        public virtual Usuario Usuario { get; set; }
 
         public static Profissional CriarParaImportacao(string tipoProfissional, string tipoPessoa, string nomeCompleto, string? areaAtuacao, string? cpf, string? cnpj,
                             string? crp, string? crfa, string? crefito, string? crm, string? crn, string? coffito, string sexo, string email, string celular, Guid? usuarioID, bool? ativo)

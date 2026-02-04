@@ -5,6 +5,7 @@ using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
 using Infra.Servicos.MultiTenant;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 
 namespace API.Servicos.Usuarios
@@ -40,6 +41,7 @@ namespace API.Servicos.Usuarios
 
         public async Task<Usuario> Adicionar(Usuario usuario)
         {
+            usuario.UsuarioId = Guid.NewGuid();
             await _usuarioRepo.Adicionar(usuario);
             await Comitar();
             return usuario;

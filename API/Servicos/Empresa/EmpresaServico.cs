@@ -6,6 +6,8 @@ using Dominio.Entidades;
 using Dominio.Repositorios;
 using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Operacional.Core.Utils.Class;
 using System.Net;
 

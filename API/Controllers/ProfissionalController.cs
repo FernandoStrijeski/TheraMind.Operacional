@@ -3,10 +3,13 @@ using API.modelos;
 using API.modelos.InputModels;
 using API.Operacional.modelos.ViewModels;
 using API.Servicos.Profissionais;
+using API.Servicos.ProfissionaisAcessos;
+using API.Servicos.Usuarios;
 using Asp.Versioning;
 using AutoMapper;
 using Dominio.Entidades;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -19,16 +22,22 @@ namespace API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IProfissionalServico _profissionalServico;
+        private readonly IProfissionalAcessoServico _profissionalAcessoServico;
+        private readonly IUsuarioServico _usuarioServico;
         private readonly IHttpContextAccessor _httpContext;
 
         public ProfissionalController(
             IMapper mapper,
             IProfissionalServico profissionalServico,
+            IProfissionalAcessoServico profissionalAcessoServico,
+            IUsuarioServico usuarioServico,
             IHttpContextAccessor httpContext
         )
         {
             _mapper = mapper;
             _profissionalServico = profissionalServico;
+            _profissionalAcessoServico = profissionalAcessoServico;
+            _usuarioServico = usuarioServico;
             _httpContext = httpContext;
         }
 
@@ -107,7 +116,7 @@ namespace API.Controllers
         ///<response code="201">Profissional criado com sucesso.</response>
         ///<response code="401">Usuário não autorizado.</response>
         [HttpPost("Criar")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN,GESTOR")]
         [ProducesResponseType(typeof(ProfissionalViewModel), StatusCodes.Status201Created)]
         public async Task<ActionResult> Post([FromBody] CriarProfissionalInputModel profissional)
         {
@@ -121,7 +130,7 @@ namespace API.Controllers
         ///<response code="200">Profissional atualizado com sucesso.</response>
         ///<response code="401">Usuário não autorizado.</response>
         [HttpPut("Atualizar")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN,GESTOR")]
         [ProducesResponseType(typeof(ProfissionalViewModel), StatusCodes.Status200OK)]
         public async Task<ActionResult> Put([FromBody] ProfissionalInputModel profissional)
         {
@@ -143,7 +152,7 @@ namespace API.Controllers
         ///<response code="200">Profissional excluído com sucesso.</response>
         ///<response code="401">Usuário não autorizado.</response>
         [HttpDelete("Excluir")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN,GESTOR")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         public async Task<ActionResult> Delete([FromQuery] Guid profissionalID)
         {

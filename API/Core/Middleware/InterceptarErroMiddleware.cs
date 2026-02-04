@@ -1,5 +1,6 @@
 using System.Net;
 using API.Core.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace API.Core.Middleware

@@ -7,6 +7,7 @@ using Asp.Versioning;
 using AutoMapper;
 using Dominio.Entidades;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers

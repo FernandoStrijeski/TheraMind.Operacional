@@ -3,6 +3,7 @@ using API.Operacional.Core.Util;
 using Dominio.Core.Repositorios;
 using Infra.Servicos.MultiTenant;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Text;
 
 namespace API.Servicos.GeradorCNAB240Sicredi

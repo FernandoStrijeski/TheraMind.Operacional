@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace API.Core.Util
 {
     public class ApiVersionHelper

@@ -101,6 +101,8 @@ namespace API.modelos.InputModels
         /// </summary> 
         public bool Ativo { get; set; }
 
+        public UsuarioInputModel UsuarioInputModel { get; set; } = new UsuarioInputModel();
+
     }
 
     public class ProfissionalValidator : AbstractValidator<ProfissionalInputModel>

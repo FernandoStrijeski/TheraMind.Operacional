@@ -8,6 +8,7 @@ using Dominio.ProfissionaisAcessos;
 using Dominio.Repositorios;
 using Infra.Repositorios;
 using Infra.Servicos.MultiTenant;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 
 namespace API.Servicos.ProfissionaisAcessos

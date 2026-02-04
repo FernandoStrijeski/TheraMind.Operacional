@@ -6,6 +6,7 @@ using Dominio.Entidades;
 using Dominio.ModelosAnamneseSG;
 using Dominio.ModelosAnamneseSGQuestoes;
 using Infra.Servicos.MultiTenant;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 
 namespace API.Servicos.ModelosAnamneseSGQuestoes

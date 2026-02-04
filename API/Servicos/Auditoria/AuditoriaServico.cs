@@ -3,6 +3,7 @@ using Dominio.Core.Repositorios;
 using Dominio.Entidades;
 using Dominio.Repositorios;
 using Infra.Servicos.MultiTenant;
+using Microsoft.Extensions.Configuration;
 
 namespace API.Servicos.Auditorias
 {
